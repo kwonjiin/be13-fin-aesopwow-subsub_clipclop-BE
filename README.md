@@ -19,7 +19,12 @@
 <details>
 <summary><strong>2️⃣ 요구사항 정의서</strong></summary>
 
-다운로드 : [요구사항 정의서.pdf](https://github.com/user-attachments/files/19887570/default.pdf)
+![요구사항 정의서_page-0001](https://github.com/user-attachments/assets/5c977fa3-9327-42c6-af1d-7b281f813399)
+![요구사항 정의서_page-0002](https://github.com/user-attachments/assets/71b5cd07-267a-4540-8123-0901136ad458)
+![요구사항 정의서_page-0003](https://github.com/user-attachments/assets/3b62c603-0758-490f-96e8-7730adfaa214)
+
+
+다운로드 : [요구사항 정의서.pdf](https://github.com/user-attachments/files/19887735/default.pdf)
 
 </details>
 
