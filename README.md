@@ -3,10 +3,14 @@
 <details>
 <summary><strong>1️⃣ 프로젝트 기획서</strong></summary>
 
+[프로젝트 기획서.pdf](https://github.com/user-attachments/files/19887048/default.pdf)
+
 </details>
 
 <details>
 <summary><strong>2️⃣ 요구사항 정의서</strong></summary>
+
+[요구사항 명세서.pdf](https://github.com/user-attachments/files/19887072/default.pdf)
 
 </details>
 
