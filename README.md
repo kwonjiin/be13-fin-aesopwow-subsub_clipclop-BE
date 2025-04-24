@@ -10,7 +10,7 @@
 <details>
 <summary><strong>2️⃣ 요구사항 정의서</strong></summary>
 
-[요구사항 명세서.pdf](https://github.com/user-attachments/files/19887072/default.pdf)
+[요구사항 정의서.pdf](https://github.com/user-attachments/files/19887072/default.pdf)
 
 </details>
 
