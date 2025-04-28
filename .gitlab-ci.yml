@@ -1,0 +1,33 @@
+stages:
+  - build
+  - test
+  - deploy
+
+# Gradle 빌드 환경 변수
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+before_script:
+  - 'echo "Setting up Java 21 and Gradle..."'
+  - 'export JAVA_HOME=/usr/lib/jvm/java-21-openjdk'
+  - 'export PATH=$JAVA_HOME/bin:$PATH'
+  - 'curl -sSL https://get.gradle.org | bash'
+  - 'export PATH=$PATH:/root/.gradle/bin'
+
+build:
+  stage: build
+  script:
+    - 'echo "Building the project with Gradle..."'
+    - gradle clean build
+
+test:
+  stage: test
+  script:
+    - 'echo "Running tests..."'
+    - gradle test
+
+deploy:
+  stage: deploy
+  script:
+    - 'echo "Deploying to the server..."'
+    - ssh -o StrictHostKeyChecking=no user@your-server-ip 'bash /path/to/deploy.sh'
