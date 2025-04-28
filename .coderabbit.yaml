@@ -40,6 +40,5 @@ knowledge_base:
     enabled: true             # 필요시 웹 검색 기반 지식 활용
 
 chat:
-  enabled: true               # PR에서 AI 챗 기능 활성화
   auto_reply: true            # 질문 시 자동 응답
 
