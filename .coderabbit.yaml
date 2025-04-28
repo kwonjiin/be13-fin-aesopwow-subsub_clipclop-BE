@@ -1,5 +1,10 @@
 language: "ko-KR"  # 리뷰 결과를 한국어로 출력
 
+tone_instructions: |
+  코드 리뷰 시 친절하고 건설적인 의견을 제공하세요.
+  코드 품질, 성능, 보안, 유지보수성에 집중해서 피드백을 남겨주세요.
+  Spring Boot 프로젝트의 특성을 고려하여 리뷰해 주세요.
+
 reviews:
   profile: "chill"            # 리뷰 스타일: chill(부드럽게), strict(엄격하게) 등 선택 가능
   high_level_summary: true    # 변경사항 요약 활성화
@@ -7,26 +12,28 @@ reviews:
   auto_review:
     enabled: true             # 자동 코드리뷰 활성화
     drafts: false             # Draft PR은 리뷰하지 않음
-
-tone_instructions: |
-  코드 리뷰 시 친절하고 건설적인 의견을 제공하세요.
-  코드 품질, 성능, 보안, 유지보수성에 집중해서 피드백을 남겨주세요.
-
-reviews:
   path_instructions:
-    - path: "src/api/**/*.ts"
+    - path: "src/main/java/**/*.java"
       instructions: |
-        API 코드 리뷰 시 다음 사항을 중점적으로 확인하세요:
-        - 에러 핸들링이 적절한지
-        - 입력값 검증이 충분한지
-        - 타입이 명확하게 지정되어 있는지
+        Java(Spring Boot) 코드 리뷰 시 다음 사항을 중점적으로 확인하세요:
+        - @Transactional, @Service, @Repository 등의 어노테이션 사용이 적절한지
+        - 의존성 주입 방식(@Autowired, 생성자 주입 등)이 올바른지
+        - 예외 처리가 적절하게 이루어졌는지
+        - 로깅, 트랜잭션, 보안(인증/인가) 관련 코드가 잘 구현되었는지
+        - 코드 중복, 불필요한 복잡성, 리팩토링 필요성 등
 
-    - path: "src/components/**/*.tsx"
+    - path: "src/main/resources/**/*.yml"
       instructions: |
-        React 컴포넌트 리뷰 시 다음을 확인하세요:
-        - 불필요한 리렌더링이 발생하지 않는지
-        - 접근성(a11y)이 잘 지켜지고 있는지
-        - props 타입이 명확한지
+        환경설정 파일(application.yml 등) 리뷰 시 다음을 확인하세요:
+        - 민감 정보(비밀번호, 시크릿키 등)가 코드에 포함되어 있지 않은지
+        - 프로파일별 설정이 명확하게 분리되어 있는지
+
+    - path: "src/test/java/**/*.java"
+      instructions: |
+        테스트 코드 리뷰 시 다음을 확인하세요:
+        - 테스트가 실제 비즈니스 로직을 잘 검증하는지
+        - Mocking, Stub 등 테스트 도구 사용이 적절한지
+        - 테스트 케이스의 명확성과 가독성
 
 knowledge_base:
   web_search:
