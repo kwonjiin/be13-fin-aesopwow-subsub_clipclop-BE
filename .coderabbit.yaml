@@ -28,6 +28,12 @@ reviews:
         - 민감 정보(비밀번호, 시크릿키 등)가 코드에 포함되어 있지 않은지
         - 프로파일별 설정이 명확하게 분리되어 있는지
 
+    - path: "src/main/resources/**/*.properties"
+      instructions: |
+        환경설정 파일(application.properties 등) 리뷰 시 다음을 확인하세요:
+        - 민감 정보(비밀번호, 시크릿키 등)가 코드에 포함되어 있지 않은지
+        - 프로파일별 설정이 명확하게 분리되어 있는지
+
     - path: "src/test/java/**/*.java"
       instructions: |
         테스트 코드 리뷰 시 다음을 확인하세요:
