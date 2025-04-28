@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-
 @Entity
 @Table(name = "alarm")
 public class Alarm extends BaseEntity {
@@ -19,12 +18,9 @@ public class Alarm extends BaseEntity {
     @JoinColumn(name = "user_no", nullable = false)
     private User user;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "is_read", nullable = false)
     private Boolean isRead = false;
 }
-
-

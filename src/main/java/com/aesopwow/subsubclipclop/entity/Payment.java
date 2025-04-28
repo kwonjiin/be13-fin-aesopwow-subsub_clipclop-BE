@@ -22,8 +22,7 @@ public class Payment extends BaseEntity {
     @JoinColumn(name = "payment_category_no", nullable = false)
     private PaymentCategory paymentCategory;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String detail;
 }
 

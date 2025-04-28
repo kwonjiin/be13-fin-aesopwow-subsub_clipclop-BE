@@ -22,9 +22,6 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "user_no", nullable = false)
     private User user;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 }
-
-
