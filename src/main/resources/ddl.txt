@@ -1,10 +1,10 @@
 -- DROP TABLES
 DROP TABLE IF EXISTS `comment`;
-DROP TABLE IF EXISTS `post`;
+DROP TABLE IF EXISTS `qna_post`;
 DROP TABLE IF EXISTS `alarm`;
 DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS `info_db`;
-DROP TABLE IF EXISTS `request`;
+DROP TABLE IF EXISTS `request_list`;
 DROP TABLE IF EXISTS `payment_detail`;
 DROP TABLE IF EXISTS `payment`;
 DROP TABLE IF EXISTS `discount`;
@@ -78,26 +78,26 @@ CREATE TABLE `user` (
                         CONSTRAINT `FK_company_TO_user_1` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE `post` (
-                        `post_no` BIGINT NOT NULL,
+CREATE TABLE `qna_post` (
+                        `qna_post_no` BIGINT NOT NULL,
                         `user_no` BIGINT NOT NULL,
                         `title` VARCHAR(20) NOT NULL,
                         `content` TEXT NOT NULL,
                         `created_at` DATETIME NOT NULL,
                         `updated_at` DATETIME NOT NULL,
-                        PRIMARY KEY (`post_no`),
-                        CONSTRAINT `FK_user_TO_post_1` FOREIGN KEY (`user_no`) REFERENCES `user` (`user_no`) ON DELETE CASCADE ON UPDATE CASCADE
+                        PRIMARY KEY (`qna_post_no`),
+                        CONSTRAINT `FK_user_TO_qna_post_1` FOREIGN KEY (`user_no`) REFERENCES `user` (`user_no`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `comment` (
                            `comment_no` BIGINT NOT NULL,
-                           `post_no` BIGINT NOT NULL,
+                           `qna_post_no` BIGINT NOT NULL,
                            `user_no` BIGINT NOT NULL,
                            `content` TEXT NOT NULL,
                            `created_at` DATETIME NOT NULL,
                            `updated_at` DATETIME NOT NULL,
                            PRIMARY KEY (`comment_no`),
-                           CONSTRAINT `FK_post_TO_comment_1` FOREIGN KEY (`post_no`) REFERENCES `post` (`post_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+                           CONSTRAINT `FK_qna_post_TO_comment_1` FOREIGN KEY (`qna_post_no`) REFERENCES `qna_post` (`qna_post_no`) ON DELETE CASCADE ON UPDATE CASCADE,
                            CONSTRAINT `FK_user_TO_comment_1` FOREIGN KEY (`user_no`) REFERENCES `user` (`user_no`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -153,15 +153,15 @@ CREATE TABLE `payment_detail` (
                                   CONSTRAINT `FK_discount_TO_payment_detail_1` FOREIGN KEY (`discount_no`) REFERENCES `discount` (`discount_no`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
-CREATE TABLE `request` (
-                           `request_no` BIGINT NOT NULL,
+CREATE TABLE `request_list` (
+                           `request_list_no` BIGINT NOT NULL,
                            `analysis_no` TINYINT NOT NULL,
                            `company_no` BIGINT NOT NULL,
                            `created_at` DATETIME NOT NULL,
                            `updated_at` DATETIME NOT NULL,
-                           PRIMARY KEY (`request_no`),
-                           CONSTRAINT `FK_analysis_TO_request_1` FOREIGN KEY (`analysis_no`) REFERENCES `analysis` (`analysis_no`) ON DELETE CASCADE ON UPDATE CASCADE,
-                           CONSTRAINT `FK_company_TO_request_1` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`) ON DELETE CASCADE ON UPDATE CASCADE
+                           PRIMARY KEY (`request_list_no`),
+                           CONSTRAINT `FK_analysis_TO_request_list_1` FOREIGN KEY (`analysis_no`) REFERENCES `analysis` (`analysis_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+                           CONSTRAINT `FK_company_TO_request_list_1` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `info_db` (
