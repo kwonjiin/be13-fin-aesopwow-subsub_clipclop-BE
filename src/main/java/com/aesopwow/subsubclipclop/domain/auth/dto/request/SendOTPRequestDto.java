@@ -10,5 +10,5 @@ import lombok.RequiredArgsConstructor;
 public class SendOTPRequestDto {
     @NotBlank
     @Email
-    private String username;
+    final String username;
 }

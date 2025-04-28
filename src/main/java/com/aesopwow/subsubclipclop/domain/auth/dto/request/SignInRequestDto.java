@@ -12,8 +12,8 @@ import lombok.ToString;
 public class SignInRequestDto {
     @NotBlank
     @Email
-    private String username;
+    private final String username;
 
     @NotBlank
-    private String password;
+    private final String password;
 }

@@ -10,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 public class SignUpRequestDto {
     @NotBlank
     @Email
-    private String username;
+    private final String username;
 
     @NotBlank
-    private String password;
+    private final String password;
 }
