@@ -1,0 +1,175 @@
+-- DROP TABLES
+DROP TABLE IF EXISTS `comment`;
+DROP TABLE IF EXISTS `post`;
+DROP TABLE IF EXISTS `alarm`;
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `info_db`;
+DROP TABLE IF EXISTS `request`;
+DROP TABLE IF EXISTS `payment_detail`;
+DROP TABLE IF EXISTS `payment`;
+DROP TABLE IF EXISTS `discount`;
+DROP TABLE IF EXISTS `payment_category`;
+DROP TABLE IF EXISTS `company`;
+DROP TABLE IF EXISTS `membership`;
+DROP TABLE IF EXISTS `role`;
+DROP TABLE IF EXISTS `analysis`;
+
+-- CREATE TABLES
+
+CREATE TABLE `analysis` (
+                            `analysis_no` TINYINT NOT NULL,
+                            `name` VARCHAR(20) NULL,
+                            PRIMARY KEY (`analysis_no`)
+);
+
+CREATE TABLE `role` (
+                        `role_no` TINYINT NOT NULL,
+                        `name` ENUM('ADMIN', 'CLIENT_ADMIN', 'CLIENT_USER', 'USER') NOT NULL DEFAULT 'USER',
+                        PRIMARY KEY (`role_no`)
+);
+
+CREATE TABLE `membership` (
+                              `membership_no` TINYINT NOT NULL,
+                              `name` VARCHAR(20) NOT NULL,
+                              `description` TEXT NOT NULL,
+                              `status` BOOLEAN NOT NULL DEFAULT FALSE,
+                              `price` INT UNSIGNED NOT NULL,
+                              `duration` TINYINT NOT NULL,
+                              `created_at` DATETIME NOT NULL,
+                              `updated_at` DATETIME NOT NULL,
+                              PRIMARY KEY (`membership_no`)
+);
+
+CREATE TABLE `payment_category` (
+                                    `payment_category_no` TINYINT NOT NULL,
+                                    `name` VARCHAR(20) NOT NULL,
+                                    PRIMARY KEY (`payment_category_no`)
+);
+
+CREATE TABLE `company` (
+                           `company_no` BIGINT NOT NULL,
+                           `membership_no` TINYINT NOT NULL,
+                           `name` VARCHAR(50) NOT NULL,
+                           `email` VARCHAR(20) NOT NULL,
+                           `phone` VARCHAR(20) NOT NULL,
+                           `registration_number` VARCHAR(20) NOT NULL,
+                           `created_at` DATETIME NOT NULL,
+                           `updated_at` DATETIME NOT NULL,
+                           `is_deleted` BOOLEAN NOT NULL DEFAULT FALSE,
+                           `is_subscribed` BOOLEAN NOT NULL DEFAULT FALSE,
+                           `membership_started_at` DATETIME NULL,
+                           `membership_expired_at` DATETIME NULL,
+                           PRIMARY KEY (`company_no`),
+                           CONSTRAINT `FK_membership_TO_company_1` FOREIGN KEY (`membership_no`) REFERENCES `membership` (`membership_no`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `user` (
+                        `user_no` BIGINT NOT NULL,
+                        `username` VARCHAR(20) NOT NULL,
+                        `role_no` TINYINT NOT NULL,
+                        `company_no` BIGINT NOT NULL,
+                        `logined_at` DATETIME NOT NULL,
+                        `password` VARCHAR(20) NOT NULL,
+                        `created_at` DATETIME NOT NULL,
+                        `updated_at` DATETIME NOT NULL,
+                        `is_deleted` BOOLEAN NOT NULL DEFAULT FALSE,
+                        PRIMARY KEY (`user_no`),
+                        CONSTRAINT `FK_role_TO_user_1` FOREIGN KEY (`role_no`) REFERENCES `role` (`role_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+                        CONSTRAINT `FK_company_TO_user_1` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `post` (
+                        `post_no` BIGINT NOT NULL,
+                        `user_no` BIGINT NOT NULL,
+                        `title` VARCHAR(20) NOT NULL,
+                        `content` TEXT NOT NULL,
+                        `created_at` DATETIME NOT NULL,
+                        `updated_at` DATETIME NOT NULL,
+                        PRIMARY KEY (`post_no`),
+                        CONSTRAINT `FK_user_TO_post_1` FOREIGN KEY (`user_no`) REFERENCES `user` (`user_no`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `comment` (
+                           `comment_no` BIGINT NOT NULL,
+                           `post_no` BIGINT NOT NULL,
+                           `user_no` BIGINT NOT NULL,
+                           `content` TEXT NOT NULL,
+                           `created_at` DATETIME NOT NULL,
+                           `updated_at` DATETIME NOT NULL,
+                           PRIMARY KEY (`comment_no`),
+                           CONSTRAINT `FK_post_TO_comment_1` FOREIGN KEY (`post_no`) REFERENCES `post` (`post_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+                           CONSTRAINT `FK_user_TO_comment_1` FOREIGN KEY (`user_no`) REFERENCES `user` (`user_no`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `alarm` (
+                         `alarm_no` BIGINT NOT NULL,
+                         `user_no` BIGINT NOT NULL,
+                         `content` TEXT NOT NULL,
+                         `is_read` BOOLEAN NOT NULL DEFAULT FALSE,
+                         `created_at` DATETIME NOT NULL,
+                         PRIMARY KEY (`alarm_no`),
+                         CONSTRAINT `FK_user_TO_alarm_1` FOREIGN KEY (`user_no`) REFERENCES `user` (`user_no`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `payment` (
+                           `payment_no` BIGINT NOT NULL,
+                           `company_no` BIGINT NOT NULL,
+                           `payment_category_no` TINYINT NOT NULL,
+                           `detail` TEXT NOT NULL,
+                           `created_at` DATETIME NOT NULL,
+                           `updated_at` DATETIME NOT NULL,
+                           PRIMARY KEY (`payment_no`),
+                           CONSTRAINT `FK_company_TO_payment_1` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+                           CONSTRAINT `FK_payment_category_TO_payment_1` FOREIGN KEY (`payment_category_no`) REFERENCES `payment_category` (`payment_category_no`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `discount` (
+                            `discount_no` BIGINT NOT NULL,
+                            `company_no` BIGINT NOT NULL,
+                            `state` BOOLEAN NOT NULL DEFAULT FALSE,
+                            `started_at` DATETIME NULL,
+                            `expired_at` DATETIME NULL,
+                            `created_at` DATETIME NOT NULL,
+                            `updated_at` DATETIME NOT NULL,
+                            PRIMARY KEY (`discount_no`),
+                            CONSTRAINT `FK_company_TO_discount_1` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `payment_detail` (
+                                  `payment_detail_no` BIGINT NOT NULL,
+                                  `membership_no` TINYINT NOT NULL,
+                                  `payment_no` BIGINT NOT NULL,
+                                  `company_no` BIGINT NOT NULL,
+                                  `discount_no` BIGINT NULL,
+                                  `price` INT UNSIGNED NOT NULL,
+                                  `status` ENUM('SUCCESS', 'FAIL', 'PENDING') NOT NULL DEFAULT 'PENDING',
+                                  `paid_at` DATETIME NULL,
+                                  `created_at` DATETIME NOT NULL,
+                                  `updated_at` DATETIME NOT NULL,
+                                  PRIMARY KEY (`payment_detail_no`),
+                                  CONSTRAINT `FK_membership_TO_payment_detail_1` FOREIGN KEY (`membership_no`) REFERENCES `membership` (`membership_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                  CONSTRAINT `FK_payment_TO_payment_detail_1` FOREIGN KEY (`payment_no`) REFERENCES `payment` (`payment_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                  CONSTRAINT `FK_company_TO_payment_detail_1` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                  CONSTRAINT `FK_discount_TO_payment_detail_1` FOREIGN KEY (`discount_no`) REFERENCES `discount` (`discount_no`) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE `request` (
+                           `request_no` BIGINT NOT NULL,
+                           `analysis_no` TINYINT NOT NULL,
+                           `company_no` BIGINT NOT NULL,
+                           `created_at` DATETIME NOT NULL,
+                           `updated_at` DATETIME NOT NULL,
+                           PRIMARY KEY (`request_no`),
+                           CONSTRAINT `FK_analysis_TO_request_1` FOREIGN KEY (`analysis_no`) REFERENCES `analysis` (`analysis_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+                           CONSTRAINT `FK_company_TO_request_1` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `info_db` (
+                           `info_db_no` BIGINT NOT NULL,
+                           `company_no` BIGINT NOT NULL,
+                           `name` VARCHAR(20) NOT NULL,
+                           `created_at` DATETIME NOT NULL,
+                           `updated_at` DATETIME NOT NULL,
+                           PRIMARY KEY (`info_db_no`),
+                           CONSTRAINT `FK_company_TO_info_db_1` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`) ON DELETE CASCADE ON UPDATE CASCADE
+);
