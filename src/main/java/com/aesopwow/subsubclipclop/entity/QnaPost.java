@@ -8,11 +8,12 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "post")
-public class Post extends BaseEntity {
+@Table(name = "qna_post")
+public class QnaPost extends BaseEntity {
+
     @Id
-    @Column(name = "post_no")
-    private Long postNo;
+    @Column(name = "qna_post_no")
+    private Long qnaPostNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_no", nullable = false)
@@ -24,5 +25,3 @@ public class Post extends BaseEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 }
-
-
