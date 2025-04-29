@@ -26,6 +26,10 @@ public class AnalysisServiceImpl implements AnalysisService {
     @Override
     @Transactional
     public CohortAnalysisBehaviorPatternResponseDto fetchBehaviorPattern(CohortAnalysisBehaviorPatternRequestDto requestDto) {
+        System.out.println("📌 받은 companyNo: " + requestDto.getCompanyNo());
+        System.out.println("📌 company 있는가? → " + companyJpaRepository.findById(requestDto.getCompanyNo()).isPresent());
+
+
         // 1. Python 서버에서 features 수신
         Integer featureValue = analysisRepository.requestBehaviorPattern();
 
