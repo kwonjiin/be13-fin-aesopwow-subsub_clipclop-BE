@@ -17,7 +17,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title(title)
-                        .version("0.0.0")
+                        .version("0.0.1")
                         .description("Spring API입니다."));
     }
 }
