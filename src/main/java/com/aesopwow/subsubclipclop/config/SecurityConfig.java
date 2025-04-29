@@ -16,7 +16,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/swagger-ui/**",
-                                "/swagger-ui.html"
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",  // Swagger 문서 경로도 허용
+                                "/swagger-config/**"  // swagger-config 경로도 허용
                         ).permitAll() // 인증 없이 접근 허용
                         .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 );
