@@ -21,6 +21,7 @@ public class Discount extends BaseEntity {
     private Company company;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean state = false;
 
     @Column(name = "started_at")
