@@ -11,6 +11,7 @@ import lombok.*;
 @Table(name = "alarm")
 public class Alarm extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "alarm_no")
     private Long alarmNo;
 
