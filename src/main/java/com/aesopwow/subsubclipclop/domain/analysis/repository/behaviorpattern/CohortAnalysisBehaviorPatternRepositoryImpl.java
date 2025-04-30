@@ -1,6 +1,6 @@
-// domain/analysis/repository/AnalysisRepositoryImpl.java
-package com.aesopwow.subsubclipclop.domain.analysis.repository;
+package com.aesopwow.subsubclipclop.domain.analysis.repository.behaviorpattern;
 
+import com.aesopwow.subsubclipclop.domain.analysis.dto.behaviorpattern.CohortAnalysisBehaviorPatternAnalysisResultDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -10,10 +10,10 @@ import java.io.InputStreamReader;
 
 @Repository
 @RequiredArgsConstructor
-public class AnalysisRepositoryImpl implements AnalysisRepository {
+public class CohortAnalysisBehaviorPatternRepositoryImpl implements CohortAnalysisBehaviorPatternRepository {
 
     @Override
-    public Integer requestBehaviorPattern() {
+    public CohortAnalysisBehaviorPatternAnalysisResultDto requestBehaviorPattern() {
         try {
             InputStream inputStream = getClass().getClassLoader()
                     .getResourceAsStream("mock/behavior-pattern.csv");
@@ -26,7 +26,8 @@ public class AnalysisRepositoryImpl implements AnalysisRepository {
             reader.readLine(); // 헤더 건너뛰기
             String line = reader.readLine(); // 첫 번째 데이터
 
-            return Integer.parseInt(line.trim());
+            int featureValue = Integer.parseInt(line.trim());
+            return new CohortAnalysisBehaviorPatternAnalysisResultDto(featureValue);
 
         } catch (Exception e) {
             throw new RuntimeException("CSV 파일 읽기 실패", e);

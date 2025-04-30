@@ -1,5 +1,4 @@
-// domain/analysis/dto/CohortAnalysisBehaviorPatternResponseDto.java
-package com.aesopwow.subsubclipclop.domain.analysis.dto;
+package com.aesopwow.subsubclipclop.domain.analysis.dto.remainheatmap;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CohortAnalysisBehaviorPatternResponseDto {
+public class CohortAnalysisRemainHeatmapResponseDto {
     private String title;
     private String content;
+    private String heatmapImageBase64;  // ✅ 이미지 Base64 필드 추가
+
 }
