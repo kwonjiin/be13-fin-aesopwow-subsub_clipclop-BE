@@ -23,11 +23,17 @@ public class CohortAnalysisBehaviorPatternRepositoryImpl implements CohortAnalys
             }
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            reader.readLine(); // 헤더 건너뛰기
-            String line = reader.readLine(); // 첫 번째 데이터
+            reader.readLine(); // 헤더 무시
+            String line = reader.readLine();
 
-            int featureValue = Integer.parseInt(line.trim());
-            return new CohortAnalysisBehaviorPatternAnalysisResultDto(featureValue);
+            if (line == null || line.isEmpty()) {
+                throw new IllegalArgumentException("CSV 데이터가 비어 있습니다.");
+            }
+
+            String[] parts = line.split(",");
+            int feature = Integer.parseInt(parts[0].trim());
+
+            return new CohortAnalysisBehaviorPatternAnalysisResultDto(feature);
 
         } catch (Exception e) {
             throw new RuntimeException("CSV 파일 읽기 실패", e);
