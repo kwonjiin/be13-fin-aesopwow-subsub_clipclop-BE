@@ -65,7 +65,7 @@ CREATE TABLE `user` (
                         `username` VARCHAR(50) NOT NULL,
                         `role_no` TINYINT NOT NULL,
                         `company_no` BIGINT NOT NULL,
-                        `password` VARCHAR(255) NOT NULL,
+                        `password` VARCHAR(60) NOT NULL,
                         `logined_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
                         `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
                         `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
