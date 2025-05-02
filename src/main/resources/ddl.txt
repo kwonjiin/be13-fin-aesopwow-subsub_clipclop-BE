@@ -1,19 +1,20 @@
 -- DROP TABLES
 DROP TABLE IF EXISTS `comment`;
-DROP TABLE IF EXISTS `qna_post`;
 DROP TABLE IF EXISTS `alarm`;
-DROP TABLE IF EXISTS `user`;
-DROP TABLE IF EXISTS `info_db`;
-DROP TABLE IF EXISTS `request_list`;
+DROP TABLE IF EXISTS `qna_post`;
 DROP TABLE IF EXISTS `payment_detail`;
-DROP TABLE IF EXISTS `payment`;
 DROP TABLE IF EXISTS `discount`;
-DROP TABLE IF EXISTS `payment_category`;
-DROP TABLE IF EXISTS `company`;
-DROP TABLE IF EXISTS `membership`;
-DROP TABLE IF EXISTS `role`;
-DROP TABLE IF EXISTS `analysis`;
+DROP TABLE IF EXISTS `payment`;
+DROP TABLE IF EXISTS `request_list`;
 DROP TABLE IF EXISTS `info_column`;
+DROP TABLE IF EXISTS `info_db`;
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `company`;
+DROP TABLE IF EXISTS `role`;
+DROP TABLE IF EXISTS `membership`;
+DROP TABLE IF EXISTS `payment_category`;
+DROP TABLE IF EXISTS `analysis`;
+
 
 -- CREATE TABLES
 CREATE TABLE `role` (
@@ -65,7 +66,7 @@ CREATE TABLE `user` (
                         `username` VARCHAR(50) NOT NULL,
                         `role_no` TINYINT NOT NULL,
                         `company_no` BIGINT NOT NULL,
-                        `password` VARCHAR(255) NOT NULL,
+                        `password` VARCHAR(60) NOT NULL,
                         `logined_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
                         `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
                         `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
