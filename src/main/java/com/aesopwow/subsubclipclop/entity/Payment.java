@@ -11,6 +11,7 @@ import lombok.*;
 @Table(name = "payment")
 public class Payment extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_no")
     private Long paymentNo;
 

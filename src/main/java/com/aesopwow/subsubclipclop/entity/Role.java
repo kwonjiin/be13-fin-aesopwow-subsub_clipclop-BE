@@ -11,6 +11,7 @@ import lombok.*;
 @Table(name = "role")
 public class Role {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_no")
     private Byte roleNo;
 

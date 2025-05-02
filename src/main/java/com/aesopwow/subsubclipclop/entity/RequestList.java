@@ -3,16 +3,18 @@ package com.aesopwow.subsubclipclop.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Entity
+@Table(name = "request_list")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "request")
-public class Request extends BaseEntity {
+public class RequestList extends BaseEntity {
+
     @Id
-    @Column(name = "request_no")
-    private Long requestNo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // 숫자 자동 증가 설정 추가
+    @Column(name = "request_list_no")
+    private Long requestListNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "analysis_no", nullable = false)
