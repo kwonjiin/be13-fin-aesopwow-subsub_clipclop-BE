@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "user")
 public class User extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_no")
     private Long userNo;
 

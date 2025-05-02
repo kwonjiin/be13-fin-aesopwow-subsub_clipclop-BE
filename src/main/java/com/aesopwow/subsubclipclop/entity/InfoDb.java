@@ -11,6 +11,7 @@ import lombok.*;
 @Table(name = "info_db")
 public class InfoDb extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "info_db_no")
     private Long infoDbNo;
 
