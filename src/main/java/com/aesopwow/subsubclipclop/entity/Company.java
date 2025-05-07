@@ -46,4 +46,8 @@ public class Company extends BaseEntity {
 
     @Column(name = "membership_expired_at")
     private LocalDateTime membershipExpiredAt;
+
+    public Company(Long companyNo) {
+        this.companyNo = companyNo;
+    }
 }

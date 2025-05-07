@@ -23,4 +23,8 @@ public class RequestList extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_no", nullable = false)
     private Company company;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "info_db_no", nullable = false)
+    private InfoDb infoDb;
 }

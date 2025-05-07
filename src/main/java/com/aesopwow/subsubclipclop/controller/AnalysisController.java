@@ -10,13 +10,15 @@ import com.aesopwow.subsubclipclop.domain.analysis.service.behaviorpattern.Cohor
 import com.aesopwow.subsubclipclop.domain.analysis.service.insight.CohortAnalysisInsightService;
 import com.aesopwow.subsubclipclop.domain.analysis.service.remainheatmap.CohortAnalysisRemainHeatmapService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/cohorts")
+@RequestMapping("/api/analysis")
 @RequiredArgsConstructor
 public class AnalysisController {
 
@@ -43,5 +45,12 @@ public class AnalysisController {
             @RequestBody CohortAnalysisRemainHeatmapRequestDto requestDto
     ) {
         return cohortAnalysisRemainHeatmapService.fetchRemainHeatmap(requestDto);
+    }
+
+    @GetMapping("/cohort")
+    public ResponseEntity<Void> getAnalysis() {
+
+
+        return ResponseEntity.ok().build();
     }
 }
