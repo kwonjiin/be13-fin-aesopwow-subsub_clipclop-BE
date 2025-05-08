@@ -1,6 +1,8 @@
 package com.aesopwow.subsubclipclop.domain.analysis.repository.insight;
 
 import com.aesopwow.subsubclipclop.domain.analysis.dto.insight.CohortAnalysisInsightAnalysisResultDto;
+import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
+import com.aesopwow.subsubclipclop.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,21 +16,32 @@ public class CohortAnalysisInsightRepositoryImpl implements CohortAnalysisInsigh
 
     @Override
     public CohortAnalysisInsightAnalysisResultDto requestInsight() {
-        try {
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("mock/insight.csv");
+        int score;
 
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("mock/insight.csv")) {
             if (inputStream == null) {
-                throw new IllegalArgumentException("CSV 파일을 찾을 수 없습니다.");
+                throw new CustomException(ErrorCode.CSV_NOT_FOUND);
             }
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            reader.readLine(); // 헤더 스킵
-            String line = reader.readLine();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                reader.readLine();
+                String line = reader.readLine();
+                if (line == null || line.trim().isEmpty()) {
+                    throw new CustomException(ErrorCode.EMPTY_CSV);
+                }
 
-            int score = Integer.parseInt(line.trim());
-            return new CohortAnalysisInsightAnalysisResultDto(score);
+                try {
+                    score = Integer.parseInt(line.trim());
+                } catch (NumberFormatException e) {
+                    throw new CustomException(ErrorCode.INVALID_CSV_FORMAT, e);
+                }
+
+                return new CohortAnalysisInsightAnalysisResultDto(score);
+            }
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
-            throw new RuntimeException("CSV 파일 읽기 실패", e);
+            throw new CustomException(ErrorCode.INSIGHT_READ_FAILURE, e);
         }
     }
 }
