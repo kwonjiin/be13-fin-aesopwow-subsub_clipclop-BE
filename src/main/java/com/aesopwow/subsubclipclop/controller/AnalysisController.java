@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AnalysisController {
     @GetMapping("/cohort")
     public ResponseEntity<Void> getAnalysis() {
-
-
         return ResponseEntity.ok().build();
     }
 }
