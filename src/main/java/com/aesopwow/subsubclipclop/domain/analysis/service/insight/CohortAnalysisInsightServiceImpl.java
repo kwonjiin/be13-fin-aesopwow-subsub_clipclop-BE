@@ -10,6 +10,8 @@ import com.aesopwow.subsubclipclop.domain.analysis.repository.insight.CohortAnal
 import com.aesopwow.subsubclipclop.entity.Analysis;
 import com.aesopwow.subsubclipclop.entity.Company;
 import com.aesopwow.subsubclipclop.entity.RequestList;
+import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
+import com.aesopwow.subsubclipclop.global.exception.CustomException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CohortAnalysisInsightServiceImpl implements CohortAnalysisInsightService {
-
     private final CohortAnalysisInsightRepository insightRepository;
     private final CohortAnalysisInsightJpaRepository insightJpaRepository;
     private final CohortAnalysisInsightCompanyJpaRepository insightCompanyJpaRepository;
@@ -32,9 +33,10 @@ public class CohortAnalysisInsightServiceImpl implements CohortAnalysisInsightSe
 
         // 2. Analysis, Company 조회
         Analysis analysis = insightJpaRepository.findById((byte) 2)
-                .orElseThrow(() -> new RuntimeException("Analysis not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.ANALYSIS_NOT_FOUND));
+
         Company company = insightCompanyJpaRepository.findById(requestDto.getCompanyNo())
-                .orElseThrow(() -> new RuntimeException("Company not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
 
         // 3. Request 저장
         RequestList savedRequest = RequestList.builder()

@@ -6,6 +6,8 @@ import com.aesopwow.subsubclipclop.domain.analysis.repository.behaviorpattern.*;
 import com.aesopwow.subsubclipclop.entity.Analysis;
 import com.aesopwow.subsubclipclop.entity.Company;
 import com.aesopwow.subsubclipclop.entity.RequestList;
+import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
+import com.aesopwow.subsubclipclop.global.exception.CustomException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CohortAnalysisBehaviorPatternServiceImpl implements CohortAnalysisBehaviorPatternService {
-
     private final CohortAnalysisBehaviorPatternRepository cohortAnalysisBehaviorPatternRepository;
     private final CohortAnalysisBehaviorPatternJpaRepository cohortAnalysisBehaviorPatternJpaRepository;
     private final CohortAnalysisBehaviorPatternCompanyJpaRepository cohortAnalysisBehaviorPatternCompanyJpaRepository;
@@ -26,15 +27,16 @@ public class CohortAnalysisBehaviorPatternServiceImpl implements CohortAnalysisB
         int featureValue = result.getFeature();
 
         Analysis analysis = cohortAnalysisBehaviorPatternJpaRepository.findById((byte) 1)
-                .orElseThrow(() -> new RuntimeException("Analysis not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.ANALYSIS_NOT_FOUND));
 
         Company company = cohortAnalysisBehaviorPatternCompanyJpaRepository.findById(requestDto.getCompanyNo())
-                .orElseThrow(() -> new RuntimeException("Company not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
 
         RequestList savedRequestList = RequestList.builder()
                 .analysis(analysis)
                 .company(company)
                 .build();
+
         cohortAnalysisBehaviorPatternRequestJpaRepository.save(savedRequestList);
 
         if (featureValue >= 8) {

@@ -9,17 +9,15 @@ import com.aesopwow.subsubclipclop.domain.analysis.repository.remainheatmap.Coho
 import com.aesopwow.subsubclipclop.entity.Analysis;
 import com.aesopwow.subsubclipclop.entity.Company;
 import com.aesopwow.subsubclipclop.entity.RequestList;
+import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
+import com.aesopwow.subsubclipclop.global.exception.CustomException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
-import java.util.Base64;
-
 @Service
 @RequiredArgsConstructor
 public class CohortAnalysisRemainHeatmapServiceImpl implements CohortAnalysisRemainHeatmapService {
-
     private final CohortAnalysisRemainHeatmapRepository heatmapRepository;
     private final CohortAnalysisRemainHeatmapJpaRepository analysisJpaRepository;
     private final CohortAnalysisRemainHeatmapCompanyJpaRepository companyJpaRepository;
@@ -34,17 +32,18 @@ public class CohortAnalysisRemainHeatmapServiceImpl implements CohortAnalysisRem
 
         // 2. 분석 유형 = 1번 (가정)
         Analysis analysis = analysisJpaRepository.findById((byte) 1)
-                .orElseThrow(() -> new RuntimeException("Analysis not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.ANALYSIS_NOT_FOUND));
 
         // 3. 회사 정보 조회
         Company company = companyJpaRepository.findById(requestDto.getCompanyNo())
-                .orElseThrow(() -> new RuntimeException("Company not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
 
         // 4. 요청 저장
         RequestList request = RequestList.builder()
                 .analysis(analysis)
                 .company(company)
                 .build();
+
         requestJpaRepository.save(request);
 
         // 5. 응답 구성
