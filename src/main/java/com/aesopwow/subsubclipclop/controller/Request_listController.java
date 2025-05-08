@@ -2,9 +2,9 @@ package com.aesopwow.subsubclipclop.controller;
 
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiAnalysisRequestDto;
 import com.aesopwow.subsubclipclop.domain.api.service.ApiService;
-import com.aesopwow.subsubclipclop.domain.request_list.dto.Request_listRequestDto;
-import com.aesopwow.subsubclipclop.domain.request_list.dto.Request_listResponseDto;
-import com.aesopwow.subsubclipclop.domain.request_list.service.Request_listService;
+import com.aesopwow.subsubclipclop.domain.request_list.dto.RequireListRequestDto;
+import com.aesopwow.subsubclipclop.domain.request_list.dto.RequireListResponseDto;
+import com.aesopwow.subsubclipclop.domain.request_list.service.RequireListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,31 +18,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/request-list")
 @RequiredArgsConstructor
 public class Request_listController {
-    private final Request_listService request_listService;
+    private final RequireListService requireListService;
     private final ApiService apiService;
 
     @GetMapping("/{request_list_no}")
-    public ResponseEntity<Request_listResponseDto> getRequest_list(
+    public ResponseEntity<RequireListResponseDto> getRequireList(
             @PathVariable Long request_list_no
     ) {
-        Request_listResponseDto request_listResponseDto
-                = request_listService.getRequest_list(request_list_no);
+        RequireListResponseDto requireListResponseDto
+                = requireListService.getRequireList(request_list_no);
 
-        return ResponseEntity.ok(request_listResponseDto);
+        return ResponseEntity.ok(requireListResponseDto);
     }
 
     @PostMapping("")
-    public ResponseEntity<Request_listResponseDto> createRequest_list(
-            @RequestBody Request_listRequestDto requestDto
+    public ResponseEntity<RequireListResponseDto> createRequireList(
+            @RequestBody RequireListRequestDto requestDto
     ) {
-        Request_listResponseDto request_listResponseDto =
-                request_listService.createRequest_list(requestDto);
+        RequireListResponseDto requireListResponseDto =
+                requireListService.createRequireList(requestDto);
 
         ApiAnalysisRequestDto apiAnalysisRequestDto
-                = new ApiAnalysisRequestDto(requestDto.getInfo_db_no());
+                = new ApiAnalysisRequestDto(requestDto.getDbInfoNo());
 
         apiService.requestAnalysis(apiAnalysisRequestDto);
 
-        return ResponseEntity.ok(request_listResponseDto);
+        return ResponseEntity.ok(requireListResponseDto);
     }
 }

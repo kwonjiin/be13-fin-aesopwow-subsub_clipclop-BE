@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Request_listRequestDto {
+public class RequireListRequestDto {
     private Long analysis_no;
     private Long company_no;
-    private Long info_db_no;
+    private Long dbInfoNo;
 }

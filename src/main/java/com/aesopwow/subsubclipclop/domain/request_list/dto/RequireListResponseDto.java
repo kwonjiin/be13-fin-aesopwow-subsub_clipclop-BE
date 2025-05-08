@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Request_listResponseDto {
+public class RequireListResponseDto {
     private Long request_list_no;
     private Byte analysis_no;
     private Long company_no;
@@ -18,7 +18,7 @@ public class Request_listResponseDto {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
-    public Request_listResponseDto(RequestList requestList) {
+    public RequireListResponseDto(RequestList requestList) {
         this.request_list_no = requestList.getRequestListNo();
         this.analysis_no = requestList.getAnalysis().getAnalysisNo();
         this.company_no = requestList.getCompany().getCompanyNo();
