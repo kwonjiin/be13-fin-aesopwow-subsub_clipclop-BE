@@ -19,7 +19,6 @@ public enum ErrorCode {
     INSIGHT_READ_FAILURE("E010", "인사이트 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
     BEHAVIOR_PATTERN_READ_FAILURE("E011", "행동 패턴 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR);
 
-
     private final String code;
     private final String message;
     private final HttpStatus httpStatus;
