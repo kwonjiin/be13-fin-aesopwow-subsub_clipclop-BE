@@ -11,7 +11,6 @@
 
 ![프로젝트 기획서_page-0006](https://github.com/user-attachments/assets/82615f70-3754-41a7-8052-ce870e807dac)
 
-
 다운로드 : [프로젝트 기획서.pdf](https://github.com/user-attachments/files/19887048/default.pdf)
 
 </details>
@@ -233,6 +232,8 @@ CREATE TABLE `info_column` (
 <details>
 <summary><strong>6️⃣ 화면설계서</strong></summary>
 
+![다구독다구독 화면설계서](https://www.figma.com/design/WIdgPXgYKVYQdWuVFuTV9D/%EB%8B%A4%EA%B5%AC%EB%8F%85-%EB%8B%A4%EA%B5%AC%EB%8F%85?node-id=0-1&t=NT0d2qEw7NmmGSsN-1)
+
 </details>
 
 ### 🔐 정책 및 가이드
@@ -243,9 +244,6 @@ CREATE TABLE `info_column` (
 
 </details>
 
-
-
 ---
 
 ## 📁 디렉토리 구조
-
