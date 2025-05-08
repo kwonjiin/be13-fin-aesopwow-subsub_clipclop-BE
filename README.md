@@ -241,7 +241,6 @@ CREATE TABLE `info_column` (
 <summary><strong> Git 브랜치 전략</strong></summary>
 
 ![image](https://github.com/user-attachments/assets/4bb2cd78-151d-478c-9300-41ab6fed4688)
-![다구독 다구독.png](../Downloads/%EB%8B%A4%EA%B5%AC%EB%8F%85%20%EB%8B%A4%EA%B5%AC%EB%8F%85.png)
 
 </details>
 
