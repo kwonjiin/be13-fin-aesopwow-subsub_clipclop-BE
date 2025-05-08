@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/info-db")
+@RequestMapping("/api/dbInfo")
 @RequiredArgsConstructor
-public class Info_dbController {
+public class DbInfoController {
 
-    private final DbInfoService dbInfo_Service;
+    private final DbInfoService dbInfoService;
     private final ApiService apiService;
 
-    @GetMapping("/{info_db_no}")
-    public ResponseEntity<DbInfoResponseDto> getInfo_db(
-            @PathVariable Long info_db_no) {
-        DbInfoResponseDto dbInfo_ResponseDto = dbInfo_Service.getDbInfo(info_db_no);
+    @GetMapping("/{dbInfoNo}")
+    public ResponseEntity<DbInfoResponseDto> getDbInfo(
+            @PathVariable Long dbInfoNo) {
+        DbInfoResponseDto dbInfoResponseDto = dbInfoService.getDbInfo(dbInfoNo);
 
-        return ResponseEntity.ok(dbInfo_ResponseDto);
+        return ResponseEntity.ok(dbInfoResponseDto);
     }
 
     @GetMapping("/ext/{company_no}")
