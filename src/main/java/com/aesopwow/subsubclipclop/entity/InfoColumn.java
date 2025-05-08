@@ -19,7 +19,7 @@ public class InfoColumn extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "info_db_no", nullable = false)
-    private InfoDb infoDb;
+    private DbInfo dbInfo;
 
     @Column(name = "analysis_column", length = 20, nullable = false)
     private String analysisColumn;
