@@ -232,7 +232,7 @@ CREATE TABLE `info_column` (
 <details>
 <summary><strong>6️⃣ 화면설계서</strong></summary>
 
-![image](https://www.figma.com/design/WIdgPXgYKVYQdWuVFuTV9D/%EB%8B%A4%EA%B5%AC%EB%8F%85-%EB%8B%A4%EA%B5%AC%EB%8F%85?node-id=0-1&t=NT0d2qEw7NmmGSsN-1)
+![다구독다구독 화면설계서](https://www.figma.com/design/WIdgPXgYKVYQdWuVFuTV9D/%EB%8B%A4%EA%B5%AC%EB%8F%85-%EB%8B%A4%EA%B5%AC%EB%8F%85?node-id=0-1&t=NT0d2qEw7NmmGSsN-1)
 
 </details>
 
