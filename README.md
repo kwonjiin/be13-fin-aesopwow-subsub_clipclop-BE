@@ -11,7 +11,6 @@
 
 ![프로젝트 기획서_page-0006](https://github.com/user-attachments/assets/82615f70-3754-41a7-8052-ce870e807dac)
 
-
 다운로드 : [프로젝트 기획서.pdf](https://github.com/user-attachments/files/19887048/default.pdf)
 
 </details>
@@ -233,6 +232,8 @@ CREATE TABLE `info_column` (
 <details>
 <summary><strong>6️⃣ 화면설계서</strong></summary>
 
+![image](https://www.figma.com/design/WIdgPXgYKVYQdWuVFuTV9D/%EB%8B%A4%EA%B5%AC%EB%8F%85-%EB%8B%A4%EA%B5%AC%EB%8F%85?node-id=0-1&t=NT0d2qEw7NmmGSsN-1)
+
 </details>
 
 ### 🔐 정책 및 가이드
@@ -240,12 +241,10 @@ CREATE TABLE `info_column` (
 <summary><strong> Git 브랜치 전략</strong></summary>
 
 ![image](https://github.com/user-attachments/assets/4bb2cd78-151d-478c-9300-41ab6fed4688)
+![다구독 다구독.png](../Downloads/%EB%8B%A4%EA%B5%AC%EB%8F%85%20%EB%8B%A4%EA%B5%AC%EB%8F%85.png)
 
 </details>
-
-
 
 ---
 
 ## 📁 디렉토리 구조
-
