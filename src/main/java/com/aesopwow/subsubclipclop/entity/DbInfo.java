@@ -34,7 +34,7 @@ public class DbInfo extends BaseEntity {
     @Column(name = "password", length = 50)
     private String password;
 
-    public DbInfo(Long infoDbNo) {
-        this.dbInfoNo = infoDbNo;
+    public DbInfo(Long dbInfoNo) {
+        this.dbInfoNo = dbInfoNo;
     }
 }
