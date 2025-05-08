@@ -5,7 +5,7 @@ import com.aesopwow.subsubclipclop.domain.request_list.dto.Request_listResponseD
 import com.aesopwow.subsubclipclop.domain.request_list.repository.Request_listRepository;
 import com.aesopwow.subsubclipclop.entity.Analysis;
 import com.aesopwow.subsubclipclop.entity.Company;
-import com.aesopwow.subsubclipclop.entity.InfoDb;
+import com.aesopwow.subsubclipclop.entity.DbInfo;
 import com.aesopwow.subsubclipclop.entity.RequestList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class Request_listServiceImpl implements Request_listService{
         RequestList requestList = RequestList.builder()
                 .analysis(new Analysis(requestDto.getAnalysis_no().byteValue()))
                 .company(new Company(requestDto.getCompany_no()))
-                .infoDb(new InfoDb(requestDto.getInfo_db_no()))
+                .dbInfo(new DbInfo(requestDto.getInfo_db_no()))
                 .build();
 
         request_listRepository.save(requestList);

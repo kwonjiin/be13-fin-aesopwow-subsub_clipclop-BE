@@ -9,11 +9,11 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "info_db")
-public class InfoDb extends BaseEntity {
+public class DbInfo extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "info_db_no")
-    private Long infoDbNo;
+    private Long dbInfoNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_no", nullable = false)
@@ -34,7 +34,7 @@ public class InfoDb extends BaseEntity {
     @Column(name = "password", length = 50)
     private String password;
 
-    public InfoDb(Long infoDbNo) {
-        this.infoDbNo = infoDbNo;
+    public DbInfo(Long dbInfoNo) {
+        this.dbInfoNo = dbInfoNo;
     }
 }
