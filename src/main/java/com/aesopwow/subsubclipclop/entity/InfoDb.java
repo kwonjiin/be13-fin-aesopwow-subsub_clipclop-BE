@@ -3,7 +3,6 @@ package com.aesopwow.subsubclipclop.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

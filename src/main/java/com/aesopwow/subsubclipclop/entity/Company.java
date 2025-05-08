@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "company")
 public class Company extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "company_no")
     private Long companyNo;
 
@@ -34,9 +35,11 @@ public class Company extends BaseEntity {
     private String registrationNumber;
 
     @Column(name = "is_deleted", nullable = false)
+    @Builder.Default
     private Boolean isDeleted = false;
 
     @Column(name = "is_subscribed", nullable = false)
+    @Builder.Default
     private Boolean isSubscribed = false;
 
     @Column(name = "membership_started_at")
@@ -46,4 +49,8 @@ public class Company extends BaseEntity {
     private LocalDateTime membershipExpiredAt;
 
     private String departmentName; // 없어서 일단 임시로 추가
+
+    public Company(Long companyNo) {
+        this.companyNo = companyNo;
+    }
 }

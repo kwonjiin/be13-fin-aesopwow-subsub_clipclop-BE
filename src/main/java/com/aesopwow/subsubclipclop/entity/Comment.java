@@ -3,20 +3,21 @@ package com.aesopwow.subsubclipclop.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Entity
+@Table(name = "comment")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "comment")
 public class Comment extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_no")
     private Long commentNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_no", nullable = false)
-    private Post post;
+    @JoinColumn(name = "qna_post_no", nullable = false)
+    private QnaPost qnaPost;  // 수정됨
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_no", nullable = false)
@@ -25,3 +26,4 @@ public class Comment extends BaseEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 }
+

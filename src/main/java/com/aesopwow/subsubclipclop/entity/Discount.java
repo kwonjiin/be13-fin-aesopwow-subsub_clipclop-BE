@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "discount")
 public class Discount extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "discount_no")
     private Long discountNo;
 
@@ -21,6 +22,7 @@ public class Discount extends BaseEntity {
     private Company company;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean state = false;
 
     @Column(name = "started_at")

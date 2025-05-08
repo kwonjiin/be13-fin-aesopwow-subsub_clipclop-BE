@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "payment_detail")
 public class PaymentDetail extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_detail_no")
     private Long paymentDetailNo;
 
@@ -37,6 +38,7 @@ public class PaymentDetail extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
+    @Builder.Default
     private PaymentStatus status = PaymentStatus.PENDING;
 
     @Column(name = "paid_at")

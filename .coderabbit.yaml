@@ -47,4 +47,3 @@ knowledge_base:
 
 chat:
   auto_reply: true            # 질문 시 자동 응답
-

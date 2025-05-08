@@ -26,7 +26,9 @@ repositories {
 dependencies {
     // Spring Starter
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // DB
@@ -36,15 +38,37 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // ✅ 최신 Swagger (SpringDoc OpenAPI)
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
-
-    // Spring Security (선택)
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Spring Security
+
+    // ✅ JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // ✅ ✅ JPA (Persistence 오류 해결)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // ✅ ✅ H2 DB (테스트용 인메모리 DB, 처음엔 이걸로 해보는 걸 추천)
+    runtimeOnly 'com.h2database:h2'
+
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.3.3'
+
+    // redis 설정
+    implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
+
+    // 테스트
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.100.Final:osx-aarch_64' // Apple Silicon
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.100.Final:osx-x86_64'   // Intel Mac
 }
 
 tasks.named('test') {
