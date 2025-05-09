@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
         if (userUpdateRequestDTO.getUsername() != null) {
             user.setUsername(userUpdateRequestDTO.getUsername());
         } else {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+            throw new CustomException(ErrorCode.USERNAME_REQUIRED);
         }
 
         userRepository.save(user);
@@ -62,10 +62,6 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(ErrorCode.STAFF_LIMIT_EXCEEDED);
         }
 
-        staff.setCompany(admin.getCompany());
-        staff.setRole(roleRepository.findByName(Role.RoleType.CLIENT_USER)
-                .orElseThrow(() -> new CustomException(ErrorCode.ROLE_NOT_FOUND)));
-
         userRepository.save(staff);
     }
 
@@ -74,7 +70,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new CustomException(ErrorCode.ADMIN_NOT_FOUND));
 
         if (admin.getRole().getName() != Role.RoleType.CLIENT_ADMIN) {
-            throw new CustomException(ErrorCode.ROLE_NOT_FOUND);
+            throw new CustomException(ErrorCode.ONLY_CLIENT_ADMIN_ALLOWED);
         }
 
         return userRepository.findByCompanyAndRole_NameAndIsDeletedFalse(

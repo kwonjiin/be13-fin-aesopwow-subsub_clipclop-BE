@@ -23,13 +23,16 @@ public enum ErrorCode {
     INVALID_CSV_FORMAT("E011", "CSV 파일 포맷이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
     STAFF_LIMIT_EXCEEDED("E012", "직원 등록 한도를 초과했습니다.", HttpStatus.BAD_REQUEST),
     STAFF_ALREADY_EXISTS("E013", "이미 해당 직원이 추가되어 있습니다.", HttpStatus.BAD_REQUEST),
+    USERNAME_REQUIRED("E014", "사용자 이름(username)은 필수 입력값입니다.", HttpStatus.BAD_REQUEST),
     //MARK: - Server Error
-    HEATMAP_READ_FAILURE("E014", "히트맵 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
-    INSIGHT_READ_FAILURE("E015", "인사이트 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
-    BEHAVIOR_PATTERN_READ_FAILURE("E016", "행동 패턴 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
-    ANALYSIS_API_CALL_FAILURE("E017", "API 분석 요청 중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR),
+    HEATMAP_READ_FAILURE("E015", "히트맵 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
+    INSIGHT_READ_FAILURE("E016", "인사이트 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
+    BEHAVIOR_PATTERN_READ_FAILURE("E017", "행동 패턴 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
+    ANALYSIS_API_CALL_FAILURE("E018", "API 분석 요청 중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR),
     //MARK: - Forbidden
-    ONLY_CLIENT_USER_DELETABLE("E018", "직원만 삭제할 수 있습니다.", HttpStatus.FORBIDDEN);
+    ONLY_CLIENT_USER_DELETABLE("E019", "직원만 삭제할 수 있습니다.", HttpStatus.FORBIDDEN),
+    ONLY_CLIENT_ADMIN_ALLOWED("E020", "관리자 권한이 있어야 수행할 수 있습니다.", HttpStatus.FORBIDDEN);
+
 
 
     private final String code;

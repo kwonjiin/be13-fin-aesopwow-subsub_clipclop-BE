@@ -48,7 +48,7 @@ public class MyPageController {
 
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, myPageInfo));
     }
-    
+
     @PutMapping
     public ResponseEntity<BaseResponseDto<MyPageResponseDTO>> updateMyPageInfo(
             @Valid @RequestBody MyPageUpdateRequestDTO myPageUpdateRequestDTO) {
