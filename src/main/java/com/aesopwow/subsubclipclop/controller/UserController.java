@@ -26,11 +26,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/staffs")
+@RequestMapping("/api/v1/Users")
 @Tag(name = "User", description = "유저 관련 API")
 @RequiredArgsConstructor
 public class UserController {
