@@ -41,6 +41,20 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
+    public byte[] getAnalysisResult(String filename) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/python-api/analysis")
+                        .queryParam("file_name", filename)
+                        .build()
+                )
+                .accept(MediaType.APPLICATION_OCTET_STREAM)
+                .retrieve()
+                .bodyToMono(byte[].class)
+                .block(); // 동기 방식으로 대기
+    }
+
+    @Override
     public ApiAnalysisResponseDto requestAnalysis(ApiAnalysisRequestDto apiAnalysisRequestDto) {
         return webClient.post()
                 .uri("/python-api/analysis")
@@ -50,4 +64,5 @@ public class ApiServiceImpl implements ApiService {
                 .bodyToMono(ApiAnalysisResponseDto.class)
                 .block();
     }
+
 }

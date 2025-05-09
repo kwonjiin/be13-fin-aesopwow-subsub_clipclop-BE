@@ -12,4 +12,6 @@ public interface ApiService {
     public List<Info_columnResponseDto> callExternalApiInfo_columns(Long info_db_no, String origin_table);
 
     public ApiAnalysisResponseDto requestAnalysis(ApiAnalysisRequestDto apiAnalysisRequestDto);
+
+    public byte[] getAnalysisResult(String filename);
 }

@@ -34,6 +34,9 @@ public class InfoDb extends BaseEntity {
     @Column(name = "password", length = 50)
     private String password;
 
+    @Column(name = "port")
+    private Long port;
+
     public InfoDb(Long infoDbNo) {
         this.infoDbNo = infoDbNo;
     }

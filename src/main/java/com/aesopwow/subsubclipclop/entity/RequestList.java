@@ -3,6 +3,8 @@ package com.aesopwow.subsubclipclop.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "request_list")
 @Getter
@@ -12,7 +14,7 @@ import lombok.*;
 public class RequestList extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // 숫자 자동 증가 설정 추가
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "request_list_no")
     private Long requestListNo;
 
@@ -27,4 +29,13 @@ public class RequestList extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "info_db_no", nullable = false)
     private InfoDb infoDb;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 10)
+    @Builder.Default
+    private RequestList.RequestListStatus status = RequestList.RequestListStatus.PENDING;
+
+    public enum RequestListStatus {
+        SUCCESS, FAIL, PENDING
+    }
 }
