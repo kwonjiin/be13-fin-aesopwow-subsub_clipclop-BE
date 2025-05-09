@@ -1,10 +1,12 @@
 package com.aesopwow.subsubclipclop.entity;
 
+import com.aesopwow.subsubclipclop.domain.common.enums.PlanType;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -25,7 +27,7 @@ public class User extends BaseEntity {
     private Role role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_no", nullable = false)
+    @JoinColumn(name = "company_no", nullable = true)
     private Company company;
 
     @Column(name = "logined_at", nullable = false)
@@ -37,5 +39,14 @@ public class User extends BaseEntity {
     @Column(name = "is_deleted", nullable = false)
     @Builder.Default
     private Boolean isDeleted = false;
+
+
+    private String departmentName; // 없어서 일단 임시로 추가
+
+    @Enumerated(EnumType.STRING)
+    private PlanType planType; // 플랜 타입 ENUM 추가
+
+    @Column(nullable = false)
+    private String email;
 }
 
