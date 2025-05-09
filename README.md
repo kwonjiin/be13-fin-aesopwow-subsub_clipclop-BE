@@ -30,6 +30,10 @@
 <details>
 <summary><strong>3️⃣ 시스템 아키텍쳐</strong></summary>
 
+<br />
+
+![시스템아키텍쳐](https://github.com/user-attachments/assets/6c04df5b-19f7-4aaf-be81-bf24fa7b37e0)
+
 </details>
 
 <details>
