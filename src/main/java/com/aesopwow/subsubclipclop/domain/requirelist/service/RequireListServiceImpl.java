@@ -29,7 +29,7 @@ public class RequireListServiceImpl implements RequireListService {
     public RequireListResponseDto getRequireList(Long requireListNo) {
         RequireList requireList = requireListRepository.findById(requireListNo)
                 .orElseThrow(() -> new CustomException(ErrorCode.REQUIRE_LIST_NOT_FOUND));
-        
+
         return new RequireListResponseDto(requireList);
     }
 

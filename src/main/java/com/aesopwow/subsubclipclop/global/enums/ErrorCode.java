@@ -18,8 +18,8 @@ public enum ErrorCode {
     INVALID_CSV_FORMAT("E010", "CSV 파일 포맷이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
     HEATMAP_READ_FAILURE("E011", "히트맵 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
     INSIGHT_READ_FAILURE("E012", "인사이트 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
-    BEHAVIOR_PATTERN_READ_FAILURE("E012", "행동 패턴 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
-    ANALYSIS_API_CALL_FAILURE("E013", "API 분석 요청 중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR);
+    BEHAVIOR_PATTERN_READ_FAILURE("E013", "행동 패턴 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
+    ANALYSIS_API_CALL_FAILURE("E014", "API 분석 요청 중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR);
 
 
     private final String code;
