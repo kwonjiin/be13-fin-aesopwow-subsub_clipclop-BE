@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/dbInfo")
 @RequiredArgsConstructor
 public class DbInfoController {
-
     private final DbInfoService dbInfoService;
     private final ApiService apiService;
 
