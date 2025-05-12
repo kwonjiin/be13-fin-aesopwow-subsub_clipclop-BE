@@ -37,10 +37,6 @@ public class Membership extends BaseEntity {
 
     @Column(name = "max_person",nullable = false)
     private Byte maxPerson;
-
-    public Membership(Byte membershipNo) {
-        this.membershipNo = membershipNo;
-    }
 }
 
 

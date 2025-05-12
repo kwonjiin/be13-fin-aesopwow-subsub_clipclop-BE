@@ -35,11 +35,7 @@ public class MyPageServiceImpl implements MyPageService {
             throw new CustomException(ErrorCode.ONLY_CLIENT_USER_DELETABLE);
         }
 
-        return MyPageResponseDTO.builder()
-                .userNo(user.getUserNo())
-                .name(user.getName())
-                .membership(new Membership(user.getCompany().getMembership().getMembershipNo()))
-                .build();
+        return new MyPageResponseDTO(user);
     }
 
     @Override
