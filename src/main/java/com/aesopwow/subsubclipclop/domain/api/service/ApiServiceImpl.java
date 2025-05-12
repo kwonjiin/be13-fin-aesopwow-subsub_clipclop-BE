@@ -2,7 +2,7 @@ package com.aesopwow.subsubclipclop.domain.api.service;
 
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiAnalysisRequestDto;
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiAnalysisResponseDto;
-import com.aesopwow.subsubclipclop.domain.info_column.dto.Info_columnResponseDto;
+import com.aesopwow.subsubclipclop.domain.info_column.dto.InfoColumnResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -16,26 +16,26 @@ public class ApiServiceImpl implements ApiService {
     private final WebClient webClient = WebClient.create("http://127.0.0.1:5000");
 
     @Override
-    public String callExternalApi(Long company_no) {
+    public String callExternalApi(Long companyNo) {
         return webClient.get()
                 .uri("/python-api/info_db")
-                .attribute("company_no", company_no)
+                .attribute("company_no", companyNo)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block(); // 동기 방식으로 결과 대기
     }
 
     @Override
-    public List<Info_columnResponseDto> callExternalApiInfo_columns(Long info_db_no, String origin_table) {
+    public List<InfoColumnResponseDto> callExternalApiInfoColumns(Long infoDbNo, String originTable) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/python-api/info_column")
-                        .queryParam("info_db_no", info_db_no)
-                        .queryParam("origin_table", origin_table)
+                        .queryParam("info_db_no", infoDbNo)
+                        .queryParam("origin_table", originTable)
                         .build()
                 )
                 .retrieve()
-                .bodyToFlux(Info_columnResponseDto.class) // JSON 배열 -> List
+                .bodyToFlux(InfoColumnResponseDto.class) // JSON 배열 -> List
                 .collectList()
                 .block(); // 동기 방식으로 결과 대기
     }

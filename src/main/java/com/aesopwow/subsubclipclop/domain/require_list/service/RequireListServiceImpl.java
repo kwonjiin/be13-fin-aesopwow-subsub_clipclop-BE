@@ -1,11 +1,11 @@
-package com.aesopwow.subsubclipclop.domain.requirelist.service;
+package com.aesopwow.subsubclipclop.domain.require_list.service;
 
 import com.aesopwow.subsubclipclop.domain.analysis.repository.AnalysisRepository;
 import com.aesopwow.subsubclipclop.domain.company.repository.CompanyRepository;
-import com.aesopwow.subsubclipclop.domain.info_db.repository.Info_dbRepository;
-import com.aesopwow.subsubclipclop.domain.requirelist.dto.RequireListRequestDto;
-import com.aesopwow.subsubclipclop.domain.requirelist.dto.RequireListResponseDto;
-import com.aesopwow.subsubclipclop.domain.requirelist.repository.RequireListRepository;
+import com.aesopwow.subsubclipclop.domain.info_db.repository.InfoDbRepository;
+import com.aesopwow.subsubclipclop.domain.require_list.dto.RequireListRequestDto;
+import com.aesopwow.subsubclipclop.domain.require_list.dto.RequireListResponseDto;
+import com.aesopwow.subsubclipclop.domain.require_list.repository.RequireListRepository;
 import com.aesopwow.subsubclipclop.entity.Analysis;
 import com.aesopwow.subsubclipclop.entity.Company;
 import com.aesopwow.subsubclipclop.entity.InfoDb;
@@ -22,7 +22,7 @@ public class RequireListServiceImpl implements RequireListService {
     private final RequireListRepository requireListRepository;
     private final CompanyRepository companyRepository;
     private final AnalysisRepository analysisRepository;
-    private final Info_dbRepository infoDbRepository;
+    private final InfoDbRepository infoDbRepository;
 
     @Override
     @Transactional(readOnly = true)

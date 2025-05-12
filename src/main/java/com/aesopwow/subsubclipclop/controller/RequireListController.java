@@ -2,9 +2,9 @@ package com.aesopwow.subsubclipclop.controller;
 
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiAnalysisRequestDto;
 import com.aesopwow.subsubclipclop.domain.api.service.ApiService;
-import com.aesopwow.subsubclipclop.domain.requirelist.dto.RequireListRequestDto;
-import com.aesopwow.subsubclipclop.domain.requirelist.dto.RequireListResponseDto;
-import com.aesopwow.subsubclipclop.domain.requirelist.service.RequireListService;
+import com.aesopwow.subsubclipclop.domain.require_list.dto.RequireListRequestDto;
+import com.aesopwow.subsubclipclop.domain.require_list.dto.RequireListResponseDto;
+import com.aesopwow.subsubclipclop.domain.require_list.service.RequireListService;
 import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
 import com.aesopwow.subsubclipclop.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
