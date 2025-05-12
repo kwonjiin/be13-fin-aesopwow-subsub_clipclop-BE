@@ -13,7 +13,7 @@ import lombok.Setter;
 @Builder
 public class MyPageUpdateRequestDTO {
     private Long userNo;
-    private String username;
+    private String name;
     private Long payment;
     private String InfoDb;
 }

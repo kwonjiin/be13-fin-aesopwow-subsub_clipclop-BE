@@ -19,8 +19,14 @@ public class User extends BaseEntity {
     @Column(name = "user_no")
     private Long userNo;
 
+    @Column(length = 30,nullable = false)
+    private String email;
+
+    @Column(length = 60, nullable = false)
+    private String password;
+
     @Column(length = 20, nullable = false)
-    private String username;
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_no", nullable = false)
@@ -33,20 +39,13 @@ public class User extends BaseEntity {
     @Column(name = "logined_at", nullable = false)
     private LocalDateTime loginedAt;
 
-    @Column(length = 20, nullable = false)
-    private String password;
-
     @Column(name = "is_deleted", nullable = false)
     @Builder.Default
     private Boolean isDeleted = false;
 
+    @Column(name = "department_name", nullable = true)
+    private String departmentName;
 
-    private String departmentName; // 없어서 일단 임시로 추가
 
-    @Enumerated(EnumType.STRING)
-    private PlanType planType; // 플랜 타입 ENUM 추가
-
-    @Column(nullable = false)
-    private String email;
 }
 

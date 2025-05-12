@@ -14,7 +14,7 @@ import lombok.Setter;
 public class UserUpdateRequestDTO {
 
     //MARK: - 클라이언트 관리자 정보 수정
-    private String username;
+    private String name;
     private String departmentName;
     private String password;
 

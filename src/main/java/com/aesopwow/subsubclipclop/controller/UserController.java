@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/Users")
+@RequestMapping("/api/user")
 @Tag(name = "User", description = "유저 관련 API")
 @RequiredArgsConstructor
 public class UserController {
@@ -151,5 +151,13 @@ public class UserController {
     public ResponseEntity<BaseResponseDto<String>> deleteStaff(@PathVariable Long userNo) {
         userService.deleteStaff(userNo);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, "직원이 삭제되었습니다."));
+    }
+
+    @GetMapping("/{userNo}")
+    public ResponseEntity<UserResponseDTO> getOneUser(@PathVariable Long userNo) {
+
+
+
+        return ResponseEntity.ok().build();
     }
 }
