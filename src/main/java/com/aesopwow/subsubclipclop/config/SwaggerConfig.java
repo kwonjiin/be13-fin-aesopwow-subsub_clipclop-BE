@@ -18,6 +18,6 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title(title)
                         .version("0.0.2")
-                        .description("Spring API입니다.."));
+                        .description("Spring API입니다."));
     }
 }
