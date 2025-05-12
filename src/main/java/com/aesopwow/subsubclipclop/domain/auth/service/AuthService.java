@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -69,7 +68,11 @@ public class AuthService {
         // OTP 생성 및 저장
         String otp = generateOtp();
         redisTemplate.opsForValue().set(email, otp, 3, TimeUnit.MINUTES);
-        redisTemplate.opsForValue().set("PWD:" + email, password, 10, TimeUnit.MINUTES);
+        // 수정
+//        redisTemplate.opsForValue().set("PWD:" + email, password, 10, TimeUnit.MINUTES);
+        String encodedPassword = passwordEncoder.encode(password);
+        redisTemplate.opsForValue().set("PWD:" + email, encodedPassword, 10, TimeUnit.MINUTES);
+
 
         try {
             emailService.sendEmail(email, "OTP 인증번호", "귀하의 OTP 인증번호는 " + otp + "입니다. 3분 이내에 입력해주세요.");
@@ -119,10 +122,16 @@ public class AuthService {
         }
 
         // 비밀번호 일치 여부 확인
+//        String savedPassword = redisTemplate.opsForValue().get("PWD:" + email);
+//        if (savedPassword == null || !savedPassword.equals(password)) {
+//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+//        }
+        //수정
         String savedPassword = redisTemplate.opsForValue().get("PWD:" + email);
-        if (savedPassword == null || !savedPassword.equals(password)) {
+        if (savedPassword == null || !passwordEncoder.matches(password, savedPassword)) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
+
 
         // 이미 존재하는 이메일 체크
         if (userRepository.findByUsername(email).isPresent()) {
@@ -150,6 +159,7 @@ public class AuthService {
 
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(password);
+        redisTemplate.opsForValue().set("PWD:" + email, encodedPassword);
 
         // User 엔티티 생성 및 저장
         User user = User.builder()
@@ -169,8 +179,6 @@ public class AuthService {
         redisTemplate.delete("PWD:" + email);
         redisTemplate.delete("EMAIL_CHECKED:" + email);
     }
-
-
 
     // 비밀번호 유효성 검사
     private boolean isValidPassword(String password) {
