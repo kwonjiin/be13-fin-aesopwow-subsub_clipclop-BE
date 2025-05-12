@@ -1,7 +1,7 @@
 package com.aesopwow.subsubclipclop.controller;
 
 import com.aesopwow.subsubclipclop.domain.api.service.ApiService;
-import com.aesopwow.subsubclipclop.domain.info_column.dto.Info_columnResponseDto;
+import com.aesopwow.subsubclipclop.domain.info_column.dto.InfoColumnResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,16 +14,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/info-column")
 @RequiredArgsConstructor
-public class Info_columnController {
+public class InfoColumnController {
     private final ApiService apiService;
 
     @GetMapping("/ext")
-    public ResponseEntity<List<Info_columnResponseDto>> getExternalInfo_columns(
-            @RequestParam Long info_db_no,
-            @RequestParam(required = false) String origin_table) {
-        List<Info_columnResponseDto> info_columns = apiService.callExternalApiInfo_columns(info_db_no, origin_table);
+    public ResponseEntity<List<InfoColumnResponseDto>> getExternalInfoColumns(
+            @RequestParam Long infoDbNo,
+            @RequestParam(required = false) String originTable) {
+        List<InfoColumnResponseDto> infoColumns = apiService.callExternalApiInfoColumns(infoDbNo, originTable);
 
-        return ResponseEntity.ok(info_columns);
+        return ResponseEntity.ok(infoColumns);
     }
 
 }

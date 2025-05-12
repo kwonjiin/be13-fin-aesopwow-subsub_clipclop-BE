@@ -1,8 +1,7 @@
 package com.aesopwow.subsubclipclop.controller;
 
-import com.aesopwow.subsubclipclop.domain.info_db.repository.Info_dbRepository;
+import com.aesopwow.subsubclipclop.domain.info_db.repository.InfoDbRepository;
 import com.aesopwow.subsubclipclop.entity.Company;
-import com.aesopwow.subsubclipclop.entity.InfoDb;
 import com.aesopwow.subsubclipclop.entity.Payment;
 import com.aesopwow.subsubclipclop.domain.common.dto.BaseResponseDto;
 import com.aesopwow.subsubclipclop.domain.company.dto.CompanyUpdateRequestDTO;
@@ -33,7 +32,7 @@ public class CompanyController {
 
     private final CompanyService companyService;
     private PaymentRepository paymentRepository;
-    private Info_dbRepository infoDbRepository;
+    private InfoDbRepository infoDbRepository;
 
     @PutMapping("/company/{companyNo}")
     @Operation(summary = "회사 정보 수정", description = "회사 정보를 JSON으로 받아 수정한다.")

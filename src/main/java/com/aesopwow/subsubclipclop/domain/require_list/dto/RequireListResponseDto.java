@@ -1,4 +1,4 @@
-package com.aesopwow.subsubclipclop.domain.requirelist.dto;
+package com.aesopwow.subsubclipclop.domain.require_list.dto;
 
 import com.aesopwow.subsubclipclop.entity.RequireList;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,7 @@
 package com.aesopwow.subsubclipclop.domain.company.service;
 
-import com.aesopwow.subsubclipclop.domain.info_db.repository.Info_dbRepository;
+import com.aesopwow.subsubclipclop.domain.info_db.repository.InfoDbRepository;
 import com.aesopwow.subsubclipclop.entity.Company;
-import com.aesopwow.subsubclipclop.entity.InfoDb;
 import com.aesopwow.subsubclipclop.entity.Payment;
 import com.aesopwow.subsubclipclop.domain.company.dto.CompanyUpdateRequestDTO;
 import com.aesopwow.subsubclipclop.domain.company.repository.CompanyRepository;
@@ -17,7 +16,7 @@ import java.util.Optional;
 public class CompanyServiceImpl implements CompanyService {
     private CompanyRepository companyRepository;
     private PaymentRepository paymentRepository;
-    private Info_dbRepository infoDbRepository;
+    private InfoDbRepository infoDbRepository;
 
     @Override
     public void updateCompanyInfo(Long companyNo, CompanyUpdateRequestDTO companyUpdateRequestDTO) {

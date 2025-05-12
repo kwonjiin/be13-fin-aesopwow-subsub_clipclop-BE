@@ -8,6 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiAnalysisRequestDto {
-    private Long info_db_no;
-
+    private Long infoDbNo;
 }
