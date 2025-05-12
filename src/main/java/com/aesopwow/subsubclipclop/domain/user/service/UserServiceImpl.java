@@ -56,15 +56,15 @@ public class UserServiceImpl implements UserService {
         staff.setRole(roleRepository.findByName(Role.RoleType.CLIENT_USER)
                 .orElseThrow(() -> new CustomException(ErrorCode.ROLE_NOT_FOUND)));
 
-        byte membershipNo = admin.getCompany().getMembership().getMembershipNo();
-        MembershipResponseDto membershipResponseDto = membershipService.getOneMembershipByMembershipNo(membershipNo);
-
         int currentCount = userRepository.countByCompanyAndRole_Name(
                 admin.getCompany(),
                 Role.RoleType.CLIENT_USER
         );
 
-        if (currentCount >= membershipResponseDto.getMax_person()) {
+        byte membershipNo = admin.getCompany().getMembership().getMembershipNo();
+        MembershipResponseDto membershipResponseDto = membershipService.getOneMembershipByMembershipNo(membershipNo);
+
+        if (currentCount >= membershipResponseDto.getMaxPerson()) {
             throw new CustomException(ErrorCode.STAFF_LIMIT_EXCEEDED);
         }
 

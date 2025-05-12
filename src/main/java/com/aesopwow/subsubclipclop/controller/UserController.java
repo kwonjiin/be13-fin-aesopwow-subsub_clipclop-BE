@@ -152,12 +152,4 @@ public class UserController {
         userService.deleteStaff(userNo);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, "직원이 삭제되었습니다."));
     }
-
-    @GetMapping("/{userNo}")
-    public ResponseEntity<UserResponseDTO> getOneUser(@PathVariable Long userNo) {
-
-
-
-        return ResponseEntity.ok().build();
-    }
 }

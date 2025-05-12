@@ -21,7 +21,7 @@ public class MembershipResponseDto {
     private Integer price;
     private boolean status;
     private Byte duration;
-    private Byte max_person;
+    private Byte maxPerson;
 
     public MembershipResponseDto(Membership membership) {
         this.membershipNo = membership.getMembershipNo();
@@ -30,6 +30,6 @@ public class MembershipResponseDto {
         this.price = membership.getPrice();
         this.status = membership.getStatus();
         this.duration = membership.getDuration();
-        this.max_person = membership.getMaxPerson();
+        this.maxPerson = membership.getMaxPerson();
     }
 }

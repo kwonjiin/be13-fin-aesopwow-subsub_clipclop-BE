@@ -29,7 +29,7 @@ public class MyPageResponseDTO {
                 .price(membership.getPrice())
                 .status(membership.getStatus())
                 .duration(membership.getDuration())
-                .max_person(membership.getMaxPerson())
+                .maxPerson(membership.getMaxPerson())
                 .build();
         this.membershipExpiredAt = user.getCompany().getMembershipExpiredAt();
         this.name = user.getName();
