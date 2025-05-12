@@ -9,7 +9,9 @@ import java.util.List;
 public interface ApiService {
     public String callExternalApi(Long company_no);
 
-    public List<Info_columnResponseDto> callExternalApiInfo_columns(Long dbInfoNo, String originTable);
+    public List<Info_columnResponseDto> callExternalApiInfo_columns(Long info_db_no, String origin_table);
 
     public ApiAnalysisResponseDto requestAnalysis(ApiAnalysisRequestDto apiAnalysisRequestDto);
+
+    public byte[] getAnalysisResult(String filename);
 }

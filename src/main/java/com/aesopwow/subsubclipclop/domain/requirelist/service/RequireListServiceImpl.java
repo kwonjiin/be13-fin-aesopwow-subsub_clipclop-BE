@@ -2,13 +2,13 @@ package com.aesopwow.subsubclipclop.domain.requirelist.service;
 
 import com.aesopwow.subsubclipclop.domain.analysis.repository.AnalysisRepository;
 import com.aesopwow.subsubclipclop.domain.company.repository.CompanyRepository;
-import com.aesopwow.subsubclipclop.domain.infodb.repository.InfoDbRepository;
+import com.aesopwow.subsubclipclop.domain.info_db.repository.Info_dbRepository;
 import com.aesopwow.subsubclipclop.domain.requirelist.dto.RequireListRequestDto;
 import com.aesopwow.subsubclipclop.domain.requirelist.dto.RequireListResponseDto;
 import com.aesopwow.subsubclipclop.domain.requirelist.repository.RequireListRepository;
 import com.aesopwow.subsubclipclop.entity.Analysis;
 import com.aesopwow.subsubclipclop.entity.Company;
-import com.aesopwow.subsubclipclop.entity.DbInfo;
+import com.aesopwow.subsubclipclop.entity.InfoDb;
 import com.aesopwow.subsubclipclop.entity.RequireList;
 import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
 import com.aesopwow.subsubclipclop.global.exception.CustomException;
@@ -22,7 +22,7 @@ public class RequireListServiceImpl implements RequireListService {
     private final RequireListRepository requireListRepository;
     private final CompanyRepository companyRepository;
     private final AnalysisRepository analysisRepository;
-    private final InfoDbRepository infoDbRepository;
+    private final Info_dbRepository infoDbRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -42,13 +42,13 @@ public class RequireListServiceImpl implements RequireListService {
         Company company = companyRepository.findById(requireListRequestDto.getCompanyNo())
                 .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
 
-        DbInfo dbInfo = infoDbRepository.findById(requireListRequestDto.getDbInfoNo())
+        InfoDb infoDb = infoDbRepository.findById(requireListRequestDto.getDbInfoNo())
                 .orElseThrow(() -> new CustomException(ErrorCode.DB_INFO_NOT_FOUND));
 
         RequireList requireList = RequireList.builder()
                 .analysis(analysis)
                 .company(company)
-                .dbInfo(dbInfo)
+                .infoDb(infoDb)
                 .build();
 
         requireListRepository.save(requireList);
