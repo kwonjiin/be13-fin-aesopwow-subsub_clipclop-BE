@@ -1,47 +1,35 @@
 package com.aesopwow.subsubclipclop.controller;
 
-import com.aesopwow.subsubclipclop.domain.analysis.dto.behaviorpattern.CohortAnalysisBehaviorPatternRequestDto;
-import com.aesopwow.subsubclipclop.domain.analysis.dto.behaviorpattern.CohortAnalysisBehaviorPatternResponseDto;
-import com.aesopwow.subsubclipclop.domain.analysis.dto.insight.CohortAnalysisInsightRequestDto;
-import com.aesopwow.subsubclipclop.domain.analysis.dto.insight.CohortAnalysisInsightResponseDto;
-import com.aesopwow.subsubclipclop.domain.analysis.dto.remainheatmap.CohortAnalysisRemainHeatmapRequestDto;
-import com.aesopwow.subsubclipclop.domain.analysis.dto.remainheatmap.CohortAnalysisRemainHeatmapResponseDto;
-import com.aesopwow.subsubclipclop.domain.analysis.service.behaviorpattern.CohortAnalysisBehaviorPatternService;
-import com.aesopwow.subsubclipclop.domain.analysis.service.insight.CohortAnalysisInsightService;
-import com.aesopwow.subsubclipclop.domain.analysis.service.remainheatmap.CohortAnalysisRemainHeatmapService;
+import com.aesopwow.subsubclipclop.domain.api.service.ApiService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/cohorts")
+@RequestMapping("/api/analysis")
 @RequiredArgsConstructor
 public class AnalysisController {
+    private final ApiService apiService;
 
-    private final CohortAnalysisBehaviorPatternService cohortAnalysisBehaviorPatternService;
-    private final CohortAnalysisInsightService cohortAnalysisInsightService;
-    private final CohortAnalysisRemainHeatmapService cohortAnalysisRemainHeatmapService;
+    @GetMapping("")
+    public ResponseEntity<byte[]> getAnalysisResult(
+            @RequestParam String filename) {
+        byte[] fileBytes = apiService.getAnalysisResult(filename);
 
-    @PostMapping("/behavior-pattern")
-    public CohortAnalysisBehaviorPatternResponseDto fetchBehaviorPattern(
-            @RequestBody CohortAnalysisBehaviorPatternRequestDto requestDto
-    ) {
-        return cohortAnalysisBehaviorPatternService.fetchBehaviorPattern(requestDto);
-    }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDisposition(ContentDisposition
+                .attachment()
+                .filename(filename)
+                .build());
 
-    @PostMapping("/insight")
-    public CohortAnalysisInsightResponseDto fetchInsight(
-            @RequestBody CohortAnalysisInsightRequestDto requestDto
-    ) {
-        return cohortAnalysisInsightService.fetchInsight(requestDto);
-    }
-
-    @PostMapping("/remain-heatmap")
-    public CohortAnalysisRemainHeatmapResponseDto fetchRemainHeatmap(
-            @RequestBody CohortAnalysisRemainHeatmapRequestDto requestDto
-    ) {
-        return cohortAnalysisRemainHeatmapService.fetchRemainHeatmap(requestDto);
+        return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
     }
 }

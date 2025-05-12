@@ -22,4 +22,8 @@ public class Analysis {
 
     @Column(length = 20)
     private String name;
+
+    public Analysis(Byte analysisNo) {
+        this.analysisNo = analysisNo;
+    }
 }

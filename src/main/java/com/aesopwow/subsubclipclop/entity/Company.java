@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -46,4 +47,10 @@ public class Company extends BaseEntity {
 
     @Column(name = "membership_expired_at")
     private LocalDateTime membershipExpiredAt;
+
+    private String departmentName; // 없어서 일단 임시로 추가
+
+    public Company(Long companyNo) {
+        this.companyNo = companyNo;
+    }
 }
