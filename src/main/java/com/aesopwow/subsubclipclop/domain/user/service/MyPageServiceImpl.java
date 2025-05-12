@@ -35,11 +35,7 @@ public class MyPageServiceImpl implements MyPageService {
             throw new CustomException(ErrorCode.ONLY_CLIENT_USER_DELETABLE);
         }
 
-        return MyPageResponseDTO.builder()
-                .userNo(user.getUserNo())
-                .username(user.getUsername())
-                .membershipName(membership.getName())
-                .build();
+        return new MyPageResponseDTO(user);
     }
 
     @Override
@@ -47,17 +43,13 @@ public class MyPageServiceImpl implements MyPageService {
         User user = userRepository.findByUserNo(myPageUpdateRequestDTO.getUserNo())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        if (myPageUpdateRequestDTO.getUsername() != null) {
-            user.setUsername(myPageUpdateRequestDTO.getUsername());
+        if (myPageUpdateRequestDTO.getName() != null) {
+            user.setName(myPageUpdateRequestDTO.getName());
         }
 
-        userRepository.save(user);
+        MyPageResponseDTO myPageResponseDTO = new MyPageResponseDTO(userRepository.save(user));
 
-        return MyPageResponseDTO.builder()
-                .userNo(user.getUserNo())
-                .username(user.getUsername())
-                .membershipName("미지정")
-                .build();
+        return myPageResponseDTO;
     }
 
     @Override

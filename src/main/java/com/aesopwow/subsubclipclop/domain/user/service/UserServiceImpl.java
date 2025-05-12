@@ -1,8 +1,12 @@
 package com.aesopwow.subsubclipclop.domain.user.service;
 
+import com.aesopwow.subsubclipclop.domain.membership.dto.MembershipResponseDto;
+import com.aesopwow.subsubclipclop.domain.membership.repository.MembershipRepository;
+import com.aesopwow.subsubclipclop.domain.membership.service.MembershipService;
 import com.aesopwow.subsubclipclop.domain.role.repository.RoleRepository;
 import com.aesopwow.subsubclipclop.domain.user.dto.UserUpdateRequestDTO;
 import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
+import com.aesopwow.subsubclipclop.entity.Membership;
 import com.aesopwow.subsubclipclop.entity.Role;
 import com.aesopwow.subsubclipclop.entity.User;
 import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
@@ -18,16 +22,17 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final MembershipService membershipService;
 
     @Override
     public void updateUser(Long userNo, UserUpdateRequestDTO userUpdateRequestDTO) {
         User user = userRepository.findById(userNo)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        if (userUpdateRequestDTO.getUsername() != null) {
-            user.setUsername(userUpdateRequestDTO.getUsername());
+        if (userUpdateRequestDTO.getName() != null) {
+            user.setName(userUpdateRequestDTO.getName());
         } else {
-            throw new CustomException(ErrorCode.USERNAME_REQUIRED);
+            throw new CustomException(ErrorCode.NAME_REQUIRED);
         }
 
         userRepository.save(user);
@@ -51,14 +56,15 @@ public class UserServiceImpl implements UserService {
         staff.setRole(roleRepository.findByName(Role.RoleType.CLIENT_USER)
                 .orElseThrow(() -> new CustomException(ErrorCode.ROLE_NOT_FOUND)));
 
-        int maxStaff = admin.getPlanType().getMaxStaff();
-
         int currentCount = userRepository.countByCompanyAndRole_Name(
                 admin.getCompany(),
                 Role.RoleType.CLIENT_USER
         );
 
-        if (currentCount >= maxStaff) {
+        byte membershipNo = admin.getCompany().getMembership().getMembershipNo();
+        MembershipResponseDto membershipResponseDto = membershipService.getOneMembershipByMembershipNo(membershipNo);
+
+        if (currentCount >= membershipResponseDto.getMaxPerson()) {
             throw new CustomException(ErrorCode.STAFF_LIMIT_EXCEEDED);
         }
 
