@@ -16,5 +16,5 @@ public interface CompanyService {
 
     void saveCompanyPayment(Company companyNo, Payment payment);
 
-    void saveCompanyDb(Company companyNo, InfoDb infoDb);
+//    void saveCompanyDb(Company companyNo, InfoDb infoDb);
 }

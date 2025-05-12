@@ -11,18 +11,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequireListResponseDto {
-    private Long requestListNo;
+    private Long requireListNo;
     private Byte analysisNo;
     private Long companyNo;
-    private Long dbInfoNo;
+    private Long infoDbNo;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public RequireListResponseDto(RequireList requireList) {
-        this.requestListNo = requireList.getRequestListNo();
+        this.requireListNo = requireList.getRequireListNo();
         this.analysisNo = requireList.getAnalysis().getAnalysisNo();
         this.companyNo = requireList.getCompany().getCompanyNo();
-        this.dbInfoNo = requireList.getDbInfo().getDbInfoNo();
+        this.infoDbNo = requireList.getInfoDb().getInfoDbNo();
         this.createdAt = requireList.getCreatedAt();
         this.updatedAt = requireList.getUpdatedAt();
     }

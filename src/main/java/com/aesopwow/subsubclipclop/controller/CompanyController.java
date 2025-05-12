@@ -1,6 +1,6 @@
 package com.aesopwow.subsubclipclop.controller;
 
-import com.aesopwow.subsubclipclop.domain.infodb.repository.InfoDbRepository;
+import com.aesopwow.subsubclipclop.domain.info_db.repository.Info_dbRepository;
 import com.aesopwow.subsubclipclop.entity.Company;
 import com.aesopwow.subsubclipclop.entity.InfoDb;
 import com.aesopwow.subsubclipclop.entity.Payment;
@@ -33,7 +33,7 @@ public class CompanyController {
 
     private final CompanyService companyService;
     private PaymentRepository paymentRepository;
-    private InfoDbRepository infoDbRepository;
+    private Info_dbRepository infoDbRepository;
 
     @PutMapping("/company/{companyNo}")
     @Operation(summary = "회사 정보 수정", description = "회사 정보를 JSON으로 받아 수정한다.")
@@ -78,11 +78,11 @@ public class CompanyController {
         }
 
 
-        if (companyUpdateRequestDTO.getInfoDb() != null) {
-            InfoDb infoDb = infoDbRepository.findById(Long.valueOf(companyUpdateRequestDTO.getInfoDb()))
-                    .orElseThrow(() -> new RuntimeException("DB 정보를 찾을 수 없습니다."));
-            companyService.saveCompanyDb(company, infoDb);
-        }
+//        if (companyUpdateRequestDTO.getInfoDb() != null) {
+//            InfoDb infoDb = infoDbRepository.findById(Long.valueOf(companyUpdateRequestDTO.getInfoDb()))
+//                    .orElseThrow(() -> new RuntimeException("DB 정보를 찾을 수 없습니다."));
+//            companyService.saveCompanyDb(company, infoDb);
+//        }
 
         companyService.save(company);
 

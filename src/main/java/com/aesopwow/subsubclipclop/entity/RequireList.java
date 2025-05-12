@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "request_list")
+@Table(name = "require_list")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -13,8 +13,8 @@ public class RequireList extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // 숫자 자동 증가 설정 추가
-    @Column(name = "request_list_no")
-    private Long requestListNo;
+    @Column(name = "require_list_no")
+    private Long requireListNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "analysis_no", nullable = false)
@@ -26,5 +26,14 @@ public class RequireList extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "info_db_no", nullable = false)
-    private DbInfo dbInfo;
+    private InfoDb infoDb;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 10)
+    @Builder.Default
+    private RequireList.RequireListStatus status = RequireList.RequireListStatus.PENDING;
+
+    public enum RequireListStatus {
+        SUCCESS, FAIL, PENDING
+    }
 }

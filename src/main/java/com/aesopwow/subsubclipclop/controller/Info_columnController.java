@@ -19,9 +19,9 @@ public class Info_columnController {
 
     @GetMapping("/ext")
     public ResponseEntity<List<Info_columnResponseDto>> getExternalInfo_columns(
-            @RequestParam Long dbInfoNo,
-            @RequestParam(required = false) String originTable) {
-        List<Info_columnResponseDto> info_columns = apiService.callExternalApiInfo_columns(dbInfoNo, originTable);
+            @RequestParam Long info_db_no,
+            @RequestParam(required = false) String origin_table) {
+        List<Info_columnResponseDto> info_columns = apiService.callExternalApiInfo_columns(info_db_no, origin_table);
 
         return ResponseEntity.ok(info_columns);
     }

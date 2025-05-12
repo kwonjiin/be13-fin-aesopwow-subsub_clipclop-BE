@@ -1,5 +1,6 @@
 package com.aesopwow.subsubclipclop.domain.company.service;
 
+import com.aesopwow.subsubclipclop.domain.info_db.repository.Info_dbRepository;
 import com.aesopwow.subsubclipclop.entity.Company;
 import com.aesopwow.subsubclipclop.entity.InfoDb;
 import com.aesopwow.subsubclipclop.entity.Payment;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class CompanyServiceImpl implements CompanyService {
     private CompanyRepository companyRepository;
     private PaymentRepository paymentRepository;
-    private InfoDbRepository infoDbRepository;
+    private Info_dbRepository infoDbRepository;
 
     @Override
     public void updateCompanyInfo(Long companyNo, CompanyUpdateRequestDTO companyUpdateRequestDTO) {
@@ -36,11 +37,11 @@ public class CompanyServiceImpl implements CompanyService {
             saveCompanyPayment(company, payment);
         }
 
-        if (companyUpdateRequestDTO.getInfoDb() != null) {
-            InfoDb infoDb = infoDbRepository.findById(Long.valueOf(companyUpdateRequestDTO.getInfoDb()))
-                    .orElseThrow(() -> new RuntimeException("DB 정보를 찾을 수 없습니다."));
-            saveCompanyDb(company, infoDb);
-        }
+//        if (companyUpdateRequestDTO.getInfoDb() != null) {
+//            InfoDb infoDb = infoDbRepository.findById(Long.valueOf(companyUpdateRequestDTO.getInfoDb()))
+//                    .orElseThrow(() -> new RuntimeException("DB 정보를 찾을 수 없습니다."));
+//            saveCompanyDb(company, infoDb);
+//        }
 
         companyRepository.save(company);
     }
@@ -61,10 +62,9 @@ public class CompanyServiceImpl implements CompanyService {
         paymentRepository.save(payment);
     }
 
-    @Override
-    public void saveCompanyDb(Company companyNo, InfoDb infoDb) {
-        infoDb.setCompany(companyNo);
-        infoDbRepository.save(infoDb);
-
-    }
+//    @Override
+//    public void saveCompanyDb(Company companyNo, InfoDb infoDb) {
+//        infoDb.setCompany(companyNo);
+//        infoDbRepository.save(infoDb);
+//    }
 }
