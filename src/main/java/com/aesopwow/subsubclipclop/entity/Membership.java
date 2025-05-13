@@ -34,6 +34,9 @@ public class Membership extends BaseEntity {
 
     @Column(nullable = false)
     private Byte duration;
+
+    @Column(name = "max_person",nullable = false)
+    private Byte maxPerson;
 }
 
 
