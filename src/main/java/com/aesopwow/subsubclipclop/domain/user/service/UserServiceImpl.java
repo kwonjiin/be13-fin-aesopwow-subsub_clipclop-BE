@@ -53,13 +53,13 @@ public class UserServiceImpl implements UserService {
         }
 
         staff.setCompany(admin.getCompany());
-//        staff.setRole(roleRepository.findByName(Role.RoleType.CLIENT_USER)
-//                .orElseThrow(() -> new CustomException(ErrorCode.ROLE_NOT_FOUND)));
 
         try {
             staff.setRole(roleRepository.findByName(Role.RoleType.CLIENT_USER));
-        } catch (Exception e) {
+        } catch (EntityNotFoundException e) {
             throw new CustomException(ErrorCode.ROLE_NOT_FOUND);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         int currentCount = userRepository.countByCompanyAndRole_Name(

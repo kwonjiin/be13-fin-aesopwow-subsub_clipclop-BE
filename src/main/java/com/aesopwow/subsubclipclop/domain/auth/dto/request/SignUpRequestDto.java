@@ -14,4 +14,7 @@ public class SignUpRequestDto {
 
     @NotBlank(message = "비밀번호는 필수입니다.")
     private final String password;
+
+    @NotBlank(message = "이름은 필수입니다.")
+    private final String name;
 }

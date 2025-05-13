@@ -16,12 +16,15 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AuthService {
 
@@ -51,6 +54,7 @@ public class AuthService {
         redisTemplate.opsForValue().set("EMAIL_CHECKED:" + email, "true", 10, TimeUnit.MINUTES);
     }
 
+    @Transactional
     // 이메일 중복 확인 여부 검증 포함
     public void sendOtp(String email, String password) {
         // 이메일 중복 확인 여부 체크
@@ -86,10 +90,10 @@ public class AuthService {
 
     // 6자리 OTP 생성
     private String generateOtp() {
-        Random random = new Random();
+        SecureRandom secureRandom = new SecureRandom();
         StringBuilder otp = new StringBuilder();
         for (int i = 0; i < 6; i++) {
-            otp.append(random.nextInt(10));
+            otp.append(secureRandom.nextInt(10));
         }
         return otp.toString();
     }
@@ -111,9 +115,11 @@ public class AuthService {
 
     // 회원가입 최종 처리
     // 회원가입 최종 처리
+    @Transactional
     public void signUp(SignUpRequestDto request) {
         String email = request.getEmail();
         String password = request.getPassword();
+        String name = request.getName();
 
         // OTP 인증 여부 확인
         String verified = redisTemplate.opsForValue().get("VERIFIED:" + email);
@@ -164,6 +170,7 @@ public class AuthService {
         // User 엔티티 생성 및 저장
         User user = User.builder()
                 .email(email)
+                .name(name)
                 .password(encodedPassword)
                 .role(role)  // 기본 USER 역할 설정
                 .company(company)  // 회사 정보는 나중에 설정
