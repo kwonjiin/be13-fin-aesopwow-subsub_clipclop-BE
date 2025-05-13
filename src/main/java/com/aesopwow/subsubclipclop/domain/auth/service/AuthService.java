@@ -2,9 +2,9 @@ package com.aesopwow.subsubclipclop.domain.auth.service;
 
 import com.aesopwow.subsubclipclop.domain.auth.dto.LoginRequestDTO;
 import com.aesopwow.subsubclipclop.domain.auth.dto.LoginResponseDTO;
-import com.aesopwow.subsubclipclop.domain.auth.dto.SignUpRequestDTO;
+import com.aesopwow.subsubclipclop.domain.auth.dto.request.SignUpRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.jwt.JwtTokenProvider;
-import com.aesopwow.subsubclipclop.domain.auth.repository.UserRepository;
+import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
 import com.aesopwow.subsubclipclop.domain.company.repository.CompanyRepository;
 import com.aesopwow.subsubclipclop.domain.role.repository.RoleRepository;
 import com.aesopwow.subsubclipclop.entity.Company;
@@ -16,12 +16,15 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AuthService {
 
@@ -35,14 +38,14 @@ public class AuthService {
 
     // 로그인 로직
     public LoginResponseDTO login(LoginRequestDTO request) {
-        User user = userRepository.findByUsername(request.getEmail())
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new BadCredentialsException("유효하지 않은 이메일입니다."));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
 
-        String token = jwtTokenProvider.createToken(user.getUsername());
+        String token = jwtTokenProvider.createToken(user.getEmail());
         return new LoginResponseDTO(token);
     }
 
@@ -51,6 +54,7 @@ public class AuthService {
         redisTemplate.opsForValue().set("EMAIL_CHECKED:" + email, "true", 10, TimeUnit.MINUTES);
     }
 
+    @Transactional
     // 이메일 중복 확인 여부 검증 포함
     public void sendOtp(String email, String password) {
         // 이메일 중복 확인 여부 체크
@@ -86,10 +90,10 @@ public class AuthService {
 
     // 6자리 OTP 생성
     private String generateOtp() {
-        Random random = new Random();
+        SecureRandom secureRandom = new SecureRandom();
         StringBuilder otp = new StringBuilder();
         for (int i = 0; i < 6; i++) {
-            otp.append(random.nextInt(10));
+            otp.append(secureRandom.nextInt(10));
         }
         return otp.toString();
     }
@@ -111,9 +115,11 @@ public class AuthService {
 
     // 회원가입 최종 처리
     // 회원가입 최종 처리
-    public void signUp(SignUpRequestDTO request) {
+    @Transactional
+    public void signUp(SignUpRequestDto request) {
         String email = request.getEmail();
         String password = request.getPassword();
+        String name = request.getName();
 
         // OTP 인증 여부 확인
         String verified = redisTemplate.opsForValue().get("VERIFIED:" + email);
@@ -134,7 +140,7 @@ public class AuthService {
 
 
         // 이미 존재하는 이메일 체크
-        if (userRepository.findByUsername(email).isPresent()) {
+        if (userRepository.findByEmail(email).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
         }
 
@@ -163,7 +169,8 @@ public class AuthService {
 
         // User 엔티티 생성 및 저장
         User user = User.builder()
-                .username(email)
+                .email(email)
+                .name(name)
                 .password(encodedPassword)
                 .role(role)  // 기본 USER 역할 설정
                 .company(company)  // 회사 정보는 나중에 설정
@@ -187,6 +194,6 @@ public class AuthService {
     }
 
     public boolean isEmailDuplicate(String email) {
-        return userRepository.findByUsername(email).isPresent();
+        return userRepository.findByEmail(email).isPresent();
     }
 }

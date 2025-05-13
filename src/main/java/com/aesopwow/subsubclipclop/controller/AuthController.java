@@ -1,9 +1,12 @@
 package com.aesopwow.subsubclipclop.controller;
 
 import com.aesopwow.subsubclipclop.domain.auth.dto.*;
+import com.aesopwow.subsubclipclop.domain.auth.dto.request.SignUpRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +28,14 @@ public class AuthController {
 
     @Operation(summary = "회원가입 - OTP 요청", description = "이메일과 비밀번호를 입력하여 OTP 인증을 요청합니다.")
     @PostMapping("/signup/otp")
-    public ResponseEntity<String> requestOtp(@RequestBody SignUpRequestDTO request) {
+    public ResponseEntity<String> requestOtp(@Valid @RequestBody SignUpRequestDto request) {
         try {
             authService.sendOtp(request.getEmail(), request.getPassword());
             return ResponseEntity.ok("OTP가 이메일로 전송되었습니다.");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
         }
     }
 
@@ -47,7 +52,7 @@ public class AuthController {
 
     @Operation(summary = "회원가입 - 최종 인증", description = "OTP 인증 후 비밀번호 포함 최종 회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody SignUpRequestDTO request) {
+    public ResponseEntity<String> signUp(@RequestBody SignUpRequestDto request) {
         try {
             authService.signUp(request);
             return ResponseEntity.ok("회원가입 성공!");
