@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiAnalysisResponseDto {
-    private String message;
+public class ApiRequestDto {
+    private Long infoDbNo;
 }
