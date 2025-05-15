@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiResponseDto {
-    private String message;
+//    private String message;
     private byte[] data;
 }
