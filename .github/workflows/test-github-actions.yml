@@ -32,6 +32,15 @@ jobs:
           chmod +x ./gradlew
           ./gradlew build -x test -Dspring.profiles.active=prod
 
+      - name: Copy JAR to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with :
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: build/libs/app.jar
+          target: ~/app/
+
       - name: Save SHA to file
         run: echo $GITHUB_SHA > scripts/sha.txt
 
