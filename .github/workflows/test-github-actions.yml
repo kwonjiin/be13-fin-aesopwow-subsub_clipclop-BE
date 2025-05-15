@@ -55,10 +55,20 @@ jobs:
         run: |
           aws s3 cp $GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
 
-      - name: Deploy to EC2 using CodeDeploy
-        run: |
-          aws deploy create-deployment \
-            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
-            --deployment-config-name CodeDeployDefault.AllAtOnce \
-            --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-            --s3-location bucket=${{ env.S3_BUCKET_NAME }},key=$GITHUB_SHA.zip,bundleType=zip
+#      - name: Deploy to EC2 using CodeDeploy
+#        run: |
+#          aws deploy create-deployment \
+#            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+#            --deployment-config-name CodeDeployDefault.AllAtOnce \
+#            --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
+#            --s3-location bucket=${{ env.S3_BUCKET_NAME }},key=$GITHUB_SHA.zip,bundleType=zip
+
+      - name: Deploy to CodeDeploy
+        uses: aws-actions/aws-codedeploy@v0.4.1
+        with:
+          application-name: ${{ env.CODE_DEPLOY_APPLICATION_NAME }}
+          deployment-group: ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }}
+          deployment-config-name: CodeDeployDefault.AllAtOnce
+          bundle-bucket: ${{ env.S3_BUCKET_NAME }}
+          bundle-key: $GITHUB_SHA.zip
+          region: ap-northeast-2
