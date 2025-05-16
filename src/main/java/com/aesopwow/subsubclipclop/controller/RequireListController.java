@@ -1,6 +1,6 @@
 package com.aesopwow.subsubclipclop.controller;
 
-import com.aesopwow.subsubclipclop.domain.api.dto.ApiAnalysisRequestDto;
+import com.aesopwow.subsubclipclop.domain.api.dto.ApiRequestDto;
 import com.aesopwow.subsubclipclop.domain.api.service.ApiService;
 import com.aesopwow.subsubclipclop.domain.require_list.dto.RequireListRequestDto;
 import com.aesopwow.subsubclipclop.domain.require_list.dto.RequireListResponseDto;
@@ -40,11 +40,11 @@ public class RequireListController {
         RequireListResponseDto requireListResponseDto =
                 requireListService.createRequireList(requestDto);
 
-        ApiAnalysisRequestDto apiAnalysisRequestDto
-                = new ApiAnalysisRequestDto(requestDto.getDbInfoNo());
+        ApiRequestDto apiRequestDto
+                = new ApiRequestDto(requestDto.getDbInfoNo());
 
         try {
-            apiService.requestAnalysis(apiAnalysisRequestDto);
+            apiService.requestAnalysis(apiRequestDto);
         } catch (CustomException e) {
             throw e;
         } catch (Exception e) {
