@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:5173")  // ✅ CORS 허용
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class AuthController {
 
     @Operation(summary = "로그인", description = "이메일과 비밀번호를 입력하여 로그인하고, JWT 토큰을 발급받습니다.")
     @PostMapping("/login")
-    public ResponseEntity<TokenResponseDto> login(@Valid @RequestBody LoginRequestDTO request) {
+    public ResponseEntity<TokenResponseDto> login(@RequestBody LoginRequestDTO request) {
         TokenResponseDto tokenResponseDto = authService.login(request);
 
         return ResponseEntity.ok(tokenResponseDto);
@@ -33,9 +34,14 @@ public class AuthController {
     @Operation(summary = "로그아웃", description = "Redis에 담겨있는 정보들을 삭제한다.")
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@RequestHeader("Authorization") String bearerToken) {
+        log.info("로그아웃 요청 - 토큰: {}", bearerToken);
+
+        // AuthService 를 이용하여 로그아웃 처리 (토큰 블랙리스트 처리 등)
         authService.logout(bearerToken);
 
-        return ResponseEntity.noContent().build();
+        log.info("로그아웃 요청 종료");
+
+        return ResponseEntity.noContent().build();  // HTTP 204 반환 (응답 본문 없음)
     }
 
     @Operation(summary = "회원가입 - OTP 요청", description = "이메일과 비밀번호를 입력하여 OTP 인증을 요청합니다.")

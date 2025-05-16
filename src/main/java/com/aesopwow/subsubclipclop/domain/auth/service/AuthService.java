@@ -1,6 +1,7 @@
 package com.aesopwow.subsubclipclop.domain.auth.service;
 
 import com.aesopwow.subsubclipclop.domain.auth.dto.LoginRequestDTO;
+import com.aesopwow.subsubclipclop.domain.auth.dto.LoginResponseDTO;
 import com.aesopwow.subsubclipclop.domain.auth.dto.request.SignUpRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.dto.response.TokenResponseDto;
 import com.aesopwow.subsubclipclop.domain.auth.jwt.JwtTokenProvider;
@@ -47,11 +48,13 @@ public class AuthService {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
 
-        String accessToken  = jwtTokenProvider.createAccessToken(user.getEmail(),
-                user.getRole().getName().toString());
+        String accessToken = jwtTokenProvider.createAccessToken(user.getEmail(), user.getRole().getName().toString());
         String refreshToken = jwtTokenProvider.createRefreshToken(user.getEmail());
-
-        return new TokenResponseDto(accessToken, refreshToken);
+//        return new LoginResponseDTO(token);
+        return new TokenResponseDto(
+                jwtTokenProvider.createAccessToken(user.getEmail(), user.getRole().getName().toString()),
+                jwtTokenProvider.createRefreshToken(user.getEmail())
+        );
     }
 
     @Transactional
