@@ -30,7 +30,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
-@Tag(name = "User", description = "유저 관련 API66")
+@Tag(name = "User", description = "유저 관련 API19")
 @RequiredArgsConstructor
 public class UserController {
 
