@@ -34,15 +34,15 @@ jobs:
 
       - name: Copy JAR to deploy folder
         run: |
-          mkdir -p deploy/build/libs
-          cp build/libs/subsubclipclop-0.0.1-SNAPSHOT.jar deploy/build/libs/
+          mkdir -p build/libs
+          cp build/libs/subsubclipclop-0.0.1-SNAPSHOT.jar build/libs/
 
       - name: Save SHA to file
         run: echo $GITHUB_SHA > scripts/sha.txt
 
       - name: Make deployment zip
         run: |
-          zip -r $GITHUB_SHA.zip deploy appspec.yml scripts
+          zip -r $GITHUB_SHA.zip build/libs appspec.yml scripts
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
