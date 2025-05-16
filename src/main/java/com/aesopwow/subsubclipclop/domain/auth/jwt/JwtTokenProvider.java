@@ -69,7 +69,15 @@ public class JwtTokenProvider {
     }
 
     public boolean validateToken(String token) {
+        if (isBlacklisted(token)) {
+            return false;
+        }
         return !getClaims(token).getExpiration().before(new Date());
+    }
+    private boolean isBlacklisted(String token) {
+        String key = "blacklist:" + getJti(token);
+
+        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
     }
 
     public void addBlacklist(String accessToken) {
