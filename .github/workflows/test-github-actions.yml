@@ -51,6 +51,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Delete old zip files in S3 bucket
+        run: |
+          echo "🧹 Deleting old zip files from S3 bucket..."
+          aws s3 ls s3://${{ env.S3_BUCKET_NAME }}/ | awk '{print $4}' | grep '\.zip$' | while read file; do
+            echo "Deleting: $file"
+            aws s3 rm s3://${{ env.S3_BUCKET_NAME }}/$file
+          done
+
       - name: Upload to S3
         run: |
           aws s3 cp $GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
