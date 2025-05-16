@@ -2,12 +2,14 @@ package com.aesopwow.subsubclipclop.controller;
 
 import com.aesopwow.subsubclipclop.domain.auth.dto.*;
 import com.aesopwow.subsubclipclop.domain.auth.dto.request.SignUpRequestDto;
+import com.aesopwow.subsubclipclop.domain.auth.dto.response.TokenResponseDto;
 import com.aesopwow.subsubclipclop.domain.auth.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +24,18 @@ public class AuthController {
 
     @Operation(summary = "로그인", description = "이메일과 비밀번호를 입력하여 로그인하고, JWT 토큰을 발급받습니다.")
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) {
-        return ResponseEntity.ok(authService.login(request));
+    public ResponseEntity<TokenResponseDto> login(@Valid @RequestBody LoginRequestDTO request) {
+        TokenResponseDto tokenResponseDto = authService.login(request);
+
+        return ResponseEntity.ok(tokenResponseDto);
+    }
+
+    @Operation(summary = "로그아웃", description = "Redis에 담겨있는 정보들을 삭제한다.")
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@RequestHeader("Authorization") String bearerToken) {
+        authService.logout(bearerToken);
+
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "회원가입 - OTP 요청", description = "이메일과 비밀번호를 입력하여 OTP 인증을 요청합니다.")
