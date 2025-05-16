@@ -27,7 +27,7 @@ public class InfoColumn extends BaseEntity{
     @Column(name = "origin_table", length = 20, nullable = false)
     private String originTable;
 
-    @Column(name = "origin_column", length = 20, nullable = false)
+    @Column(name = "origin_column", length = 40, nullable = false)
     private String originColumn;
 
     @Column(name = "note", columnDefinition = "TEXT")

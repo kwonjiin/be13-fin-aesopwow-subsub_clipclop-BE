@@ -3,6 +3,7 @@ package com.aesopwow.subsubclipclop.domain.auth.service;
 import com.aesopwow.subsubclipclop.domain.auth.dto.LoginRequestDTO;
 import com.aesopwow.subsubclipclop.domain.auth.dto.LoginResponseDTO;
 import com.aesopwow.subsubclipclop.domain.auth.dto.request.SignUpRequestDto;
+import com.aesopwow.subsubclipclop.domain.auth.dto.response.TokenResponseDto;
 import com.aesopwow.subsubclipclop.domain.auth.jwt.JwtTokenProvider;
 import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
 import com.aesopwow.subsubclipclop.domain.company.repository.CompanyRepository;
@@ -10,6 +11,8 @@ import com.aesopwow.subsubclipclop.domain.role.repository.RoleRepository;
 import com.aesopwow.subsubclipclop.entity.Company;
 import com.aesopwow.subsubclipclop.entity.Role;
 import com.aesopwow.subsubclipclop.entity.User;
+import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
+import com.aesopwow.subsubclipclop.global.exception.CustomException;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -37,7 +40,7 @@ public class AuthService {
     private final CompanyRepository companyRepository;
 
     // 로그인 로직
-    public LoginResponseDTO login(LoginRequestDTO request) {
+    public TokenResponseDto login(LoginRequestDTO request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new BadCredentialsException("유효하지 않은 이메일입니다."));
 
@@ -45,8 +48,25 @@ public class AuthService {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
 
-        String token = jwtTokenProvider.createToken(user.getEmail());
-        return new LoginResponseDTO(token);
+        String accessToken = jwtTokenProvider.createAccessToken(user.getEmail(), user.getRole().getName().toString());
+        String refreshToken = jwtTokenProvider.createRefreshToken(user.getEmail());
+//        return new LoginResponseDTO(token);
+        return new TokenResponseDto(
+                jwtTokenProvider.createAccessToken(user.getEmail(), user.getRole().getName().toString()),
+                jwtTokenProvider.createRefreshToken(user.getEmail())
+        );
+    }
+
+    @Transactional
+    public void logout(String bearerToken) {
+        String accessToken = jwtTokenProvider.resolveToken(bearerToken);
+
+        if (accessToken == null || !jwtTokenProvider.validateToken(accessToken)) {
+            throw new CustomException(ErrorCode.ACCESS_TOKEN_INVALID);
+        }
+
+        jwtTokenProvider.addBlacklist(accessToken);
+        jwtTokenProvider.deleteRefreshToken(accessToken);
     }
 
     // 이메일 중복 확인 이후 Redis에 플래그 저장
