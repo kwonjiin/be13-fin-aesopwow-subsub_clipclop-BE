@@ -32,10 +32,10 @@ jobs:
           chmod +x ./gradlew
           ./gradlew build -x test -Dspring.profiles.active=prod
 
-      - name: Copy JAR to deploy folder
-        run: |
-          mkdir -p build/libs
-          cp build/libs/subsubclipclop-0.0.1-SNAPSHOT.jar build/libs/
+#      - name: Copy JAR to deploy folder
+#        run: |
+#          mkdir -p build/libs
+#          cp build/libs/subsubclipclop-0.0.1-SNAPSHOT.jar build/libs/
 
       - name: Save SHA to file
         run: echo $GITHUB_SHA > scripts/sha.txt
