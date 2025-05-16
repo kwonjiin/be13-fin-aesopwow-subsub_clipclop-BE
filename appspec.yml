@@ -5,6 +5,9 @@ files:
   - source: build/libs/subsubclipclop-0.0.1-SNAPSHOT.jar
     destination: /home/ec2-user/app
 
+  - source: scripts/
+    destination: /home/ec2-user/app/scripts
+
 hooks:
   ApplicationStop:
     - location: scripts/stop.sh
@@ -15,3 +18,7 @@ hooks:
     - location: scripts/start.sh
       timeout: 60
       runas: ec2-user
+    - location: scripts/chmod.sh
+      timeout: 30
+      runas: ec2-user
+
