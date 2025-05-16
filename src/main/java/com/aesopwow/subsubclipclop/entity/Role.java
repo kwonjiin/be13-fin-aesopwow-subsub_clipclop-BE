@@ -2,6 +2,7 @@ package com.aesopwow.subsubclipclop.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
