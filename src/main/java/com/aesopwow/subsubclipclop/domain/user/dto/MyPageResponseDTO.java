@@ -18,6 +18,7 @@ public class MyPageResponseDTO {
     private String companyName;
 
     public MyPageResponseDTO(User user) {
+        // ㅅㅗㅇㅎㅕㄴㅈㅜㄴ
         this.userNo = user.getUserNo();
         this.membershipName = user.getCompany().getMembership().getName();
         this.membershipExpiredAt = user.getCompany().getMembershipExpiredAt();
