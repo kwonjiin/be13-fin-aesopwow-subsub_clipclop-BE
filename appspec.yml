@@ -8,6 +8,9 @@ files:
   - source: scripts/
     destination: /home/ec2-user/app/scripts
 
+  - source: .env
+    destination: /home/ec2-user/app
+
 hooks:
   ApplicationStop:
     - location: scripts/stop.sh
@@ -21,5 +24,3 @@ hooks:
     - location: scripts/start.sh
       timeout: 60
       runas: ec2-user
-
-

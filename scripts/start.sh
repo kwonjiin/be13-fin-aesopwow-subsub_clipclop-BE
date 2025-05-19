@@ -7,6 +7,7 @@ BUILD_DIR=$APP_DIR/build/libs
 SCRIPTS_DIR=$APP_DIR/scripts
 DEPLOY_LOG=$APP_DIR/deploy.log
 APP_LOG=$APP_DIR/app.log
+ENV_FILE=$APP_DIR/.env
 
 TIME_NOW=$(date '+%Y-%m-%d %H:%M:%S')
 
@@ -36,6 +37,16 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# 환경변수 로드
+if [ -f "$ENV_FILE" ]; then
+  echo "$TIME_NOW > Loading environment variables from .env" >> $DEPLOY_LOG
+  export $(grep -v '^#' "$ENV_FILE" | xargs)
+else
+  echo "$TIME_NOW > ERROR: $ENV_FILE not found" >> $DEPLOY_LOG
+  exit 1
+fi
+
+# 기존 프로세스 종료
 EXISTING_PID=$(pgrep -f "$JAR_NAME")
 if [ -n "$EXISTING_PID" ]; then
   echo "$TIME_NOW > Stopping existing process (PID: $EXISTING_PID)" >> $DEPLOY_LOG
@@ -47,6 +58,7 @@ if [ -n "$EXISTING_PID" ]; then
   fi
 fi
 
+# 애플리케이션 실행
 echo "$TIME_NOW > Starting JAR file" >> $DEPLOY_LOG
 nohup java -jar "$JAR_PATH" --spring.profiles.active=prod >> $APP_LOG 2>&1 &
 disown
