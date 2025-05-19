@@ -4,6 +4,8 @@ import com.aesopwow.subsubclipclop.domain.membership.dto.MembershipResponseDto;
 import com.aesopwow.subsubclipclop.domain.membership.repository.MembershipRepository;
 import com.aesopwow.subsubclipclop.domain.membership.service.MembershipService;
 import com.aesopwow.subsubclipclop.domain.role.repository.RoleRepository;
+import com.aesopwow.subsubclipclop.domain.user.dto.UserDeleteRequestDto;
+import com.aesopwow.subsubclipclop.domain.user.dto.UserResponseDTO;
 import com.aesopwow.subsubclipclop.domain.user.dto.UserUpdateRequestDTO;
 import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
 import com.aesopwow.subsubclipclop.entity.Membership;
@@ -100,6 +102,14 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setCompany(null);
+        userRepository.save(user);
+    }
+
+    public void updateUserIs_deleted(Long userNo, UserDeleteRequestDto userDeleteRequestDto) {
+        User user = userRepository.findByUserNo(userNo)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        user.setIsDeleted(userDeleteRequestDto.getIsDeleted());
         userRepository.save(user);
     }
 }

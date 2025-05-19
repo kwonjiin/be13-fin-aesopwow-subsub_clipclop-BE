@@ -1,6 +1,7 @@
 package com.aesopwow.subsubclipclop.controller;
 
 import com.aesopwow.subsubclipclop.domain.common.dto.BaseResponseDto;
+import com.aesopwow.subsubclipclop.domain.user.dto.UserDeleteRequestDto;
 import com.aesopwow.subsubclipclop.domain.user.dto.UserResponseDTO;
 import com.aesopwow.subsubclipclop.domain.user.dto.UserUpdateRequestDTO;
 import com.aesopwow.subsubclipclop.domain.user.service.UserService;
@@ -151,5 +152,35 @@ public class UserController {
     public ResponseEntity<BaseResponseDto<String>> deleteStaff(@PathVariable Long userNo) {
         userService.deleteStaff(userNo);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, "직원이 삭제되었습니다."));
+    }
+
+    @PostMapping("")
+    @Operation(summary = "회원 탈퇴", description = "회원 탈퇴 정보를 관리합니다.")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "BAD REQUEST",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "INTERNAL SERVER ERROR",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
+    public ResponseEntity<BaseResponseDto<String>> updateUserIs_deleted (
+            @RequestParam @Valid Long userNo,
+            @RequestBody UserDeleteRequestDto userDeleteRequestDto
+            ) {
+        userService.updateUserIs_deleted(userNo, userDeleteRequestDto);
+
+        return ResponseEntity.ok(
+                new BaseResponseDto<>(HttpStatus.OK, "유저가 정상적으로 탈퇴 처리되었습니다.")
+        );
     }
 }
