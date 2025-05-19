@@ -1,7 +1,7 @@
 package com.aesopwow.subsubclipclop.domain.api.service;
 
-import com.aesopwow.subsubclipclop.domain.api.dto.ApiAnalysisRequestDto;
-import com.aesopwow.subsubclipclop.domain.api.dto.ApiAnalysisResponseDto;
+import com.aesopwow.subsubclipclop.domain.api.dto.ApiRequestDto;
+import com.aesopwow.subsubclipclop.domain.api.dto.ApiResponseDto;
 import com.aesopwow.subsubclipclop.domain.info_column.dto.InfoColumnResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -55,13 +55,14 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public ApiAnalysisResponseDto requestAnalysis(ApiAnalysisRequestDto apiAnalysisRequestDto) {
+    public ApiResponseDto requestAnalysis(ApiRequestDto apiRequestDto) {
         return webClient.post()
                 .uri("/python-api/analysis")
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(apiAnalysisRequestDto)
+                .bodyValue(apiRequestDto)
                 .retrieve()
-                .bodyToMono(ApiAnalysisResponseDto.class)
+                .bodyToMono(ApiResponseDto.class)
                 .block();
     }
+
 }

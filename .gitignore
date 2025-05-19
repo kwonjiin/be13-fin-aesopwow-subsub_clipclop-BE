@@ -1,5 +1,5 @@
 # application-prod.properties
-/src/main/resources/application-prod.properties
+!/src/main/resources/application-prod.properties
 
 # Created by https://www.toptal.com/developers/gitignore/api/linux,windows,intellij,java,redis,visualstudiocode,gradle,groovy
 # Edit at https://www.toptal.com/developers/gitignore?templates=linux,windows,intellij,java,redis,visualstudiocode,gradle,groovy
