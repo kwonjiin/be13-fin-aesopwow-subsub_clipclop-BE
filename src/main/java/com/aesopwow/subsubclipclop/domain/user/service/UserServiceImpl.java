@@ -15,6 +15,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public void updateUser(Long userNo, UserUpdateRequestDTO userUpdateRequestDTO) {
         User user = userRepository.findById(userNo)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
@@ -41,12 +43,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void changePassword(Long userNo, PasswordChangeRequestDTO passwordChangeRequestDTO) {
         User user = userRepository.findById(userNo)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if (!passwordEncoder.matches(passwordChangeRequestDTO.getOldPassword(), user.getPassword())) {
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
+        }
+
+        if (passwordEncoder.matches(passwordChangeRequestDTO.getNewPassword(), user.getPassword())) {
+            throw new CustomException(ErrorCode.SAME_PASSWORD);
         }
 
         user.setPassword(passwordEncoder.encode(passwordChangeRequestDTO.getNewPassword()));
