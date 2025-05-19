@@ -1,6 +1,7 @@
 package com.aesopwow.subsubclipclop.controller;
 
 import com.aesopwow.subsubclipclop.domain.common.dto.BaseResponseDto;
+import com.aesopwow.subsubclipclop.domain.user.dto.PasswordChangeRequestDTO;
 import com.aesopwow.subsubclipclop.domain.user.dto.UserDeleteRequestDto;
 import com.aesopwow.subsubclipclop.domain.user.dto.UserResponseDTO;
 import com.aesopwow.subsubclipclop.domain.user.dto.UserUpdateRequestDTO;
@@ -38,7 +39,7 @@ public class UserController {
     private final UserService userService;
 
     // 직원 추가
-    @PostMapping("/staffs")
+    @PostMapping("/staffs/add")
     @Operation(summary = "직원 추가", description = "관리자 계정으로 직원을 추가합니다.")
     @ApiResponses({
             @ApiResponse(
@@ -59,9 +60,9 @@ public class UserController {
     })
     public ResponseEntity<BaseResponseDto<String>> addStaff(
             @RequestParam @Valid Long adminUserNo,
-            @RequestParam @Valid @Email String staffEmail
+            @RequestParam @Valid @Email String userEmail
     ) {
-        userService.addStaff(adminUserNo, staffEmail);
+        userService.addStaff(adminUserNo, userEmail);
 
         return ResponseEntity.ok(
                 new BaseResponseDto<>(HttpStatus.OK, "직원이 성공적으로 추가되었습니다.")
@@ -70,7 +71,7 @@ public class UserController {
 
 
     // 직원정보 조회
-    @GetMapping("/staffs")
+    @GetMapping("/staffs/list")
     @Operation(summary = "직원 정보 조회", description = "관리자 계정으로 직원을 조회합니다.")
     @ApiResponses({
             @ApiResponse(
@@ -101,8 +102,8 @@ public class UserController {
 
 
     // 직원정보 수정
-    @PutMapping("/staffs/{userNo}")
-    @Operation(summary = "직원 정보 수정", description = "관리자 계정으로 직원이름, 부서명, 비밀번호를 수정합니다.")
+    @PutMapping("/staffs/{userNo}/update")
+    @Operation(summary = "직원 정보 수정", description = "개인 정보를 수정합니다.")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -129,8 +130,41 @@ public class UserController {
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, "직원 정보가 수정되었습니다."));
     }
 
+    // 비밀번호 변경
+    @PutMapping("/staffs/{userNo}/password")
+    @Operation(summary = "비밀번호 변경", description = "기존 비밀번호를 확인한 후 새 비밀번호로 변경합니다.")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "BAD REQUEST",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "UNAUTHORIZED - 기존 비밀번호 불일치",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "INTERNAL SERVER ERROR",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
+    public ResponseEntity<BaseResponseDto<String>> changePassword(
+            @PathVariable Long userNo,
+            @RequestBody PasswordChangeRequestDTO passwordChangeRequestDTO) {
+
+        userService.changePassword(userNo, passwordChangeRequestDTO);
+        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, "비밀번호가 성공적으로 변경되었습니다."));
+    }
+
     // 직원정보 삭제
-    @DeleteMapping("/staffs/{userNo}")
+    @DeleteMapping("/staffs/{userNo}/delete")
     @Operation(summary = "직원 삭제", description = "관리자 계정으로 직원을 삭제합니다.")
     @ApiResponses({
             @ApiResponse(

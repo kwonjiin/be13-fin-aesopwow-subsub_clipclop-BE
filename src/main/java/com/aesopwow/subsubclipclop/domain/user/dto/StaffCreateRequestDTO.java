@@ -11,10 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserUpdateRequestDTO {
+public class StaffCreateRequestDTO {
 
-    //MARK: - 직원 정보 수정
-    private Long userNo;
-    private String userName;
-
+    //MARK: - 직원 추가
+    private String userEmail;
 }

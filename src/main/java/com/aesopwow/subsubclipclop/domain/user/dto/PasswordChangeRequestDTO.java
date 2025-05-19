@@ -11,10 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserUpdateRequestDTO {
+public class PasswordChangeRequestDTO {
 
-    //MARK: - 직원 정보 수정
-    private Long userNo;
-    private String userName;
+    //MARK: - 비밀번호 변경
+    private String oldPassword;
+    private String newPassword;
 
 }
