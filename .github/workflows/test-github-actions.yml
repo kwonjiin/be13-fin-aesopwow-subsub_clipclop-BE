@@ -40,6 +40,14 @@ jobs:
       - name: Save SHA to file
         run: echo $GITHUB_SHA > scripts/sha.txt
 
+      - name: Create .env file
+        run: |
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+
       - name: Copy .env file
         run: cp .env .env
 
