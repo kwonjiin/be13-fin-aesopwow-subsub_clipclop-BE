@@ -1,7 +1,5 @@
 package com.aesopwow.subsubclipclop.domain.user.dto;
 
-import com.aesopwow.subsubclipclop.domain.membership.dto.MembershipResponseDto;
-import com.aesopwow.subsubclipclop.entity.Membership;
 import com.aesopwow.subsubclipclop.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,25 +12,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MyPageResponseDTO {
     private Long userNo;
-    private MembershipResponseDto membership;
+    private String membershipName;
     private LocalDateTime membershipExpiredAt;
-    private String name;
-    private String departmentName;
+    private String username;
+    private String companyName;
 
     public MyPageResponseDTO(User user) {
         this.userNo = user.getUserNo();
-        Membership membership = user.getCompany().getMembership();
-        this.membership = MembershipResponseDto.builder()
-                .membershipNo(membership.getMembershipNo())
-                .name(membership.getName())
-                .description(membership.getDescription())
-                .price(membership.getPrice())
-                .status(membership.getStatus())
-                .duration(membership.getDuration())
-                .maxPerson(membership.getMaxPerson())
-                .build();
+        this.membershipName = user.getCompany().getMembership().getName();
         this.membershipExpiredAt = user.getCompany().getMembershipExpiredAt();
-        this.name = user.getName();
-        this.departmentName = user.getDepartmentName();
+        this.username = user.getName();
+        this.companyName = user.getCompany().getName();
     }
 }
