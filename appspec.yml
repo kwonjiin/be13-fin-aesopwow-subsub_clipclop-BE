@@ -2,8 +2,8 @@ version: 0.0
 os: linux
 
 files:
-  - source: build/libs/subsubclipclop-0.0.1-SNAPSHOT.jar
-    destination: /home/ec2-user/app
+  - source: subsubclipclop-0.0.1-SNAPSHOT.jar
+    destination: /home/ec2-user/app/build/libs
 
   - source: scripts/
     destination: /home/ec2-user/app/scripts
