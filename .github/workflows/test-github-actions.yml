@@ -48,8 +48,8 @@ jobs:
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
 
-      - name: Copy .env file
-        run: cp .env .env
+#      - name: Copy .env file
+#        run: cp .env .env
 
       - name: Make deployment zip
         run: |
