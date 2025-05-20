@@ -14,4 +14,6 @@ public interface ApiService {
     public ApiResponseDto requestAnalysis(ApiRequestDto apiRequestDto);
 
     public byte[] getAnalysisResult(String filename);
+
+    public byte[] getAnalysisResult2(String infoDbNo, String originTable);
 }

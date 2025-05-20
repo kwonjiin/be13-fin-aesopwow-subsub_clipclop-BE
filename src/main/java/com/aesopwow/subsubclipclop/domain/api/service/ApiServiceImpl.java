@@ -65,4 +65,18 @@ public class ApiServiceImpl implements ApiService {
                 .block();
     }
 
+    @Override
+    public byte[] getAnalysisResult2(String infoDbNo, String originTable) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/python-api/dashboard")
+                        .queryParam("info_db_no", infoDbNo)
+                        .queryParam("origin_table", originTable)
+                        .build()
+                )
+                .accept(MediaType.APPLICATION_OCTET_STREAM)
+                .retrieve()
+                .bodyToMono(byte[].class)
+                .block(); // 동기 방식으로 대기
+    }
 }

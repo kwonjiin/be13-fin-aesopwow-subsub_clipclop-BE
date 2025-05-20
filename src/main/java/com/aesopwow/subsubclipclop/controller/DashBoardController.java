@@ -3,6 +3,8 @@ package com.aesopwow.subsubclipclop.controller;
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiResponseDto;
 import com.aesopwow.subsubclipclop.domain.api.service.ApiService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,5 +27,18 @@ public class DashBoardController {
         ApiResponseDto apiResponseDto = new ApiResponseDto(statCardCSV);
 
         return ResponseEntity.ok(apiResponseDto);
+    }
+
+    @GetMapping("/{infoDbNo}/{originTable}")
+    public ResponseEntity<byte[]> getDashBoardCSV2(
+            @PathVariable String infoDbNo,
+            @PathVariable String originTable) {
+
+        byte[] csvBytes = apiService.getAnalysisResult2(infoDbNo, originTable);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.valueOf("text/csv"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"dashboard.csv\"")
+                .body(csvBytes);
     }
 }
