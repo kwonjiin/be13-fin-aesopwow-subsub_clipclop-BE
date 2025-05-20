@@ -1,6 +1,12 @@
 #!/bin/bash
 
 set -e
+chmod u+w /home/ec2-user/app
+
+# 환경 변수 적용
+if [ -f "/home/ec2-user/app/.env" ]; then
+  export $(grep -v '^#' /home/ec2-user/app/.env | xargs)
+fi
 
 #  기본 경로 설정
 JAR_NAME="subsubclipclop-0.0.1-SNAPSHOT.jar"
