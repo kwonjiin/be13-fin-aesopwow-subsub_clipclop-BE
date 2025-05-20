@@ -11,6 +11,9 @@ files:
   - source: .env
     destination: /home/ec2-user/app
 
+  - source: appspec.yml
+    destination: /home/ec2-user/app
+
 hooks:
   ApplicationStop:
     - location: scripts/stop.sh
