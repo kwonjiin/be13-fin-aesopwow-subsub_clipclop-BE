@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+#set -e
 chmod u+w /home/ec2-user/app
 
 # 환경 변수 적용
