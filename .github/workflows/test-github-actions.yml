@@ -48,18 +48,21 @@ jobs:
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
 
-
 #      - name: Copy .env file
 #        run: cp .env .env
 
       - name: Make deployment zip
         run: |
-          mkdir -p deploy
-          cp build/libs/subsubclipclop-0.0.1-SNAPSHOT.jar deploy/
-          cp -r scripts deploy/
-          cp .env deploy/
-          cp scripts/sha.txt deploy/ 
-          zip -r $GITHUB_SHA.zip deploy
+          mkdir deploy-temp
+          cp build/libs/subsubclipclop-0.0.1-SNAPSHOT.jar deploy-temp/
+          cp -r scripts deploy-temp/
+          cp .env deploy-temp/
+          cp appspec.yml deploy-temp/
+          cd deploy-temp
+          zip -r ../$GITHUB_SHA.zip .
+          cd ..
+          rm -rf deploy-temp
+      
       
 
       - name: Configure AWS credentials
