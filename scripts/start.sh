@@ -3,7 +3,8 @@
 set -e
 
 #  기본 경로 설정
-JAR_NAME=$(ls *.jar)
+JAR_NAME=subsubclipclop-0.0.1-SNAPSHOT.jar
+JAR_PATH=/home/ec2-user/app/build/libs/subsubclipclop-0.0.1-SNAPSHOT.jar
 
 # 1. 기존 gunicorn 프로세스 종료
 PID=$(pgrep -f "$JAR_NAME")
