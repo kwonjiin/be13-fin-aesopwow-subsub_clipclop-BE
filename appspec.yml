@@ -21,9 +21,9 @@ hooks:
 #      runas: ec2-user
 
   AfterInstall:
-#    - location: scripts/chmod.sh
-#      timeout: 30
-#      runas: root
+    - location: scripts/chmod.sh
+      timeout: 30
+      runas: root
     - location: scripts/start.sh
       timeout: 60
       runas: ec2-user
