@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "Start deployment script..."
 
 #  기본 경로 설정
