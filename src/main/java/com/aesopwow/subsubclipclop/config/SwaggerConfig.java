@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 )
 public class SwaggerConfig {
 
-    Server server = new Server().url("http://api.dagudok-service.com:8010");
+    Server server = new Server().url("https://api.dagudok-service.com");
 
     @Bean
     public OpenAPI customOpenAPI() {
