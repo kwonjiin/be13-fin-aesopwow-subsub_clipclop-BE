@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "PROD Spring API",
+                title = "Spring API",
                 description = "OTT 구독 고객관리 서비스 API 입니다",
                 version = "v0.0.1"
         )
