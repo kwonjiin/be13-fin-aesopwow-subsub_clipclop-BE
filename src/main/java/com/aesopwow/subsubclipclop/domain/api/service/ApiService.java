@@ -13,5 +13,7 @@ public interface ApiService {
 
     public ApiResponseDto requestAnalysis(ApiRequestDto apiRequestDto);
 
-    public byte[] getAnalysisResult(String filename);
+//    public byte[] getAnalysisResult(String filename);
+
+    public byte[] getAnalysisResult(String infoDbNo, String originTable);
 }
