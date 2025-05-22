@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:5173")  // ✅ CORS 허용
+//@CrossOrigin(origins = "http://localhost:5173")  // ✅ CORS 허용
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
