@@ -20,14 +20,16 @@ public class AnalysisController {
 
     @GetMapping("")
     public ResponseEntity<byte[]> getAnalysisResult(
-            @RequestParam String filename) {
-        byte[] fileBytes = apiService.getAnalysisResult(filename);
+            @RequestParam String infoDbNo,
+            @RequestParam String originTable) {
+
+        byte[] fileBytes = apiService.getAnalysisResult(infoDbNo, originTable);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentDisposition(ContentDisposition
                 .attachment()
-                .filename(filename)
+                .filename("dashboard_" + infoDbNo + ".csv") // ✅ 파일 이름 명시
                 .build());
 
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);

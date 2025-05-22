@@ -32,7 +32,9 @@ public enum ErrorCode {
     //MARK: - Forbidden
     ONLY_CLIENT_USER_DELETABLE("E019", "직원만 삭제할 수 있습니다.", HttpStatus.FORBIDDEN),
     ONLY_CLIENT_ADMIN_ALLOWED("E020", "관리자 권한이 있어야 수행할 수 있습니다.", HttpStatus.FORBIDDEN),
-
+    //MARK: - Dashboard
+    DASHBOARD_API_FAILED("E030", "대시보드 데이터를 가져오는 중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR),
+    DASHBOARD_UNKNOWN_ERROR("E031", "대시보드 데이터를 가져오는 중 알 수 없는 예외 발생", HttpStatus.INTERNAL_SERVER_ERROR),
     //MARK: -
     ACCESS_TOKEN_INVALID("E900","유효하지 않은 토큰 값입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 
