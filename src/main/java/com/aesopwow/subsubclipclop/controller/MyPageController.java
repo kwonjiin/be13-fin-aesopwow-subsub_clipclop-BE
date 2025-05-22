@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,15 +34,18 @@ public class MyPageController {
             @ApiResponse(
                     responseCode = "200",
                     description = "OK",
-                    content = @Content(mediaType = "application/json")),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            ),
             @ApiResponse(
                     responseCode = "404",
                     description = "User Not Found",
-                    content = @Content(mediaType = "application/json")),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            ),
             @ApiResponse(
                     responseCode = "500",
                     description = "Internal Server Error",
-                    content = @Content(mediaType = "application/json"))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
     })
     public ResponseEntity<BaseResponseDto<MyPageResponseDTO>> getMyPageInfo(@RequestParam Long userNo) {
         MyPageResponseDTO myPageInfo = myPageService.getMyPageInfo(userNo);
@@ -49,7 +53,25 @@ public class MyPageController {
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, myPageInfo));
     }
 
-    @PutMapping
+    @PutMapping("/update")
+    @Operation(summary = "마이페이지 정보 수정", description = "현재 로그인한 유저의 마이페이지 정보를 수정한다.")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal Server Error",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
     public ResponseEntity<BaseResponseDto<MyPageResponseDTO>> updateMyPageInfo(
             @Valid @RequestBody MyPageUpdateRequestDTO myPageUpdateRequestDTO) {
 
