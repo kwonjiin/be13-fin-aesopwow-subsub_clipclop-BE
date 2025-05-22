@@ -23,6 +23,11 @@ public class AnalysisController {
             @RequestParam String infoDbNo,
             @RequestParam String originTable) {
 
+        // 파라미터 유효성 검사
+        if (infoDbNo == null || infoDbNo.isBlank() || originTable == null || originTable.isBlank()) {
+            throw new IllegalArgumentException("필수 파라미터가 누락되었습니다.");
+        }
+
         byte[] fileBytes = apiService.getAnalysisResult(infoDbNo, originTable);
 
         HttpHeaders headers = new HttpHeaders();

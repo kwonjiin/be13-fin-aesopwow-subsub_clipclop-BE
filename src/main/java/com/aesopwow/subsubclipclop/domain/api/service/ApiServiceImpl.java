@@ -73,8 +73,15 @@ public class ApiServiceImpl implements ApiService {
 //                .block(); // 동기 방식으로 대기
 //    }
 
+    private static final int DASHBOARD_API_TIMEOUT_SECONDS = 10;
+    
     @Override
     public byte[] getAnalysisResult(String infoDbNo, String originTable) {
+
+        if (infoDbNo == null || infoDbNo.isBlank() || originTable == null || originTable.isBlank()) {
+            throw new IllegalArgumentException("필수 파라미터가 누락되었습니다.");
+        }
+
         try {
             return webClient.get()
                     .uri(uriBuilder -> uriBuilder
@@ -86,8 +93,8 @@ public class ApiServiceImpl implements ApiService {
                     .accept(MediaType.APPLICATION_OCTET_STREAM)
                     .retrieve()
                     .bodyToMono(byte[].class)
-                    .timeout(Duration.ofSeconds(10)) // 타임아웃 설정
-                    .block(); // 동기 방식으로 대기
+                    .timeout(Duration.ofSeconds(DASHBOARD_API_TIMEOUT_SECONDS))
+                    .block();
         } catch (WebClientResponseException e) {
             log.error("대시보드 데이터 요청 실패: {}, 상태 코드: {}", e.getMessage(), e.getStatusCode());
             throw new CustomException(ErrorCode.DASHBOARD_API_FAILED, e);
