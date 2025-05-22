@@ -24,6 +24,7 @@ public enum ErrorCode {
     STAFF_LIMIT_EXCEEDED("E012", "직원 등록 한도를 초과했습니다.", HttpStatus.BAD_REQUEST),
     STAFF_ALREADY_EXISTS("E013", "이미 해당 직원이 추가되어 있습니다.", HttpStatus.BAD_REQUEST),
     NAME_REQUIRED("E014", "사용자 이름(name)은 필수 입력값입니다.", HttpStatus.BAD_REQUEST),
+    SAME_PASSWORD("E022", "기존 비밀번호와 동일한 비밀번호는 사용할 수 없습니다.", HttpStatus.BAD_REQUEST),
     //MARK: - Server Error
     HEATMAP_READ_FAILURE("E015", "히트맵 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
     INSIGHT_READ_FAILURE("E016", "인사이트 분석 데이터 읽기 실패", HttpStatus.INTERNAL_SERVER_ERROR),
@@ -33,10 +34,11 @@ public enum ErrorCode {
     ONLY_CLIENT_USER_DELETABLE("E019", "직원만 삭제할 수 있습니다.", HttpStatus.FORBIDDEN),
     ONLY_CLIENT_ADMIN_ALLOWED("E020", "관리자 권한이 있어야 수행할 수 있습니다.", HttpStatus.FORBIDDEN),
 
+    //MARK: - Unauthorized
+    INVALID_PASSWORD("E021", "기존 비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED),
+
     //MARK: -
     ACCESS_TOKEN_INVALID("E900","유효하지 않은 토큰 값입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-
-
 
     private final String code;
     private final String message;

@@ -9,13 +9,11 @@ import lombok.Getter;
 public class UserResponseDTO {
     private Long userNo;
     private String name;
-    private String departmentName;
 
     public static UserResponseDTO from(User user) {
         return new UserResponseDTO(
                 user.getUserNo(),
-                user.getName(),
-                user.getDepartmentName()
+                user.getName()
         );
     }
 }
