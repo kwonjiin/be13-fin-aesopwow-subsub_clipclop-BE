@@ -213,4 +213,28 @@ public class AuthService {
     public boolean isEmailDuplicate(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
+
+    // 비밀번호 찾기용 OTP 발송 (회원가입과 다르게, 비밀번호는 받지 않음)
+    @Transactional
+    public void sendPasswordResetOtp(String email) {
+        // 이미 가입된 이메일인지 확인
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("가입된 이메일이 아닙니다."));
+        // OTP 중복 전송 방지 등 로직 필요하면 추가
+        String otp = generateOtp();
+        redisTemplate.opsForValue().set("PWD_RESET_OTP:" + email, otp, 3, TimeUnit.MINUTES);
+        try {
+            emailService.sendEmail(email, "비밀번호 재설정 OTP", "OTP: " + otp + " (3분 이내 입력)");
+        } catch (MessagingException e) {
+            throw new RuntimeException("OTP 이메일 전송 실패", e);
+        }
+    }
+
+    public void verifyPasswordResetOtp(String email, String otp) {
+        String storedOtp = redisTemplate.opsForValue().get("PWD_RESET_OTP:" + email);
+        if (storedOtp == null) throw new IllegalArgumentException("OTP가 만료되었거나 존재하지 않습니다.");
+        if (!storedOtp.equals(otp)) throw new IllegalArgumentException("OTP 불일치");
+        // 인증 성공 플래그 저장 (필요시)
+        redisTemplate.opsForValue().set("PWD_RESET_OTP_VERIFIED:" + email, "true", 3, TimeUnit.MINUTES);
+    }
 }
