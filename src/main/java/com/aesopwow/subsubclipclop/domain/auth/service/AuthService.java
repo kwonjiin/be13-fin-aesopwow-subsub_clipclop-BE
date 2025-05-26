@@ -1,6 +1,7 @@
 package com.aesopwow.subsubclipclop.domain.auth.service;
 
 import com.aesopwow.subsubclipclop.domain.auth.dto.LoginRequestDTO;
+import com.aesopwow.subsubclipclop.domain.auth.dto.ResetPasswordRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.dto.request.SignUpRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.dto.response.TokenResponseDto;
 import com.aesopwow.subsubclipclop.domain.auth.jwt.JwtTokenProvider;
@@ -131,7 +132,6 @@ public class AuthService {
     }
 
     // 회원가입 최종 처리
-    // 회원가입 최종 처리
     @Transactional
     public void signUp(SignUpRequestDto request) {
         String email = request.getEmail();
@@ -237,4 +237,39 @@ public class AuthService {
         // 인증 성공 플래그 저장 (필요시)
         redisTemplate.opsForValue().set("PWD_RESET_OTP_VERIFIED:" + email, "true", 3, TimeUnit.MINUTES);
     }
+
+    @Transactional
+    public void resetPassword(ResetPasswordRequestDto request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
+        String confirmPassword = request.getConfirmPassword();
+
+        // 1. OTP 인증 여부 확인 (Redis)
+        String verified = redisTemplate.opsForValue().get("PWD_RESET_OTP_VERIFIED:" + email);
+        if (!"true".equals(verified)) {
+            throw new IllegalArgumentException("OTP 인증이 완료되지 않은 이메일입니다.");
+        }
+
+        // 비밀번호 유효성 검사
+        if (!isValidPassword(password)) {
+            throw new IllegalArgumentException("비밀번호는 8자 이상이며, 영문자와 특수문자를 포함해야 합니다.");
+        }
+
+        // 2. 비밀번호 일치 여부 확인
+        if (!password.equals(confirmPassword)) {
+            throw new IllegalArgumentException("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        }
+
+        // 3. 유저 조회
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
+
+        // 4. 비밀번호 변경 (암호화 필요)
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+
+        // 5. 인증 플래그 삭제 (보안상 권장)
+        redisTemplate.delete("PWD_RESET_OTP_VERIFIED:" + email);
+    }
+
 }
