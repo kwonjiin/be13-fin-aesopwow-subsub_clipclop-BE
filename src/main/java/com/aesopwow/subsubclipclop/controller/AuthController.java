@@ -86,7 +86,7 @@ public class AuthController {
     }
     @Operation(summary = "비밀번호 찾기 - OTP 요청", description = "비밀번호 재설정 OTP를 이메일로 전송")
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> sendPasswordResetOtp(@RequestBody ForgotPasswordRequestDto request) {
+    public ResponseEntity<String> sendPasswordResetOtp(@RequestBody ForgotPasswordRequestDto request) {
         try {
             authService.sendPasswordResetOtp(request.getEmail());
             return ResponseEntity.ok("비밀번호 재설정 OTP가 이메일로 전송되었습니다.");
@@ -97,7 +97,7 @@ public class AuthController {
 
     @Operation(summary = "비밀번호 찾기 - OTP 인증", description = "이메일로 전송된 OTP 인증")
     @PostMapping("/forgot-password/verify-otp")
-    public ResponseEntity<?> verifyPasswordResetOtp(@RequestBody ForgotPasswordOtpVerificationDto request) {
+    public ResponseEntity<String> verifyPasswordResetOtp(@RequestBody ForgotPasswordOtpVerificationDto request) {
         try {
             authService.verifyPasswordResetOtp(request.getEmail(), request.getOtp());
             return ResponseEntity.ok("OTP 인증 성공!");
@@ -108,7 +108,7 @@ public class AuthController {
 
     @Operation(summary = "비밀번호 변경", description = "비밀번호 변경")
     @PutMapping("/forgot-password/reset")
-    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequestDto request) {
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequestDto request) {
         try {
             authService.resetPassword(request);
             return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
