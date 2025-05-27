@@ -14,14 +14,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "PROD Spring API",
+                title = "Spring API",
                 description = "OTT 구독 고객관리 서비스 API 입니다",
                 version = "v0.0.1"
         )
 )
 public class SwaggerConfig {
 
-    Server server = new Server().url("http://api.dagudok-service.com:8010");
+    Server server = new Server().url("https://api.dagudok-service.com");
 
     @Bean
     public OpenAPI customOpenAPI() {

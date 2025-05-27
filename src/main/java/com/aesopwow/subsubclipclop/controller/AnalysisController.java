@@ -20,14 +20,21 @@ public class AnalysisController {
 
     @GetMapping("")
     public ResponseEntity<byte[]> getAnalysisResult(
-            @RequestParam String filename) {
-        byte[] fileBytes = apiService.getAnalysisResult(filename);
+            @RequestParam String infoDbNo,
+            @RequestParam String originTable) {
+
+        // 파라미터 유효성 검사
+        if (infoDbNo == null || infoDbNo.isBlank() || originTable == null || originTable.isBlank()) {
+            throw new IllegalArgumentException("필수 파라미터가 누락되었습니다.");
+        }
+
+        byte[] fileBytes = apiService.getAnalysisResult(infoDbNo, originTable);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentDisposition(ContentDisposition
                 .attachment()
-                .filename(filename)
+                .filename("dashboard_" + infoDbNo + ".csv") // ✅ 파일 이름 명시
                 .build());
 
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
