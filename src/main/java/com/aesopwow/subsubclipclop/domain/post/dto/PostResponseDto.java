@@ -9,6 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class PostResponseDto {
     private final Long qnaPostNo;
+    private final Long userNo; // ✅ 추가
     private final String title;
     private final String content;
     private final String createdAt;

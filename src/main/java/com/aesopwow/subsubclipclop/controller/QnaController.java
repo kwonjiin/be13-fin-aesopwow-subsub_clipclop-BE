@@ -51,7 +51,19 @@ public class QnaController {
     }
 
     /**
-     * 문의글에 달린 관리자 댓글 조회
+     * 문의글 수정
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<BaseResponseDto<Void>> updatePost(
+            @PathVariable Long id,
+            @RequestBody @Valid PostRequestDto dto
+    ) {
+        postService.update(id, dto);
+        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, null));
+    }
+
+    /**
+     * 관리자 댓글 조회
      */
     @GetMapping("/{id}/comment")
     public ResponseEntity<BaseResponseDto<CommentResponseDto>> getComment(@PathVariable Long id) {
@@ -60,7 +72,7 @@ public class QnaController {
     }
 
     /**
-     * 관리자 댓글 작성
+     * 관리자 댓글 작성 (최초 1회만)
      */
     @PostMapping("/{id}/comment")
     public ResponseEntity<BaseResponseDto<Void>> createComment(
@@ -71,12 +83,13 @@ public class QnaController {
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, null));
     }
 
-    @PutMapping("/{postId}/comment")
-    public ResponseEntity<Void> updateComment(
-            @PathVariable Long postId,
-            @RequestBody @Valid CommentRequestDto dto
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponseDto<Void>> deletePost(
+            @PathVariable Long id,
+            @RequestParam Long userNo
     ) {
-        commentService.update(postId, dto);
-        return ResponseEntity.ok().build();
+        postService.delete(id, userNo);
+        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, null));
     }
+
 }

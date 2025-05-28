@@ -4,11 +4,13 @@ import com.aesopwow.subsubclipclop.domain.comment.dto.CommentRequestDto;
 import com.aesopwow.subsubclipclop.domain.comment.dto.CommentResponseDto;
 import com.aesopwow.subsubclipclop.domain.comment.repository.CommentRepository;
 import com.aesopwow.subsubclipclop.domain.post.repository.PostRepository;
+import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
 import com.aesopwow.subsubclipclop.entity.Comment;
 import com.aesopwow.subsubclipclop.entity.QnaPost;
 import com.aesopwow.subsubclipclop.entity.Role;
 import com.aesopwow.subsubclipclop.entity.User;
-import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
+import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
+import com.aesopwow.subsubclipclop.global.exception.CustomException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,16 +35,23 @@ public class CommentService {
     }
 
     public void create(Long postId, CommentRequestDto dto) {
-        QnaPost post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("문의글이 존재하지 않습니다."));
-
-        User user = userRepository.findById(dto.getUserNo())
-                .orElseThrow(() -> new RuntimeException("해당 계정이 존재하지 않습니다."));
-
-        if (user.getRole().getName() != Role.RoleType.ADMIN) {
-            throw new RuntimeException("답변 작성은 관리자만 가능합니다.");
+        // ❗ 1. 이미 답변이 존재하면 예외 처리
+        if (commentRepository.findByQnaPost_QnaPostNo(postId).isPresent()) {
+            throw new CustomException(ErrorCode.ALREADY_ANSWERED);
         }
 
+        // 2. 존재하는 게시글인지 확인
+        QnaPost post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+
+        // 3. 관리자 검증
+        validateAdminUser(dto.getUserNo());
+
+        // 4. 사용자(관리자) 조회
+        User user = userRepository.findById(dto.getUserNo())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        // 5. 답변 저장
         Comment comment = Comment.builder()
                 .qnaPost(post)
                 .user(user)
@@ -52,22 +61,17 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    public void update(Long postId, CommentRequestDto dto) {
-        QnaPost post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("문의글이 존재하지 않습니다."));
+    // ✅ 공통 검증 메서드
+    private void validateAdminUser(Long userNo) {
+        User user = userRepository.findById(userNo)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        User user = userRepository.findById(dto.getUserNo())
-                .orElseThrow(() -> new RuntimeException("사용자가 존재하지 않습니다."));
-
-        // 관리자 권한 확인
-        if (user.getRole().getName() != Role.RoleType.ADMIN) {
-            throw new RuntimeException("답변 수정은 관리자만 가능합니다.");
+        if (Boolean.TRUE.equals(user.getIsDeleted())) {
+            throw new CustomException(ErrorCode.DELETED_USER);
         }
 
-        Comment comment = commentRepository.findByQnaPost_QnaPostNo(postId)
-                .orElseThrow(() -> new RuntimeException("해당 문의글에 대한 답변이 존재하지 않습니다."));
-
-        comment.setContent(dto.getContent());
+        if (!Role.RoleType.ADMIN.equals(user.getRole().getName())) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_ADMIN_ONLY);
+        }
     }
-
 }
