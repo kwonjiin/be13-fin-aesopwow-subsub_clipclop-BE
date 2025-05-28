@@ -39,7 +39,14 @@ public enum ErrorCode {
     //MARK: - Unauthorized
     INVALID_PASSWORD("E021", "기존 비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED),
     //MARK: -
-    ACCESS_TOKEN_INVALID("E900","유효하지 않은 토큰 값입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+    ACCESS_TOKEN_INVALID("E900","유효하지 않은 토큰 값입니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    //MARK: - Comment / QnA 관련
+    COMMENT_NOT_FOUND("E032", "해당 문의글에 대한 답변이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+    DELETED_USER("E033", "탈퇴한 계정으로는 답변 작업을 할 수 없습니다.", HttpStatus.FORBIDDEN),
+    UNAUTHORIZED_ADMIN_ONLY("E034", "답변 작업은 관리자만 가능합니다.", HttpStatus.FORBIDDEN),
+    POST_NOT_FOUND("E035", "문의글이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+    ALREADY_ANSWERED("E036", "이미 등록된 답변입니다.", HttpStatus.BAD_REQUEST),
+    UNAUTHORIZED("E037", "해당 작업을 수행할 권한이 없습니다.", HttpStatus.UNAUTHORIZED);
 
     private final String code;
     private final String message;
