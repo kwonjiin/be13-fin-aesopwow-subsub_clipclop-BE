@@ -1,6 +1,7 @@
 package com.aesopwow.subsubclipclop.domain.auth.service;
 
 import com.aesopwow.subsubclipclop.domain.auth.dto.LoginRequestDTO;
+import com.aesopwow.subsubclipclop.domain.auth.dto.ResetPasswordRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.dto.request.SignUpRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.dto.response.TokenResponseDto;
 import com.aesopwow.subsubclipclop.domain.auth.jwt.JwtTokenProvider;
@@ -138,7 +139,6 @@ public class AuthService {
     }
 
     // 회원가입 최종 처리
-    // 회원가입 최종 처리
     @Transactional
     public void signUp(SignUpRequestDto request) {
         String email = request.getEmail();
@@ -220,4 +220,63 @@ public class AuthService {
     public boolean isEmailDuplicate(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
+
+    // 비밀번호 찾기용 OTP 발송 (회원가입과 다르게, 비밀번호는 받지 않음)
+    @Transactional
+    public void sendPasswordResetOtp(String email) {
+        // 이미 가입된 이메일인지 확인
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("가입된 이메일이 아닙니다."));
+        // OTP 중복 전송 방지 등 로직 필요하면 추가
+        String otp = generateOtp();
+        redisTemplate.opsForValue().set("PWD_RESET_OTP:" + email, otp, 3, TimeUnit.MINUTES);
+        try {
+            emailService.sendEmail(email, "비밀번호 재설정 OTP", "OTP: " + otp + " (3분 이내 입력)");
+        } catch (MessagingException e) {
+            throw new RuntimeException("OTP 이메일 전송 실패", e);
+        }
+    }
+
+    public void verifyPasswordResetOtp(String email, String otp) {
+        String storedOtp = redisTemplate.opsForValue().get("PWD_RESET_OTP:" + email);
+        if (storedOtp == null) throw new IllegalArgumentException("OTP가 만료되었거나 존재하지 않습니다.");
+        if (!storedOtp.equals(otp)) throw new IllegalArgumentException("OTP 불일치");
+        // 인증 성공 플래그 저장 (필요시)
+        redisTemplate.opsForValue().set("PWD_RESET_OTP_VERIFIED:" + email, "true", 3, TimeUnit.MINUTES);
+    }
+
+    @Transactional
+    public void resetPassword(ResetPasswordRequestDto request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
+        String confirmPassword = request.getConfirmPassword();
+
+        // 1. OTP 인증 여부 확인 (Redis)
+        String verified = redisTemplate.opsForValue().get("PWD_RESET_OTP_VERIFIED:" + email);
+        if (!"true".equals(verified)) {
+            throw new IllegalArgumentException("OTP 인증이 완료되지 않은 이메일입니다.");
+        }
+
+        // 비밀번호 유효성 검사
+        if (!isValidPassword(password)) {
+            throw new IllegalArgumentException("비밀번호는 8자 이상이며, 영문자와 특수문자를 포함해야 합니다.");
+        }
+
+        // 2. 비밀번호 일치 여부 확인
+        if (!password.equals(confirmPassword)) {
+            throw new IllegalArgumentException("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        }
+
+        // 3. 유저 조회
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
+
+        // 4. 비밀번호 변경 (암호화 필요)
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+
+        // 5. 인증 플래그 삭제 (보안상 권장)
+        redisTemplate.delete("PWD_RESET_OTP_VERIFIED:" + email);
+    }
+
 }
