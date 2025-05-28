@@ -27,8 +27,10 @@ public class QnaController {
      * 모든 문의글 조회
      */
     @GetMapping
-    public ResponseEntity<BaseResponseDto<List<PostResponseDto>>> getAllPosts() {
-        List<PostResponseDto> posts = postService.findAll();
+    public ResponseEntity<BaseResponseDto<List<PostResponseDto>>> getAllPosts(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size) {
+        List<PostResponseDto> posts = postService.findAll(page, size);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, posts));
     }
 
@@ -47,7 +49,8 @@ public class QnaController {
     @PostMapping
     public ResponseEntity<BaseResponseDto<Void>> createPost(@RequestBody @Valid PostRequestDto dto) {
         postService.create(dto);
-        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, null));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new BaseResponseDto<>(HttpStatus.CREATED, null));
     }
 
     /**
@@ -80,7 +83,8 @@ public class QnaController {
             @RequestBody @Valid CommentRequestDto dto
     ) {
         commentService.create(id, dto);
-        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, null));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new BaseResponseDto<>(HttpStatus.CREATED, null));
     }
 
     @DeleteMapping("/{id}")

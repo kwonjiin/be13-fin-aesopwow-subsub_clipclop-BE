@@ -10,6 +10,10 @@ import com.aesopwow.subsubclipclop.entity.User;
 import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
 import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
 import com.aesopwow.subsubclipclop.global.exception.CustomException;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +28,13 @@ public class QnaPostService {
     private final CommentRepository commentRepository;
 
     // 전체 조회
-    public List<PostResponseDto> findAll() {
-        return postRepository.findAll().stream()
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return postRepository.findAll(pageable).stream()
                 .map(post -> new PostResponseDto(
                         post.getQnaPostNo(),
-                        post.getUser().getUserNo(), // ✅ userNo 추가
+                        post.getUser().getUserNo(),
                         post.getTitle(),
                         post.getContent(),
                         post.getCreatedAt().toString()
@@ -37,9 +43,10 @@ public class QnaPostService {
     }
 
     // 단건 조회
+    @Transactional(readOnly = true)
     public PostResponseDto findById(Long postId) {
         QnaPost post = postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException("문의글이 존재하지 않습니다."));
 
         return new PostResponseDto(
                 post.getQnaPostNo(),
