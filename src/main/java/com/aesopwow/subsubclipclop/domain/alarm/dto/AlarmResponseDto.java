@@ -12,7 +12,7 @@ public class AlarmResponseDto {
     private Long alarmNo;
     private String content;
     private boolean isRead;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     public static AlarmResponseDto from(Alarm alarm) {
         return new AlarmResponseDto(

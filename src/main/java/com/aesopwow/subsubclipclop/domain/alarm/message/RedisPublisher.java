@@ -1,10 +1,8 @@
 package com.aesopwow.subsubclipclop.domain.alarm.message;
 
 import com.aesopwow.subsubclipclop.domain.alarm.dto.AlarmMessageDto;
-import com.aesopwow.subsubclipclop.domain.alarm.dto.AlarmMessageDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.v3.oas.annotations.info.Contact;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
