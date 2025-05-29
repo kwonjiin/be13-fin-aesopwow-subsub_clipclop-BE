@@ -5,9 +5,9 @@ import com.aesopwow.subsubclipclop.domain.auth.dto.ResetPasswordRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.dto.request.SignUpRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.dto.response.TokenResponseDto;
 import com.aesopwow.subsubclipclop.domain.auth.jwt.JwtTokenProvider;
-import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
 import com.aesopwow.subsubclipclop.domain.company.repository.CompanyRepository;
 import com.aesopwow.subsubclipclop.domain.role.repository.RoleRepository;
+import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
 import com.aesopwow.subsubclipclop.entity.Company;
 import com.aesopwow.subsubclipclop.entity.Role;
 import com.aesopwow.subsubclipclop.entity.User;
@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -89,12 +88,12 @@ public class AuthService {
 
         // OTP 생성 및 저장
         String otp = generateOtp();
-        redisTemplate.opsForValue().set(email, otp, 3, TimeUnit.MINUTES);
+//        redisTemplate.opsForValue().set(email, otp, 3, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("OTP:" + email, otp, 3, TimeUnit.MINUTES);
         // 수정
 //        redisTemplate.opsForValue().set("PWD:" + email, password, 10, TimeUnit.MINUTES);
         String encodedPassword = passwordEncoder.encode(password);
         redisTemplate.opsForValue().set("PWD:" + email, encodedPassword, 10, TimeUnit.MINUTES);
-
 
         try {
             emailService.sendEmail(email, "OTP 인증번호", "귀하의 OTP 인증번호는 " + otp + "입니다. 3분 이내에 입력해주세요.");
@@ -107,23 +106,25 @@ public class AuthService {
 
     @Transactional
     public void resendOtp(String email) {
-        //1. 이메일 중복 확인
+        // 이메일 중복 확인
         String emailChecked = redisTemplate.opsForValue().get("EMAIL_CHECKED:" + email);
         if (emailChecked == null || !emailChecked.equals("true")) {
             throw new IllegalArgumentException("이메일 중복 확인을 먼저 진행해주세요.");
         }
 
-        // 2. 기존 OTP 존재 여부 확인
-        String existingOtp = redisTemplate.opsForValue().get(email);
+        // 기존 OTP 존재 여부 확인
+//        String existingOtp = redisTemplate.opsForValue().get(email);
+        String existingOtp = redisTemplate.opsForValue().get("OTP:" + email);
         if (existingOtp == null) {
             throw new IllegalArgumentException("OTP가 아직 요청되지 않았습니다. 먼저 OTP 요청을 해주세요.");
         }
 
-        // 3. 새 OTP 생성
+        // 새 OTP 생성
         String otp = generateOtp();
-        redisTemplate.opsForValue().set(email, otp, 3, TimeUnit.MINUTES);
+//        redisTemplate.opsForValue().set(email, otp, 3, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("OTP:" + email, otp, 3, TimeUnit.MINUTES);
 
-        // 4. 이메일 전송
+        // 이메일 전송
         try {
             emailService.sendEmail(email, "OTP 인증번호 재전송", "귀하의 새로운 OTP는 " + otp + "입니다. 3분 이내에 입력해주세요.");
             redisTemplate.opsForValue().set("OTP_SENT:" + email, "true", 3, TimeUnit.MINUTES);
@@ -144,7 +145,8 @@ public class AuthService {
 
     // OTP 인증
     public void verifyOtp(String email, String otp) {
-        String storedOtp = redisTemplate.opsForValue().get(email);
+//        String storedOtp = redisTemplate.opsForValue().get(email);
+        String storedOtp = redisTemplate.opsForValue().get("OTP:" + email);
 
         if (storedOtp == null) {
             throw new IllegalArgumentException("OTP 인증이 만료되었거나 존재하지 않습니다.");
@@ -225,7 +227,8 @@ public class AuthService {
 
         // Redis 클린업
         redisTemplate.delete("VERIFIED:" + email);
-        redisTemplate.delete(email);
+//        redisTemplate.delete(email);
+        redisTemplate.delete("OTP:" + email);
         redisTemplate.delete("PWD:" + email);
         redisTemplate.delete("EMAIL_CHECKED:" + email);
     }
