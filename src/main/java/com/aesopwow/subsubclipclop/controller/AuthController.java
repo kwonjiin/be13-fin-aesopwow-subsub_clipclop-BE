@@ -69,11 +69,9 @@ public class AuthController {
         try {
             authService.resendOtp(request.getEmail());
             return ResponseEntity.ok("OTP가 재전송되었습니다.");
-        } catch (MessagingException e) {
-            return ResponseEntity.internalServerError().body("OTP 이메일 전송에 실패했습니다.");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
+            return ResponseEntity.internalServerError().body("OTP 재전송 중 오류가 발생했습니다.");
         }
     }
 
