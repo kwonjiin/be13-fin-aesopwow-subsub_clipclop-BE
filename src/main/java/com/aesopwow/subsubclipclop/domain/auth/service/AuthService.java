@@ -105,6 +105,23 @@ public class AuthService {
         }
     }
 
+    @Transactional
+    public void resendOtp(String email) throws MessagingException {
+        try {
+            String otp = generateOtp();
+            redisTemplate.opsForValue().set(email, otp, 3, TimeUnit.MINUTES);
+
+            String subject = "OTP 인증번호 재발송";
+            String text = "귀하의 OTP 인증번호는 " + otp + "입니다. 3분 이내에 입력해주세요.";
+
+            emailService.sendEmail(email, subject, text);
+            redisTemplate.opsForValue().set("OTP_SENT:" + email, "true", 3, TimeUnit.MINUTES);
+        } catch (Exception e) {
+            // 👇 여기 추가
+            System.err.println("resendOtp 오류: " + e.getMessage());
+            throw e;
+        }
+    }
 
     // 6자리 OTP 생성
     private String generateOtp() {
