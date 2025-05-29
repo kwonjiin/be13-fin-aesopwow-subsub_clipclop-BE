@@ -107,24 +107,28 @@ public class AuthService {
 
     @Transactional
     public void resendOtp(String email) {
-        // OTP 재생성
-        String otp = generateOtp();
+        //1. 이메일 중복 확인
+        String emailChecked = redisTemplate.opsForValue().get("EMAIL_CHECKED:" + email);
+        if (emailChecked == null || !emailChecked.equals("true")) {
+            throw new IllegalArgumentException("이메일 중복 확인을 먼저 진행해주세요.");
+        }
 
-        // Redis에 새 OTP 저장 (기존 것 덮어씀)
+        // 2. 기존 OTP 존재 여부 확인
+        String existingOtp = redisTemplate.opsForValue().get(email);
+        if (existingOtp == null) {
+            throw new IllegalArgumentException("OTP가 아직 요청되지 않았습니다. 먼저 OTP 요청을 해주세요.");
+        }
+
+        // 3. 새 OTP 생성
+        String otp = generateOtp();
         redisTemplate.opsForValue().set(email, otp, 3, TimeUnit.MINUTES);
 
+        // 4. 이메일 전송
         try {
-            // 이메일 발송
-            String subject = "OTP 인증번호 재전송";
-            String text = "귀하의 OTP 인증번호는 " + otp + "입니다. 3분 이내에 입력해주세요.";
-            emailService.sendEmail(email, subject, text);
-
-            // OTP 전송 플래그 갱신
+            emailService.sendEmail(email, "OTP 인증번호 재전송", "귀하의 새로운 OTP는 " + otp + "입니다. 3분 이내에 입력해주세요.");
             redisTemplate.opsForValue().set("OTP_SENT:" + email, "true", 3, TimeUnit.MINUTES);
-
         } catch (MessagingException e) {
-            // 실사용용 예외 처리
-            throw new RuntimeException("OTP 이메일 재전송에 실패했습니다.", e);
+            throw new RuntimeException("OTP 이메일 재전송 실패", e);
         }
     }
 
