@@ -4,16 +4,28 @@ import com.aesopwow.subsubclipclop.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 public class UserResponseDTO {
     private Long userNo;
     private String name;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private String email;
+    private String companyName;
+    private String departmentName;
 
     public static UserResponseDTO from(User user) {
         return new UserResponseDTO(
                 user.getUserNo(),
-                user.getName()
+                user.getName(),
+                user.getCreatedAt(),
+                user.getUpdatedAt(),
+                user.getEmail(),
+                user.getCompany().getName(),
+                user.getDepartmentName()
         );
     }
 }
