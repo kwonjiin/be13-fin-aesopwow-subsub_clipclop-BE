@@ -1,6 +1,7 @@
 package com.aesopwow.subsubclipclop.controller;
 
 import com.aesopwow.subsubclipclop.domain.auth.dto.*;
+import com.aesopwow.subsubclipclop.domain.auth.dto.request.SendOTPRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.dto.request.SignUpRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.dto.response.TokenResponseDto;
 import com.aesopwow.subsubclipclop.domain.auth.service.AuthService;
@@ -62,6 +63,18 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "OTP 재전송", description = "OTP 메일을 다시 전송합니다.")
+    @PostMapping("/signup/resend-otp")
+    public ResponseEntity<String> resendOtp(@RequestBody SendOTPRequestDto request) {
+        try {
+            authService.resendOtp(request.getEmail());
+            return ResponseEntity.ok("OTP가 재전송되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("OTP 재전송 중 오류가 발생했습니다.");
+        }
+    }
+
     @Operation(summary = "회원가입 - 최종 인증", description = "OTP 인증 후 비밀번호 포함 최종 회원가입")
     @PostMapping("/signup")
     public ResponseEntity<String> signUp(@RequestBody SignUpRequestDto request) {
@@ -84,4 +97,37 @@ public class AuthController {
             return ResponseEntity.ok("사용 가능한 이메일입니다.");
         }
     }
+    @Operation(summary = "비밀번호 찾기 - OTP 요청", description = "비밀번호 재설정 OTP를 이메일로 전송")
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> sendPasswordResetOtp(@RequestBody ForgotPasswordRequestDto request) {
+        try {
+            authService.sendPasswordResetOtp(request.getEmail());
+            return ResponseEntity.ok("비밀번호 재설정 OTP가 이메일로 전송되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "비밀번호 찾기 - OTP 인증", description = "이메일로 전송된 OTP 인증")
+    @PostMapping("/forgot-password/verify-otp")
+    public ResponseEntity<String> verifyPasswordResetOtp(@RequestBody ForgotPasswordOtpVerificationDto request) {
+        try {
+            authService.verifyPasswordResetOtp(request.getEmail(), request.getOtp());
+            return ResponseEntity.ok("OTP 인증 성공!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "비밀번호 변경", description = "비밀번호 변경")
+    @PutMapping("/forgot-password/reset")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequestDto request) {
+        try {
+            authService.resetPassword(request);
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

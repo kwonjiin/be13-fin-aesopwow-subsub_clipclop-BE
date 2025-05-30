@@ -25,4 +25,8 @@ public class Alarm extends BaseEntity {
     @Column(name = "is_read", nullable = false)
     @Builder.Default
     private Boolean isRead = false;
+
+    public void markAsRead() {
+        this.isRead = true;
+    }
 }

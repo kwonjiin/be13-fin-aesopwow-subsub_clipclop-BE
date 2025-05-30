@@ -1,12 +1,13 @@
 package com.aesopwow.subsubclipclop.domain.auth.service;
 
 import com.aesopwow.subsubclipclop.domain.auth.dto.LoginRequestDTO;
+import com.aesopwow.subsubclipclop.domain.auth.dto.ResetPasswordRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.dto.request.SignUpRequestDto;
 import com.aesopwow.subsubclipclop.domain.auth.dto.response.TokenResponseDto;
 import com.aesopwow.subsubclipclop.domain.auth.jwt.JwtTokenProvider;
-import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
 import com.aesopwow.subsubclipclop.domain.company.repository.CompanyRepository;
 import com.aesopwow.subsubclipclop.domain.role.repository.RoleRepository;
+import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
 import com.aesopwow.subsubclipclop.entity.Company;
 import com.aesopwow.subsubclipclop.entity.Role;
 import com.aesopwow.subsubclipclop.entity.User;
@@ -22,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -43,12 +43,19 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new BadCredentialsException("유효하지 않은 이메일입니다."));
 
+        // 🔒 탈퇴 계정인지 확인
+        if (user.getIsDeleted()) {
+            throw new BadCredentialsException("탈퇴한 계정입니다.");
+        }
+
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
 
-        String accessToken  = jwtTokenProvider.createAccessToken(user.getEmail(),
-                user.getRole().getName().toString());
+        String accessToken  = jwtTokenProvider.createAccessToken(
+                user.getEmail(),
+                user.getRole().getName().toString()
+        );
         String refreshToken = jwtTokenProvider.createRefreshToken(user.getEmail());
 
         return new TokenResponseDto(accessToken, refreshToken);
@@ -88,12 +95,12 @@ public class AuthService {
 
         // OTP 생성 및 저장
         String otp = generateOtp();
-        redisTemplate.opsForValue().set(email, otp, 3, TimeUnit.MINUTES);
+//        redisTemplate.opsForValue().set(email, otp, 3, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("OTP:" + email, otp, 3, TimeUnit.MINUTES);
         // 수정
 //        redisTemplate.opsForValue().set("PWD:" + email, password, 10, TimeUnit.MINUTES);
         String encodedPassword = passwordEncoder.encode(password);
         redisTemplate.opsForValue().set("PWD:" + email, encodedPassword, 10, TimeUnit.MINUTES);
-
 
         try {
             emailService.sendEmail(email, "OTP 인증번호", "귀하의 OTP 인증번호는 " + otp + "입니다. 3분 이내에 입력해주세요.");
@@ -104,6 +111,34 @@ public class AuthService {
         }
     }
 
+    @Transactional
+    public void resendOtp(String email) {
+        // 이메일 중복 확인
+        String emailChecked = redisTemplate.opsForValue().get("EMAIL_CHECKED:" + email);
+        if (emailChecked == null || !emailChecked.equals("true")) {
+            throw new IllegalArgumentException("이메일 중복 확인을 먼저 진행해주세요.");
+        }
+
+        // 기존 OTP 존재 여부 확인
+//        String existingOtp = redisTemplate.opsForValue().get(email);
+        String existingOtp = redisTemplate.opsForValue().get("OTP:" + email);
+        if (existingOtp == null) {
+            throw new IllegalArgumentException("OTP가 아직 요청되지 않았습니다. 먼저 OTP 요청을 해주세요.");
+        }
+
+        // 새 OTP 생성
+        String otp = generateOtp();
+//        redisTemplate.opsForValue().set(email, otp, 3, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("OTP:" + email, otp, 3, TimeUnit.MINUTES);
+
+        // 이메일 전송
+        try {
+            emailService.sendEmail(email, "OTP 인증번호 재전송", "귀하의 새로운 OTP는 " + otp + "입니다. 3분 이내에 입력해주세요.");
+            redisTemplate.opsForValue().set("OTP_SENT:" + email, "true", 3, TimeUnit.MINUTES);
+        } catch (MessagingException e) {
+            throw new RuntimeException("OTP 이메일 재전송 실패", e);
+        }
+    }
 
     // 6자리 OTP 생성
     private String generateOtp() {
@@ -117,7 +152,8 @@ public class AuthService {
 
     // OTP 인증
     public void verifyOtp(String email, String otp) {
-        String storedOtp = redisTemplate.opsForValue().get(email);
+//        String storedOtp = redisTemplate.opsForValue().get(email);
+        String storedOtp = redisTemplate.opsForValue().get("OTP:" + email);
 
         if (storedOtp == null) {
             throw new IllegalArgumentException("OTP 인증이 만료되었거나 존재하지 않습니다.");
@@ -130,7 +166,6 @@ public class AuthService {
         redisTemplate.opsForValue().set("VERIFIED:" + email, "true", 3, TimeUnit.MINUTES);
     }
 
-    // 회원가입 최종 처리
     // 회원가입 최종 처리
     @Transactional
     public void signUp(SignUpRequestDto request) {
@@ -199,7 +234,8 @@ public class AuthService {
 
         // Redis 클린업
         redisTemplate.delete("VERIFIED:" + email);
-        redisTemplate.delete(email);
+//        redisTemplate.delete(email);
+        redisTemplate.delete("OTP:" + email);
         redisTemplate.delete("PWD:" + email);
         redisTemplate.delete("EMAIL_CHECKED:" + email);
     }
@@ -213,4 +249,63 @@ public class AuthService {
     public boolean isEmailDuplicate(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
+
+    // 비밀번호 찾기용 OTP 발송 (회원가입과 다르게, 비밀번호는 받지 않음)
+    @Transactional
+    public void sendPasswordResetOtp(String email) {
+        // 이미 가입된 이메일인지 확인
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("가입된 이메일이 아닙니다."));
+        // OTP 중복 전송 방지 등 로직 필요하면 추가
+        String otp = generateOtp();
+        redisTemplate.opsForValue().set("PWD_RESET_OTP:" + email, otp, 3, TimeUnit.MINUTES);
+        try {
+            emailService.sendEmail(email, "비밀번호 재설정 OTP", "OTP: " + otp + " (3분 이내 입력)");
+        } catch (MessagingException e) {
+            throw new RuntimeException("OTP 이메일 전송 실패", e);
+        }
+    }
+
+    public void verifyPasswordResetOtp(String email, String otp) {
+        String storedOtp = redisTemplate.opsForValue().get("PWD_RESET_OTP:" + email);
+        if (storedOtp == null) throw new IllegalArgumentException("OTP가 만료되었거나 존재하지 않습니다.");
+        if (!storedOtp.equals(otp)) throw new IllegalArgumentException("OTP 불일치");
+        // 인증 성공 플래그 저장 (필요시)
+        redisTemplate.opsForValue().set("PWD_RESET_OTP_VERIFIED:" + email, "true", 3, TimeUnit.MINUTES);
+    }
+
+    @Transactional
+    public void resetPassword(ResetPasswordRequestDto request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
+        String confirmPassword = request.getConfirmPassword();
+
+        // 1. OTP 인증 여부 확인 (Redis)
+        String verified = redisTemplate.opsForValue().get("PWD_RESET_OTP_VERIFIED:" + email);
+        if (!"true".equals(verified)) {
+            throw new IllegalArgumentException("OTP 인증이 완료되지 않은 이메일입니다.");
+        }
+
+        // 비밀번호 유효성 검사
+        if (!isValidPassword(password)) {
+            throw new IllegalArgumentException("비밀번호는 8자 이상이며, 영문자와 특수문자를 포함해야 합니다.");
+        }
+
+        // 2. 비밀번호 일치 여부 확인
+        if (!password.equals(confirmPassword)) {
+            throw new IllegalArgumentException("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        }
+
+        // 3. 유저 조회
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
+
+        // 4. 비밀번호 변경 (암호화 필요)
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+
+        // 5. 인증 플래그 삭제 (보안상 권장)
+        redisTemplate.delete("PWD_RESET_OTP_VERIFIED:" + email);
+    }
+
 }
