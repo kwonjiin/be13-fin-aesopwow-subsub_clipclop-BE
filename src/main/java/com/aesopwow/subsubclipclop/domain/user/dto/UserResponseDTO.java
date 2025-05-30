@@ -14,6 +14,7 @@ public class UserResponseDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String email;
+    private Long companyNo;
     private String companyName;
     private String departmentName;
 
@@ -24,6 +25,7 @@ public class UserResponseDTO {
                 user.getCreatedAt(),
                 user.getUpdatedAt(),
                 user.getEmail(),
+                user.getCompany().getCompanyNo(),
                 user.getCompany().getName(),
                 user.getDepartmentName()
         );
