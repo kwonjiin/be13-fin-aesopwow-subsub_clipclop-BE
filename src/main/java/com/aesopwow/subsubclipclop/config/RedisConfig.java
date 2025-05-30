@@ -1,12 +1,9 @@
 package com.aesopwow.subsubclipclop.config;
 
 import com.aesopwow.subsubclipclop.domain.alarm.message.RedisSubscriber;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.PatternTopic;
@@ -19,7 +16,7 @@ public class RedisConfig {
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         // localhost:6379 기본 설정
-        return new LettuceConnectionFactory("localhost", 6379);
+        return new LettuceConnectionFactory("43.202.78.185", 6379);
     }
 
     @Bean
@@ -46,3 +43,4 @@ public class RedisConfig {
         return container;
     }
 }
+
