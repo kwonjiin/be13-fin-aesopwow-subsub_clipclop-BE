@@ -54,7 +54,8 @@ public class AuthService {
 
         String accessToken  = jwtTokenProvider.createAccessToken(
                 user.getEmail(),
-                user.getRole().getName().toString()
+                user.getRole().getName().toString(),
+                user.getUserNo()
         );
         String refreshToken = jwtTokenProvider.createRefreshToken(user.getEmail());
 

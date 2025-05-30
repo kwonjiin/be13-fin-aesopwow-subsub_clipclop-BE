@@ -45,10 +45,11 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String createAccessToken(String email, String role) {
+    public String createAccessToken(String email, String role, Long user_no) {
         Map<String, String> claims = new HashMap<>();
 
         claims.put("email", email);
+        claims.put("user_no", String.valueOf(user_no));
         claims.put("role", role);
 
         return createToken(claims, ACCESS_TOKEN_EXP);
