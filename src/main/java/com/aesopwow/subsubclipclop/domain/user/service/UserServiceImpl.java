@@ -1,5 +1,6 @@
 package com.aesopwow.subsubclipclop.domain.user.service;
 
+import com.aesopwow.subsubclipclop.domain.company.repository.CompanyRepository;
 import com.aesopwow.subsubclipclop.domain.membership.dto.MembershipResponseDto;
 import com.aesopwow.subsubclipclop.domain.membership.service.MembershipService;
 import com.aesopwow.subsubclipclop.domain.role.repository.RoleRepository;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final MembershipService membershipService;
     private final PasswordEncoder passwordEncoder;
+    private final CompanyRepository companyRepository;
 
     @Override
     @Transactional
@@ -135,5 +137,13 @@ public class UserServiceImpl implements UserService {
 
         user.setIsDeleted(userDeleteRequestDto.getIsDeleted());
         userRepository.save(user);
+    }
+
+    @Override
+    public User getOneUserByUserNo(Long userNo) {
+        User user = userRepository.findByUserNo(userNo)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        return user;
     }
 }

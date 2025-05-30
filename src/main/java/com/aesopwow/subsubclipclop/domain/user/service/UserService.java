@@ -20,4 +20,6 @@ public interface UserService {
     void updateUserIs_deleted(Long userNo, UserDeleteRequestDto userDeleteRequestDto);
 
     void changePassword(Long userNo, PasswordChangeRequestDTO passwordChangeRequestDTO);
+
+    User getOneUserByUserNo(Long userNo);
 }

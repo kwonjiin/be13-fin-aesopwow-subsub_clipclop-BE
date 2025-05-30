@@ -217,4 +217,13 @@ public class UserController {
                 new BaseResponseDto<>(HttpStatus.OK, "유저가 정상적으로 탈퇴 처리되었습니다.")
         );
     }
+
+    @GetMapping("")
+    public ResponseEntity<UserResponseDTO> getOneUserByUserNo (@RequestParam Long userNo) {
+        User user = userService.getOneUserByUserNo(userNo);
+
+        UserResponseDTO userResponseDTO = UserResponseDTO.from(user);
+
+        return ResponseEntity.ok(userResponseDTO);
+    }
 }
