@@ -247,7 +247,7 @@ CREATE TABLE `info_column` (
 [다구독다구독 화면설계서 링크](https://www.figma.com/design/WIdgPXgYKVYQdWuVFuTV9D/%EB%8B%A4%EA%B5%AC%EB%8F%85-%EB%8B%A4%EA%B5%AC%EB%8F%85?node-id=0-1&t=NT0d2qEw7NmmGSsN-1)   
 
 </details>
-
+[API 테스트 명세서](https://playdatacademy.notion.site/API-1d6d943bcac280259831f92e231b983f)
 ---
 
 ## 📁 디렉토리 구조
