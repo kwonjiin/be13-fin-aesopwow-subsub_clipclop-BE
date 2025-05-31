@@ -103,4 +103,67 @@ public class ApiServiceImpl implements ApiService {
             throw new CustomException(ErrorCode.DASHBOARD_UNKNOWN_ERROR, e);
         }
     }
+
+    @Override
+    public byte[] getSingleAnalysisResult(String infoDbNo, String originTable, String clusterType) {
+        if (infoDbNo == null || infoDbNo.isBlank() ||
+                originTable == null || originTable.isBlank() ||
+                clusterType == null || clusterType.isBlank()) {
+            throw new IllegalArgumentException("단일 Cohort 분석에 필요한 파라미터가 누락되었습니다.");
+        }
+
+        try {
+            return webClient.post()
+                    .uri(uriBuilder -> uriBuilder
+                            .path("/python-api/analysis")
+                            .queryParam("info_db_no", infoDbNo)
+                            .queryParam("origin_table", originTable)
+                            .queryParam("clusterType", clusterType)
+                            .build())
+                    .accept(MediaType.APPLICATION_OCTET_STREAM)
+                    .retrieve()
+                    .bodyToMono(byte[].class)
+                    .timeout(Duration.ofSeconds(DASHBOARD_API_TIMEOUT_SECONDS))
+                    .block();
+        } catch (WebClientResponseException e) {
+            log.error("단일 Cohort 분석 요청 실패: {}, 상태 코드: {}", e.getMessage(), e.getStatusCode());
+            throw new CustomException(ErrorCode.DASHBOARD_API_FAILED, e);
+        } catch (Exception e) {
+            log.error("단일 Cohort 분석 요청 중 예외 발생: {}", e.getMessage());
+            throw new CustomException(ErrorCode.DASHBOARD_UNKNOWN_ERROR, e);
+        }
+    }
+
+    @Override
+    public byte[] getDoubleAnalysisResult(String infoDbNo, String originTable, String firstClusterType, String secondClusterType) {
+        if (infoDbNo == null || infoDbNo.isBlank() ||
+                originTable == null || originTable.isBlank() ||
+                firstClusterType == null || firstClusterType.isBlank() ||
+                secondClusterType == null || secondClusterType.isBlank()) {
+            throw new IllegalArgumentException("이중 Cohort 분석에 필요한 파라미터가 누락되었습니다.");
+        }
+
+        try {
+            return webClient.post()
+                    .uri(uriBuilder -> uriBuilder
+                            .path("/python-api/analysis")
+                            .queryParam("info_db_no", infoDbNo)
+                            .queryParam("origin_table", originTable)
+                            .queryParam("firstClusterType", firstClusterType)
+                            .queryParam("secondClusterType", secondClusterType)
+                            .build())
+                    .accept(MediaType.APPLICATION_OCTET_STREAM)
+                    .retrieve()
+                    .bodyToMono(byte[].class)
+                    .timeout(Duration.ofSeconds(DASHBOARD_API_TIMEOUT_SECONDS))
+                    .block();
+        } catch (WebClientResponseException e) {
+            log.error("이중 Cohort 분석 요청 실패: {}, 상태 코드: {}", e.getMessage(), e.getStatusCode());
+            throw new CustomException(ErrorCode.DASHBOARD_API_FAILED, e);
+        } catch (Exception e) {
+            log.error("이중 Cohort 분석 요청 중 예외 발생: {}", e.getMessage());
+            throw new CustomException(ErrorCode.DASHBOARD_UNKNOWN_ERROR, e);
+        }
+    }
+
 }

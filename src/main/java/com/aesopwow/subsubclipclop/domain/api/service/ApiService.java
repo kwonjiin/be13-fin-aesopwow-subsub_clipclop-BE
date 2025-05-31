@@ -16,4 +16,8 @@ public interface ApiService {
 //    public byte[] getAnalysisResult(String filename);
 
     public byte[] getAnalysisResult(String infoDbNo, String originTable);
+
+    public byte[] getSingleAnalysisResult(String infoDbNo, String originTable, String clusterType);
+
+    public byte[] getDoubleAnalysisResult(String infoDbNo, String originTable, String firstClusterType, String secondClusterType);
 }
