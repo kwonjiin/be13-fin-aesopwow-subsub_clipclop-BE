@@ -31,12 +31,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String token = jwtTokenProvider.resolveToken(String.valueOf(request)); // 헤더에서 토큰 추출
+        String bearerToken = request.getHeader("Authorization");
+        String token = jwtTokenProvider.resolveToken(bearerToken); // 정상 흐름
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            String username = jwtTokenProvider.getEmail(token); // 토큰에서 username 추출
+            String username = jwtTokenProvider.getEmail(token);
 
-            // ✅ userDetails 초기화
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -52,5 +52,3 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
 }
-
-
