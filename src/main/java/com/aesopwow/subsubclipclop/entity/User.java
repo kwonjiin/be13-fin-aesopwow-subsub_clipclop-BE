@@ -28,11 +28,11 @@ public class User extends BaseEntity {
     @Column(length = 20, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_no", nullable = false)
     private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_no", nullable = true)
     private Company company;
 
@@ -46,6 +46,8 @@ public class User extends BaseEntity {
     @Column(name = "department_name", nullable = true)
     private String departmentName;
 
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "info_db_no", nullable = true)
+    private InfoDb infoDb;
 }
 

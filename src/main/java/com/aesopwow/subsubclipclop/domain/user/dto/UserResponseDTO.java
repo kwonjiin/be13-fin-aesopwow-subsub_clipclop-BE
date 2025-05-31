@@ -17,6 +17,7 @@ public class UserResponseDTO {
     private Long companyNo;
     private String companyName;
     private String departmentName;
+    private Long infoDbNo;
 
     public static UserResponseDTO from(User user) {
         return new UserResponseDTO(
@@ -27,7 +28,8 @@ public class UserResponseDTO {
                 user.getEmail(),
                 user.getCompany().getCompanyNo(),
                 user.getCompany().getName(),
-                user.getDepartmentName()
+                user.getDepartmentName(),
+                user.getInfoDb().getInfoDbNo()
         );
     }
 }
