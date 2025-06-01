@@ -13,6 +13,8 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -166,4 +168,52 @@ public class ApiServiceImpl implements ApiService {
         }
     }
 
+    @Override
+    public byte[] getFullShapResult(String infoDbNo, String originTable) {
+        try {
+            return webClient.post()
+                    .uri(uriBuilder -> uriBuilder
+                            .path("/python-api/shap")
+                            .queryParam("info_db_no", infoDbNo)
+                            .queryParam("origin_table", originTable)
+                            .build())
+                    .accept(MediaType.APPLICATION_OCTET_STREAM)
+                    .retrieve()
+                    .bodyToMono(byte[].class)
+                    .timeout(Duration.ofSeconds(DASHBOARD_API_TIMEOUT_SECONDS))
+                    .block();
+        } catch (WebClientResponseException e) {
+            log.error("SHAP 전체 분석 실패: {}", e.getMessage());
+            throw new CustomException(ErrorCode.DASHBOARD_API_FAILED, e);
+        } catch (Exception e) {
+            log.error("SHAP 전체 분석 예외 발생: {}", e.getMessage());
+            throw new CustomException(ErrorCode.DASHBOARD_UNKNOWN_ERROR, e);
+        }
+    }
+
+    @Override
+    public byte[] getFilteredShapResult(String infoDbNo, String originTable, String keyword, Map<String, Object> filters) {
+        try {
+            return webClient.post()
+                    .uri(uriBuilder -> uriBuilder
+                            .path("/python-api/shap")
+                            .queryParam("info_db_no", infoDbNo)
+                            .queryParam("origin_table", originTable)
+                            .queryParamIfPresent("keyword", Optional.ofNullable(keyword))
+                            .build())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .bodyValue(filters)
+                    .accept(MediaType.APPLICATION_OCTET_STREAM)
+                    .retrieve()
+                    .bodyToMono(byte[].class)
+                    .timeout(Duration.ofSeconds(DASHBOARD_API_TIMEOUT_SECONDS))
+                    .block();
+        } catch (WebClientResponseException e) {
+            log.error("SHAP 필터 분석 실패: {}", e.getMessage());
+            throw new CustomException(ErrorCode.DASHBOARD_API_FAILED, e);
+        } catch (Exception e) {
+            log.error("SHAP 필터 분석 예외 발생: {}", e.getMessage());
+            throw new CustomException(ErrorCode.DASHBOARD_UNKNOWN_ERROR, e);
+        }
+    }
 }

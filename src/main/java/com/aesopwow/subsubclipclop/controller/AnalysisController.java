@@ -10,9 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/analysis")
@@ -42,7 +45,7 @@ public class AnalysisController {
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @GetMapping("/cohort")
     public ResponseEntity<byte[]> getAnalysisCohortResult(
             @RequestParam String infoDbNo,
             @RequestParam String originTable,
@@ -77,6 +80,38 @@ public class AnalysisController {
         headers.setContentDisposition(ContentDisposition
                 .attachment()
                 .filename("analysis_result.csv")
+                .build());
+
+        return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/shap")
+    public ResponseEntity<byte[]> getShapAnalysisResult(
+            @RequestParam String infoDbNo,
+            @RequestParam String originTable,
+            @RequestParam(required = false) String keyword,
+            @RequestBody(required = false) Map<String, Object> filters
+    ) {
+        if (infoDbNo == null || infoDbNo.isBlank() || originTable == null || originTable.isBlank()) {
+            throw new IllegalArgumentException("필수 파라미터(infoDbNo, originTable)가 누락되었습니다.");
+        }
+
+        byte[] fileBytes;
+
+        // 1️⃣ 필터 기반 SHAP 분석
+        if (filters != null && !filters.isEmpty()) {
+            fileBytes = apiService.getFilteredShapResult(infoDbNo, originTable, keyword, filters);
+        }
+        // 2️⃣ 전체 SHAP 분석
+        else {
+            fileBytes = apiService.getFullShapResult(infoDbNo, originTable);
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDisposition(ContentDisposition
+                .attachment()
+                .filename("shap_result.csv")
                 .build());
 
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
