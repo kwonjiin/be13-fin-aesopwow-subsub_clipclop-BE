@@ -1,8 +1,7 @@
 package com.aesopwow.subsubclipclop.domain.segment.service;
 
+import com.aesopwow.subsubclipclop.domain.segment.dto.SegmentCsvResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,9 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SegmentService {
 
-    private static final String PYTHON_SERVER_URL = "http://127.0.0.1:5001/csv";
+    private static final String PYTHON_SERVER_URL = "http://127.0.0.1:5001/api/segment/download";
 
-    public Resource getSegmentCsv(
+    public SegmentCsvResponse getSegmentCsv(
             int infoDbNo,
             String userInfo,
             String userSubInfo,
@@ -24,7 +23,6 @@ public class SegmentService {
     ) {
         RestTemplate restTemplate = new RestTemplate();
 
-        // 쿼리스트링 생성
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(PYTHON_SERVER_URL)
                 .queryParam("info_db_no", infoDbNo)
                 .queryParam("user_info", userInfo)
@@ -32,11 +30,7 @@ public class SegmentService {
                 .queryParam("target_column", targetColumn);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(List.of(
-                MediaType.TEXT_PLAIN,
-                MediaType.valueOf("text/csv"),
-                MediaType.APPLICATION_OCTET_STREAM
-        ));
+        headers.setAccept(List.of(MediaType.ALL)); // 모든 타입 허용
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
         ResponseEntity<byte[]> response = restTemplate.exchange(
@@ -47,7 +41,18 @@ public class SegmentService {
         );
 
         if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            return new ByteArrayResource(response.getBody());
+            String filename = "segment.csv"; // 기본값
+
+            List<String> contentDisposition = response.getHeaders().get(HttpHeaders.CONTENT_DISPOSITION);
+            if (contentDisposition != null && !contentDisposition.isEmpty()) {
+                String header = contentDisposition.get(0);
+                int index = header.indexOf("filename=");
+                if (index != -1) {
+                    filename = header.substring(index + 9).replace("\"", "");
+                }
+            }
+
+            return new SegmentCsvResponse(response.getBody(), filename);
         } else {
             throw new RuntimeException("CSV 파일 다운로드 실패: " + response.getStatusCode());
         }
