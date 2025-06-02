@@ -1,6 +1,7 @@
 package com.aesopwow.subsubclipclop.domain.segment.service;
 
-import com.aesopwow.subsubclipclop.domain.segment.dto.SegmentCsvResponse;
+import com.aesopwow.subsubclipclop.domain.segment.dto.SegmentFileListResponseDto;
+import com.aesopwow.subsubclipclop.domain.segment.dto.SegmentSaveResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,12 @@ import java.util.List;
 public class SegmentService {
 
     private static final String PYTHON_SERVER_URL = "http://127.0.0.1:5001/api/segment/download";
+    private static final String PYTHON_LIST_URL = "http://127.0.0.1:5001/api/segment/list";
 
-    public SegmentCsvResponse getSegmentCsv(
+    /**
+     * 세그먼트 CSV 파일 생성 및 S3 저장 요청
+     */
+    public SegmentSaveResponseDto getSegmentCsv(
             int infoDbNo,
             String userInfo,
             String userSubInfo,
@@ -30,31 +35,51 @@ public class SegmentService {
                 .queryParam("target_column", targetColumn);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(List.of(MediaType.ALL)); // 모든 타입 허용
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<byte[]> response = restTemplate.exchange(
+        ResponseEntity<SegmentSaveResponseDto> response = restTemplate.exchange(
                 builder.toUriString(),
                 HttpMethod.GET,
                 requestEntity,
-                byte[].class
+                SegmentSaveResponseDto.class
         );
 
         if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            String filename = "segment.csv"; // 기본값
-
-            List<String> contentDisposition = response.getHeaders().get(HttpHeaders.CONTENT_DISPOSITION);
-            if (contentDisposition != null && !contentDisposition.isEmpty()) {
-                String header = contentDisposition.get(0);
-                int index = header.indexOf("filename=");
-                if (index != -1) {
-                    filename = header.substring(index + 9).replace("\"", "");
-                }
-            }
-
-            return new SegmentCsvResponse(response.getBody(), filename);
+            return response.getBody();
         } else {
-            throw new RuntimeException("CSV 파일 다운로드 실패: " + response.getStatusCode());
+            throw new RuntimeException("CSV 저장 실패: " + response.getStatusCode());
+        }
+    }
+
+    /**
+     * S3에 저장된 세그먼트 CSV 파일 목록 조회
+     */
+    public SegmentFileListResponseDto getSegmentFileList(
+            int infoDbNo,
+            String targetColumn
+    ) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(PYTHON_LIST_URL)
+                .queryParam("info_db_no", infoDbNo)
+                .queryParam("target_column", targetColumn);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<SegmentFileListResponseDto> response = restTemplate.exchange(
+                builder.toUriString(),
+                HttpMethod.GET,
+                requestEntity,
+                SegmentFileListResponseDto.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            return response.getBody();
+        } else {
+            throw new RuntimeException("S3 파일 목록 조회 실패: " + response.getStatusCode());
         }
     }
 }

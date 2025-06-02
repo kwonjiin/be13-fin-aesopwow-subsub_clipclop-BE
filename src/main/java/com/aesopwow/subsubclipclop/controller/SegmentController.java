@@ -1,15 +1,16 @@
 package com.aesopwow.subsubclipclop.controller;
 
-import com.aesopwow.subsubclipclop.domain.segment.dto.SegmentCsvResponse;
+import com.aesopwow.subsubclipclop.domain.segment.dto.SegmentFileListResponseDto;
+import com.aesopwow.subsubclipclop.domain.segment.dto.SegmentSaveResponseDto;
 import com.aesopwow.subsubclipclop.domain.segment.service.SegmentService;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.CacheControl;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/segment")
@@ -19,21 +20,34 @@ public class SegmentController {
     private final SegmentService segmentService;
 
     @GetMapping("/download")
-    public ResponseEntity<byte[]> downloadSegmentCsv(
+    public ResponseEntity<SegmentSaveResponseDto> downloadSegmentCsv(
             @RequestParam int info_db_no,
             @RequestParam(defaultValue = "user_info") String user_info,
             @RequestParam(defaultValue = "user_sub_info") String user_sub_info,
-            @RequestParam(defaultValue = "subscription") String target_column
+            @Parameter(description = "watch_time, subscription, favorite_genre, last_login") String target_column
     ) {
-        // 서비스로부터 byte[]와 파일명 반환 받기
-        SegmentCsvResponse response = segmentService.getSegmentCsv(info_db_no, user_info, user_sub_info, target_column);
+        SegmentSaveResponseDto response = segmentService.getSegmentCsv(info_db_no, user_info, user_sub_info, target_column);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("text/csv"));
-        headers.setContentDisposition(ContentDisposition.attachment().filename(response.getFilename()).build());
-        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
 
-        return new ResponseEntity<>(response.getContent(), headers, HttpStatus.OK);
+    // 리스트 조회
+    @GetMapping("/list")
+    public SegmentFileListResponseDto getSegmentFileList(
+            @RequestParam int infoDbNo,
+            @RequestParam String targetColumn
+    ) {
+        return segmentService.getSegmentFileList(infoDbNo, targetColumn);
+    }
+
+    // 리스트에서 하나의 csv 파일 선택
+    @GetMapping("list/{csvFile}")
+
+
+    // 해당 csv 파일 삭제하는 컨트롤러
+    @DeleteMapping("/list/delete")
+    public ResponseEntity<List<Objects>> deleteSegmentCsv() {
+        return null;
     }
 
 }
