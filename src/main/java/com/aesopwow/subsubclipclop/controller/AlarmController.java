@@ -7,8 +7,10 @@ import com.aesopwow.subsubclipclop.entity.Alarm;
 import com.aesopwow.subsubclipclop.entity.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,7 +28,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/v1/alarms")
+@RequestMapping("/api/alarms")
 public class AlarmController {
     private final AlarmService alarmService;
     private final SseEmitterRepository sseEmitterRepository;
@@ -55,6 +57,7 @@ public class AlarmController {
         return ResponseEntity.ok().build();
     }
 
+
     // 알림 읽음 처리
     @PatchMapping("/{alarmNo}/read")
     public ResponseEntity<Void> read(@PathVariable Long alarmNo,
@@ -65,14 +68,31 @@ public class AlarmController {
 
     // 알림 전체 조회
     @GetMapping
-    public ResponseEntity<List<AlarmResponseDto>> getAllAlarms(@RequestParam Long userNo) {
+//    public ResponseEntity<List<AlarmResponseDto>> getAllAlarms(@RequestParam Long userNo) {
+//        List<AlarmResponseDto> alarms = alarmService.getAlarmsByUser(userNo);
+//        return ResponseEntity.ok().body(alarms);
+//    }
+    public ResponseEntity<List<AlarmResponseDto>> getAllAlarms(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        if (userDetails == null) {
+            log.warn("userDetails is null");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Long userNo = userDetails.getUserNo();
+        System.out.println("userNo = " + userNo);
         List<AlarmResponseDto> alarms = alarmService.getAlarmsByUser(userNo);
+        System.out.println("alarms = " + alarms);
         return ResponseEntity.ok().body(alarms);
     }
 
     // 안읽은 알림 있나 확인
     @GetMapping("/unread-exists")
-    public ResponseEntity<Boolean> hasUnread(@RequestParam Long userNo) {
+//    public ResponseEntity<Boolean> hasUnread(@RequestParam Long userNo) {
+//        return ResponseEntity.ok(alarmService.hasUnread(userNo));
+//    }
+    public ResponseEntity<Boolean> hasUnread(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userNo = userDetails.getUserNo();
         return ResponseEntity.ok(alarmService.hasUnread(userNo));
     }
 
