@@ -1,0 +1,92 @@
+name: Deploy to EC2 via CodeDeploy
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  AWS_REGION: ap-northeast-2
+  S3_BUCKET_NAME: aesop-be
+  CODE_DEPLOY_APPLICATION_NAME: aesop-deploy
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: aesop-deploy-group
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build with Gradle
+        run: |
+          chmod +x ./gradlew
+          ./gradlew build -x test -Dspring.profiles.active=prod
+
+#      - name: Copy JAR to deploy folder
+#        run: |
+#          mkdir -p build/libs
+#          cp build/libs/subsubclipclop-0.0.1-SNAPSHOT.jar build/libs/
+
+      - name: Save SHA to file
+        run: echo $GITHUB_SHA > scripts/sha.txt
+
+      - name: Create .env file
+        run: |
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> .env
+          echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
+          echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
+
+#      - name: Copy .env file
+#        run: cp .env .env
+
+      - name: Make deployment zip
+        run: |
+          mkdir -p deploy/build/libs
+          cp build/libs/subsubclipclop-0.0.1-SNAPSHOT.jar deploy/build/libs/
+          cp appspec.yml deploy/
+          cp -r scripts deploy/
+          cp .env deploy/
+          cd deploy
+          zip -r ../$GITHUB_SHA.zip .      
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Delete old zip files in S3 bucket
+        run: |
+          echo "🧹 Deleting old zip files from S3 bucket..."
+          aws s3 ls s3://${{ env.S3_BUCKET_NAME }}/ | awk '{print $4}' | grep '\.zip$' | while read file; do
+            echo "Deleting: $file"
+            aws s3 rm s3://${{ env.S3_BUCKET_NAME }}/$file
+          done
+
+      - name: Upload to S3
+        run: |
+          aws s3 cp $GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
+
+      - name: Deploy to EC2 using CodeDeploy
+        run: |
+          aws deploy create-deployment \
+            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+            --deployment-config-name CodeDeployDefault.AllAtOnce \
+            --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
+            --s3-location bucket=${{ env.S3_BUCKET_NAME }},key=$GITHUB_SHA.zip,bundleType=zip

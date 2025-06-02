@@ -24,14 +24,57 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // Spring Starter
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.springframework.security:spring-security-test'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // DB
+    // Mariadb
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // ✅ 최신 Swagger (SpringDoc OpenAPI)
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Spring Security
+
+    // ✅ JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+    // ✅ ✅ JPA (Persistence 오류 해결)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // ✅ ✅ H2 DB (테스트용 인메모리 DB, 처음엔 이걸로 해보는 걸 추천)
+    runtimeOnly 'com.h2database:h2'
+
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.3.3'
+
+    // redis 설정
+    implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
+
+    // 테스트
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.100.Final:osx-aarch_64' // Apple Silicon
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.100.Final:osx-x86_64'   // Intel Mac
 }
 
 tasks.named('test') {
