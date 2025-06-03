@@ -5,6 +5,7 @@ import com.aesopwow.subsubclipclop.domain.api.dto.ApiResponseDto;
 import com.aesopwow.subsubclipclop.domain.info_column.dto.InfoColumnResponseDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ApiService {
     public String callExternalApi(Long company_no);
@@ -16,4 +17,12 @@ public interface ApiService {
 //    public byte[] getAnalysisResult(String filename);
 
     public byte[] getAnalysisResult(String infoDbNo, String originTable);
+
+    public byte[] getSingleAnalysisResult(String infoDbNo, String originTable, String clusterType);
+
+    public byte[] getDoubleAnalysisResult(String infoDbNo, String originTable, String firstClusterType, String secondClusterType);
+
+    public byte[] getFullShapResult(String infoDbNo, String originTable);
+
+    public byte[] getFilteredShapResult(String infoDbNo, String originTable, String keyword, Map<String, Object> filters);
 }
