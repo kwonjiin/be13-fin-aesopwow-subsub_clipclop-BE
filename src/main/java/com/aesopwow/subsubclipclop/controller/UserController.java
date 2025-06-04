@@ -30,7 +30,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -239,4 +241,33 @@ public class UserController {
 //
 //        return ResponseEntity.ok(userResponseDTO);
 //    }
+
+    @GetMapping("/basic-info/{userNo}")
+    @Operation(summary = "기본 사용자 정보 조회", description = "userNo로 companyNo, infoDbNo, roleNo를 조회합니다.")
+    public ResponseEntity<Map<String, Object>> getBasicInfo(@PathVariable Long userNo) {
+        User user = userService.getOneUserByUserNo(userNo);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("userNo", user.getUserNo());
+        response.put("companyNo", user.getCompany() != null ? user.getCompany().getCompanyNo() : null);
+        response.put("infoDbNo", user.getInfoDb() != null ? user.getInfoDb().getInfoDbNo() : null);
+        response.put("roleNo", user.getRole() != null ? user.getRole().getRoleNo() : null);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/role/{roleNo}")
+    @Operation(summary = "역할 이름 조회", description = "roleNo로 역할 이름을 조회합니다.")
+    public ResponseEntity<Map<String, String>> getRoleName(@PathVariable Long roleNo) {
+        String roleName = userService.getRoleNameByRoleNo(roleNo);
+        return ResponseEntity.ok(Map.of("name", roleName));
+    }
+
+    @GetMapping("/info-column/{infoDbNo}")
+    @Operation(summary = "Origin Table 조회", description = "infoDbNo를 기준으로 originTable 값을 조회합니다.")
+    public ResponseEntity<Map<String, String>> getOriginTable(@PathVariable Long infoDbNo) {
+        String originTable = userService.getOriginTableByInfoDbNo(infoDbNo);
+        return ResponseEntity.ok(Map.of("origin_table", originTable));
+    }
 }
