@@ -192,7 +192,7 @@ public class UserController {
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, "직원이 삭제되었습니다."));
     }
 
-    @PostMapping("")
+    @PostMapping("/{userNo}")
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴 정보를 관리합니다.")
     @ApiResponses({
             @ApiResponse(
@@ -212,11 +212,9 @@ public class UserController {
             )
     })
     public ResponseEntity<BaseResponseDto<String>> updateUserIs_deleted (
-            @RequestParam @Valid Long userNo,
-            @RequestBody UserDeleteRequestDto userDeleteRequestDto
-            ) {
+            @PathVariable Long userNo,
+            @RequestBody @Valid UserDeleteRequestDto userDeleteRequestDto) {
         userService.updateUserIs_deleted(userNo, userDeleteRequestDto);
-
         return ResponseEntity.ok(
                 new BaseResponseDto<>(HttpStatus.OK, "유저가 정상적으로 탈퇴 처리되었습니다.")
         );
