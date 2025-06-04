@@ -18,12 +18,12 @@ public class Analysis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "analysis_no")
-    private Byte analysisNo;
+    private Long analysisNo;
 
-    @Column(length = 20)
+    @Column(length = 40)
     private String name;
 
-    public Analysis(Byte analysisNo) {
+    public Analysis(Long analysisNo) {
         this.analysisNo = analysisNo;
     }
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class RequireListResponseDto {
     private Long requireListNo;
-    private Byte analysisNo;
+    private Long analysisNo;
     private Long companyNo;
     private Long infoDbNo;
     private LocalDateTime createdAt;
