@@ -7,7 +7,10 @@ import com.aesopwow.subsubclipclop.domain.user.dto.UserResponseDTO;
 import com.aesopwow.subsubclipclop.domain.user.dto.UserUpdateRequestDTO;
 import com.aesopwow.subsubclipclop.domain.user.service.UserService;
 import com.aesopwow.subsubclipclop.entity.CustomUserDetails;
+import com.aesopwow.subsubclipclop.entity.Role;
 import com.aesopwow.subsubclipclop.entity.User;
+import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
+import com.aesopwow.subsubclipclop.global.exception.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -94,14 +97,21 @@ public class UserController {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    public ResponseEntity<BaseResponseDto<List<UserResponseDTO>>> getStaffList(@RequestParam @Valid Long adminUserNo) {
-            List<User> staffList = userService.getStaffList(adminUserNo);
+    public ResponseEntity<BaseResponseDto<List<UserResponseDTO>>> getStaffList(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+        User user = customUserDetails.getUser();
+        if (user.getRole().getName() == Role.RoleType.CLIENT_ADMIN) {
+            List<User> staffList = userService.getStaffList(user.getUserNo());
 
             List<UserResponseDTO> result = staffList.stream()
                     .map(UserResponseDTO::from)
                     .toList();
 
-        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, result));
+            return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, result));
+        } else {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_ADMIN_ONLY);
+        }
     }
 
 
@@ -242,30 +252,12 @@ public class UserController {
 
     @GetMapping("/basic-info/{userNo}")
     @Operation(summary = "기본 사용자 정보 조회", description = "userNo로 companyNo, infoDbNo, roleNo를 조회합니다.")
-    public ResponseEntity<BaseResponseDto<Map<String, Object>>> getBasicInfo(@PathVariable @Valid Long userNo) {
+    public ResponseEntity<BaseResponseDto<UserResponseDTO>> getBasicInfo(@PathVariable @Valid Long userNo) {
         User user = userService.getOneUserByUserNo(userNo);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("userNo", user.getUserNo());
-        response.put("companyNo", user.getCompany() != null ? user.getCompany().getCompanyNo() : null);
-        response.put("infoDbNo", user.getInfoDb() != null ? user.getInfoDb().getInfoDbNo() : null);
-        response.put("roleNo", user.getRole() != null ? user.getRole().getRoleNo() : null);
+        UserResponseDTO userResponseDTO = UserResponseDTO.from(user);
 
-        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, response));
+        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, userResponseDTO));
     }
 
-
-    @GetMapping("/role/{roleNo}")
-    @Operation(summary = "역할 이름 조회", description = "roleNo로 역할 이름을 조회합니다.")
-    public ResponseEntity<BaseResponseDto<Map<String, String>>> getRoleName(@PathVariable @Valid Long roleNo) {
-        String roleName = userService.getRoleNameByRoleNo(roleNo);
-        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, Map.of("name", roleName)));
-    }
-
-    @GetMapping("/info-column/{infoDbNo}")
-    @Operation(summary = "Origin Table 조회", description = "infoDbNo를 기준으로 originTable 값을 조회합니다.")
-    public ResponseEntity<BaseResponseDto<Map<String, String>>> getOriginTable(@PathVariable @Valid Long infoDbNo) {
-        String originTable = userService.getOriginTableByInfoDbNo(infoDbNo);
-        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, Map.of("origin_table", originTable)));
-    }
 }

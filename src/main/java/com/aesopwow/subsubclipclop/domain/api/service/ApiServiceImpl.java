@@ -1,6 +1,7 @@
 package com.aesopwow.subsubclipclop.domain.api.service;
 
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiCohortRequestDto;
+import com.aesopwow.subsubclipclop.domain.api.dto.ApiInsightResponseDto;
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiRequestDto;
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiResponseDto;
 import com.aesopwow.subsubclipclop.domain.info_column.dto.InfoColumnResponseDto;
@@ -288,6 +289,27 @@ public class ApiServiceImpl implements ApiService {
             throw new CustomException(ErrorCode.DASHBOARD_API_FAILED, e);
         } catch (Exception e) {
             log.error("Cohort 분석 요청 중 예외 발생: {}", e.getMessage());
+            throw new CustomException(ErrorCode.DASHBOARD_UNKNOWN_ERROR, e);
+        }
+    }
+
+    @Override
+    public ApiInsightResponseDto getInsightByFilename(String filename) {
+        try {
+            return webClient.post()
+                    .uri(uriBuilder -> uriBuilder
+                            .path("/python-api/openai/analyze")
+                            .queryParam("filename", filename)
+                            .build())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .bodyToMono(ApiInsightResponseDto.class)
+                    .block();
+        } catch (WebClientResponseException e) {
+            log.error("Cohort 인사이트 분석 요청 실패: {}, 상태 코드: {}", e.getMessage(), e.getStatusCode());
+            throw new CustomException(ErrorCode.DASHBOARD_API_FAILED, e);
+        } catch (Exception e) {
+            log.error("Cohort 인사이트 분석 요청 중 예외 발생: {}", e.getMessage());
             throw new CustomException(ErrorCode.DASHBOARD_UNKNOWN_ERROR, e);
         }
     }
