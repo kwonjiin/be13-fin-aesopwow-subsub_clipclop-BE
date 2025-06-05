@@ -7,6 +7,7 @@ import com.aesopwow.subsubclipclop.domain.role.repository.RoleRepository;
 import com.aesopwow.subsubclipclop.domain.user.dto.PasswordChangeRequestDTO;
 import com.aesopwow.subsubclipclop.domain.user.dto.UserDeleteRequestDto;
 import com.aesopwow.subsubclipclop.domain.user.dto.UserUpdateRequestDTO;
+import com.aesopwow.subsubclipclop.domain.user.repository.InfoColumnRepository;
 import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
 import com.aesopwow.subsubclipclop.entity.Role;
 import com.aesopwow.subsubclipclop.entity.User;
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService {
     private final MembershipService membershipService;
     private final PasswordEncoder passwordEncoder;
     private final CompanyRepository companyRepository;
+    private final InfoColumnRepository infoColumnRepository;
 
     @Override
     @Transactional
@@ -145,5 +147,20 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         return user;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String getOriginTableByInfoDbNo(Long infoDbNo) {
+        return infoColumnRepository.findFirstByInfoDb_InfoDbNo(infoDbNo)
+                .orElseThrow(() -> new CustomException(ErrorCode.INFO_COLUMN_NOT_FOUND))
+                .getOriginTable();
+    }
+
+    @Override
+    public String getRoleNameByRoleNo(Long roleNo) {
+        Role role = roleRepository.findById(roleNo)
+                .orElseThrow(() -> new CustomException(ErrorCode.ROLE_NOT_FOUND));
+        return role.getName().name(); // enum 값을 문자열로 변환
     }
 }
