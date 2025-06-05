@@ -30,7 +30,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -190,7 +192,7 @@ public class UserController {
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, "직원이 삭제되었습니다."));
     }
 
-    @PostMapping("")
+    @PostMapping("/{userNo}")
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴 정보를 관리합니다.")
     @ApiResponses({
             @ApiResponse(
@@ -210,11 +212,9 @@ public class UserController {
             )
     })
     public ResponseEntity<BaseResponseDto<String>> updateUserIs_deleted (
-            @RequestParam @Valid Long userNo,
-            @RequestBody UserDeleteRequestDto userDeleteRequestDto
-            ) {
+            @PathVariable Long userNo,
+            @RequestBody @Valid UserDeleteRequestDto userDeleteRequestDto) {
         userService.updateUserIs_deleted(userNo, userDeleteRequestDto);
-
         return ResponseEntity.ok(
                 new BaseResponseDto<>(HttpStatus.OK, "유저가 정상적으로 탈퇴 처리되었습니다.")
         );
@@ -239,4 +239,33 @@ public class UserController {
 //
 //        return ResponseEntity.ok(userResponseDTO);
 //    }
+
+    @GetMapping("/basic-info/{userNo}")
+    @Operation(summary = "기본 사용자 정보 조회", description = "userNo로 companyNo, infoDbNo, roleNo를 조회합니다.")
+    public ResponseEntity<BaseResponseDto<Map<String, Object>>> getBasicInfo(@PathVariable @Valid Long userNo) {
+        User user = userService.getOneUserByUserNo(userNo);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("userNo", user.getUserNo());
+        response.put("companyNo", user.getCompany() != null ? user.getCompany().getCompanyNo() : null);
+        response.put("infoDbNo", user.getInfoDb() != null ? user.getInfoDb().getInfoDbNo() : null);
+        response.put("roleNo", user.getRole() != null ? user.getRole().getRoleNo() : null);
+
+        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, response));
+    }
+
+
+    @GetMapping("/role/{roleNo}")
+    @Operation(summary = "역할 이름 조회", description = "roleNo로 역할 이름을 조회합니다.")
+    public ResponseEntity<BaseResponseDto<Map<String, String>>> getRoleName(@PathVariable @Valid Long roleNo) {
+        String roleName = userService.getRoleNameByRoleNo(roleNo);
+        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, Map.of("name", roleName)));
+    }
+
+    @GetMapping("/info-column/{infoDbNo}")
+    @Operation(summary = "Origin Table 조회", description = "infoDbNo를 기준으로 originTable 값을 조회합니다.")
+    public ResponseEntity<BaseResponseDto<Map<String, String>>> getOriginTable(@PathVariable @Valid Long infoDbNo) {
+        String originTable = userService.getOriginTableByInfoDbNo(infoDbNo);
+        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, Map.of("origin_table", originTable)));
+    }
 }
