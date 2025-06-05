@@ -3,6 +3,7 @@ package com.aesopwow.subsubclipclop.controller;
 import com.aesopwow.subsubclipclop.domain.analysis.service.AnalysisService;
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiCohortRequestDto;
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiFileInfoResponseDto;
+import com.aesopwow.subsubclipclop.domain.api.dto.ApiInsightResponseDto;
 import com.aesopwow.subsubclipclop.domain.api.service.ApiService;
 import com.aesopwow.subsubclipclop.entity.Analysis;
 import lombok.RequiredArgsConstructor;
@@ -116,5 +117,15 @@ public class AnalysisController {
                 .build());
 
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/cohort/insight")
+    public ResponseEntity<ApiInsightResponseDto> getAnalysisCohortOneInsight(
+            @RequestParam String filename) {
+
+        ApiInsightResponseDto apiInsightResponseDto
+                = apiService.getInsightByFilename(filename);
+
+        return new ResponseEntity<>(apiInsightResponseDto, HttpStatus.OK);
     }
 }

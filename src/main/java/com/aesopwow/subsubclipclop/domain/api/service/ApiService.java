@@ -1,6 +1,7 @@
 package com.aesopwow.subsubclipclop.domain.api.service;
 
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiCohortRequestDto;
+import com.aesopwow.subsubclipclop.domain.api.dto.ApiInsightResponseDto;
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiRequestDto;
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiResponseDto;
 import com.aesopwow.subsubclipclop.domain.info_column.dto.InfoColumnResponseDto;
@@ -33,4 +34,6 @@ public interface ApiService {
     public Map<String, Object> getCohortListAnalysis(Long infoDbNo, Analysis analysis);
 
     public byte[] requestCohortAnalysis(ApiCohortRequestDto apiCohortRequestDto, Analysis analysis);
+
+    public ApiInsightResponseDto getInsightByFilename(String filename);
 }
