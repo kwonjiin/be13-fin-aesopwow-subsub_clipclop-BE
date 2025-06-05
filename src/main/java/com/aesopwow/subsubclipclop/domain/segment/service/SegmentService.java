@@ -22,7 +22,7 @@ public class SegmentService {
     private static final String PYTHON_GET_CSV_URL = "http://127.0.0.1:5001/api/segment/list/";
 
     // 구독타입 서비스
-    public SegmentDto SegmentSubscription(
+    public SegmentDto segmentSubscription(
             int infoDbNo,
             String userInfo,
             String userSubInfo
@@ -38,9 +38,6 @@ public class SegmentService {
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
-        /*
-            요기에 subscription 을 추가하는 방안을 봐야함
-         */
         ResponseEntity<SegmentDto> response = restTemplate.exchange(
                 builder.toUriString(),
                 HttpMethod.GET,
@@ -51,11 +48,11 @@ public class SegmentService {
         if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
             return response.getBody();
         } else {
-            throw new RuntimeException("CSV 저장 실패: " + response.getStatusCode());
+            throw new RuntimeException("세그먼트 데이터 조회 실패: " + response.getStatusCode());
         }
     }
 
-    public SegmentDto SegmentWatchTime(
+    public SegmentDto segmentWatchTime(
             int infoDbNo,
             String userInfo,
             String userSubInfo
@@ -71,9 +68,6 @@ public class SegmentService {
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
-        /*
-            요기에 subscription 을 추가하는 방안을 봐야함
-         */
         ResponseEntity<SegmentDto> response = restTemplate.exchange(
                 builder.toUriString(),
                 HttpMethod.GET,
@@ -88,7 +82,7 @@ public class SegmentService {
         }
     }
 
-    public SegmentDto LastLoginSegment(
+    public SegmentDto lastLoginSegment(
             int infoDbNo,
             String userInfo,
             String userSubInfo
@@ -104,9 +98,6 @@ public class SegmentService {
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
-        /*
-            요기에 subscription 을 추가하는 방안을 봐야함
-         */
         ResponseEntity<SegmentDto> response = restTemplate.exchange(
                 builder.toUriString(),
                 HttpMethod.GET,
@@ -121,8 +112,7 @@ public class SegmentService {
         }
     }
 
-
-    public SegmentDto GenreSegment(
+    public SegmentDto genreSegment(
             int infoDbNo,
             String userInfo,
             String userSubInfo
@@ -138,9 +128,6 @@ public class SegmentService {
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
-        /*
-            요기에 subscription 을 추가하는 방안을 봐야함
-         */
         ResponseEntity<SegmentDto> response = restTemplate.exchange(
                 builder.toUriString(),
                 HttpMethod.GET,
@@ -155,16 +142,7 @@ public class SegmentService {
         }
     }
 
-
-
-
-
-
-
-
-    /**
-     * S3에 저장된 세그먼트 CSV 파일 목록 조회
-     */
+    //S3에 저장된 세그먼트 CSV 파일 목록 조회
     public SegmentFileListResponseDto getSegmentFileList(
             int infoDbNo,
             String targetColumn

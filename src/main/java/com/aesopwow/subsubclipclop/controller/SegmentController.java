@@ -26,45 +26,45 @@ public class SegmentController {
      */
     @GetMapping("/subscription")
     @Operation(summary = "구독 유형", description = "구독 유형 세그먼트 분석")
-    public ResponseEntity<SegmentDto> SegmentSubscription(
+    public ResponseEntity<SegmentDto> segmentSubscription(
             @RequestParam int info_db_no,
             @RequestParam(defaultValue = "user_info") String user_info,
             @RequestParam(defaultValue = "user_sub_info") String user_sub_info
     ) {
-        SegmentDto response = segmentService.SegmentSubscription(info_db_no, user_info, user_sub_info);
+        SegmentDto response = segmentService.segmentSubscription(info_db_no, user_info, user_sub_info);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/watch-time")
     @Operation(summary = "누적 시청시간", description = "누적 시청시간 세그먼트 분석")
-    public ResponseEntity<SegmentDto> SegmentWatchTime(
+    public ResponseEntity<SegmentDto> segmentWatchTime(
             @RequestParam int info_db_no,
             @RequestParam(defaultValue = "user_info") String user_info,
             @RequestParam(defaultValue = "user_sub_info") String user_sub_info
     ) {
-        SegmentDto response = segmentService.SegmentWatchTime(info_db_no, user_info, user_sub_info);
+        SegmentDto response = segmentService.segmentWatchTime(info_db_no, user_info, user_sub_info);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/last-login")
     @Operation(summary = "마지막 접속일", description = "마지막 접속일 세그먼트 분석")
-    public ResponseEntity<SegmentDto> LastLoginSegment(
+    public ResponseEntity<SegmentDto> lastLoginSegment(
             @RequestParam int info_db_no,
             @RequestParam(defaultValue = "user_info") String user_info,
             @RequestParam(defaultValue = "user_sub_info") String user_sub_info
     ) {
-        SegmentDto response = segmentService.LastLoginSegment(info_db_no, user_info, user_sub_info);
+        SegmentDto response = segmentService.lastLoginSegment(info_db_no, user_info, user_sub_info);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/genre")
     @Operation(summary = "선호 장르", description = "선호 장르 세그먼트 분석")
-    public ResponseEntity<SegmentDto> GenreSegment(
+    public ResponseEntity<SegmentDto> genreSegment(
             @RequestParam int info_db_no,
             @RequestParam(defaultValue = "user_info") String user_info,
             @RequestParam(defaultValue = "user_sub_info") String user_sub_info
     ) {
-        SegmentDto response = segmentService.GenreSegment(info_db_no, user_info, user_sub_info);
+        SegmentDto response = segmentService.genreSegment(info_db_no, user_info, user_sub_info);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
