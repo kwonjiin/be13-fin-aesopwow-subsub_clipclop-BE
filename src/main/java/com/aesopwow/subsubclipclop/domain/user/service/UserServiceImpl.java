@@ -150,9 +150,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public String getOriginTableByInfoDbNo(Long infoDbNo) {
         return infoColumnRepository.findFirstByInfoDb_InfoDbNo(infoDbNo)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND))
+                .orElseThrow(() -> new CustomException(ErrorCode.INFO_COLUMN_NOT_FOUND))
                 .getOriginTable();
     }
 
