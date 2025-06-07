@@ -1,10 +1,8 @@
 package com.aesopwow.subsubclipclop.domain.segment.service;
 
-import com.aesopwow.subsubclipclop.domain.segment.dto.SegmentCsvResponseDto;
 import com.aesopwow.subsubclipclop.domain.segment.dto.SegmentFileListResponseDto;
-import com.aesopwow.subsubclipclop.domain.segment.dto.SegmentSaveResponseDto;
+import com.aesopwow.subsubclipclop.domain.segment.dto.SegmentDto;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.mapping.Map;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,36 +14,65 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SegmentService {
 
-    private static final String PYTHON_SERVER_URL = "http://127.0.0.1:5001/api/segment/download";
+    private static final String PYTHON_SUBSCRIPTION_SERVER_URL = "http://127.0.0.1:5001/api/segment/g";
+    private static final String PYTHON_WATCH_TIME_SERVER_URL = "http://127.0.0.1:5001/api/segment/watchtime";
+    private static final String PYTHON_LAST_LOGIN_SERVER_URL = "http://127.0.0.1:5001/api/segment/lastlogin";
+    private static final String PYTHON_GENRE_SERVER_URL = "http://127.0.0.1:5001/api/segment/genre";
     private static final String PYTHON_LIST_URL = "http://127.0.0.1:5001/api/segment/list";
     private static final String PYTHON_GET_CSV_URL = "http://127.0.0.1:5001/api/segment/list/";
 
-    /**
-     * 세그먼트 CSV 파일 생성 및 S3 저장 요청
-     */
-    public SegmentSaveResponseDto getSegmentCsv(
+    // 구독타입 서비스
+    public SegmentDto segmentSubscription(
             int infoDbNo,
             String userInfo,
-            String userSubInfo,
-            String targetColumn
+            String userSubInfo
     ) {
         RestTemplate restTemplate = new RestTemplate();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(PYTHON_SERVER_URL)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(PYTHON_SUBSCRIPTION_SERVER_URL)
                 .queryParam("info_db_no", infoDbNo)
                 .queryParam("user_info", userInfo)
-                .queryParam("user_sub_info", userSubInfo)
-                .queryParam("target_column", targetColumn);
+                .queryParam("user_sub_info", userSubInfo);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<SegmentSaveResponseDto> response = restTemplate.exchange(
+        ResponseEntity<SegmentDto> response = restTemplate.exchange(
                 builder.toUriString(),
                 HttpMethod.GET,
                 requestEntity,
-                SegmentSaveResponseDto.class
+                SegmentDto.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            return response.getBody();
+        } else {
+            throw new RuntimeException("세그먼트 데이터 조회 실패: " + response.getStatusCode());
+        }
+    }
+
+    public SegmentDto segmentWatchTime(
+            int infoDbNo,
+            String userInfo,
+            String userSubInfo
+    ) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(PYTHON_WATCH_TIME_SERVER_URL)
+                .queryParam("info_db_no", infoDbNo)
+                .queryParam("user_info", userInfo)
+                .queryParam("user_sub_info", userSubInfo);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<SegmentDto> response = restTemplate.exchange(
+                builder.toUriString(),
+                HttpMethod.GET,
+                requestEntity,
+                SegmentDto.class
         );
 
         if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
@@ -55,9 +82,67 @@ public class SegmentService {
         }
     }
 
-    /**
-     * S3에 저장된 세그먼트 CSV 파일 목록 조회
-     */
+    public SegmentDto lastLoginSegment(
+            int infoDbNo,
+            String userInfo,
+            String userSubInfo
+    ) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(PYTHON_LAST_LOGIN_SERVER_URL)
+                .queryParam("info_db_no", infoDbNo)
+                .queryParam("user_info", userInfo)
+                .queryParam("user_sub_info", userSubInfo);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<SegmentDto> response = restTemplate.exchange(
+                builder.toUriString(),
+                HttpMethod.GET,
+                requestEntity,
+                SegmentDto.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            return response.getBody();
+        } else {
+            throw new RuntimeException("CSV 저장 실패: " + response.getStatusCode());
+        }
+    }
+
+    public SegmentDto genreSegment(
+            int infoDbNo,
+            String userInfo,
+            String userSubInfo
+    ) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(PYTHON_GENRE_SERVER_URL)
+                .queryParam("info_db_no", infoDbNo)
+                .queryParam("user_info", userInfo)
+                .queryParam("user_sub_info", userSubInfo);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<SegmentDto> response = restTemplate.exchange(
+                builder.toUriString(),
+                HttpMethod.GET,
+                requestEntity,
+                SegmentDto.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            return response.getBody();
+        } else {
+            throw new RuntimeException("CSV 저장 실패: " + response.getStatusCode());
+        }
+    }
+
+    //S3에 저장된 세그먼트 CSV 파일 목록 조회
     public SegmentFileListResponseDto getSegmentFileList(
             int infoDbNo,
             String targetColumn
