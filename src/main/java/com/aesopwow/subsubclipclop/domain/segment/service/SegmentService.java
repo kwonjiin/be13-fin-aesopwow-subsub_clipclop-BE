@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SegmentService {
 
-    private static final String PYTHON_SUBSCRIPTION_SERVER_URL = "http://127.0.0.1:5001/api/segment/g";
+    private static final String PYTHON_SUBSCRIPTION_SERVER_URL = "http://127.0.0.1:5001/api/segment/subscription";
     private static final String PYTHON_WATCH_TIME_SERVER_URL = "http://127.0.0.1:5001/api/segment/watchtime";
     private static final String PYTHON_LAST_LOGIN_SERVER_URL = "http://127.0.0.1:5001/api/segment/lastlogin";
     private static final String PYTHON_GENRE_SERVER_URL = "http://127.0.0.1:5001/api/segment/genre";
