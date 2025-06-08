@@ -268,14 +268,20 @@ CREATE TABLE `info_column` (
 <details>
 <summary><strong>세그먼트 분석</strong></summary><br />
 
-/////여기
+![segment_1](https://github.com/user-attachments/assets/3eeaad42-81ad-4bab-a0f6-18ac2c5d30d6)
+![segment_2](https://github.com/user-attachments/assets/898a4ec9-7108-4347-b977-dfdd0e161e84)
+![segment_3](https://github.com/user-attachments/assets/ca4b04b0-8c78-4a40-8f4f-f726dfad8881)
+![segment_4](https://github.com/user-attachments/assets/54f70aa0-f416-4433-acbc-92fbdf8d3beb)
+
 
 </details>
 
 <details>
-<summary><strong>코호트 분석</strong></summary><br />
+<summary><strong>코호트 분석(단일 분석 / 양측 분석)</strong></summary><br />
 
-/////여기
+![cohort_single](https://github.com/user-attachments/assets/b242e784-4cf4-468e-a57f-6e3cea4d5c6a)
+![cohort_double](https://github.com/user-attachments/assets/41a25e58-9cc3-4aaa-90fa-611459dbe075)
+
 
 </details>
 
@@ -313,7 +319,7 @@ CREATE TABLE `info_column` (
 <details>
 <summary><strong>How to</strong></summary><br />
 
-
+/////여기
 
 </details>
 
