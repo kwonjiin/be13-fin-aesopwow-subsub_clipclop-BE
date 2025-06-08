@@ -305,7 +305,7 @@ CREATE TABLE `info_column` (
 <details>
 <summary><strong>Membership</strong></summary><br />
 
-![Membership](https://github.com/user-attachments/assets/ce7a5eb2-7771-4193-ba0d-d9ab20c7947a)
+![Membership](https://github.com/user-attachments/assets/ee38251e-29cd-4781-a916-2c304f9ce1de)
 
 
 </details>
