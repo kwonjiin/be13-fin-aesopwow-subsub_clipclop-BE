@@ -1,16 +1,16 @@
 package com.aesopwow.subsubclipclop.controller;
 
-import com.aesopwow.subsubclipclop.domain.api.dto.ApiResponseDto;
 import com.aesopwow.subsubclipclop.domain.api.service.ApiService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/dash-board")
@@ -29,16 +29,19 @@ public class DashBoardController {
 //        return ResponseEntity.ok(apiResponseDto);
 //    }
 
-    @GetMapping("/{infoDbNo}/{originTable}")
-    public ResponseEntity<byte[]> getDashBoardCSV(
-            @PathVariable String infoDbNo,
-            @PathVariable String originTable) {
+    @GetMapping("")
+    public Mono<ResponseEntity<byte[]>> getDashBoardCSV(
+            @RequestParam int infoDbNo,
+            @RequestParam String user_info,
+            @RequestParam String user_sub_info) {
 
-        byte[] csvBytes = apiService.getAnalysisResult(infoDbNo, originTable);
+        Mono<byte[]> response = apiService.getAnalysisResult(infoDbNo, user_info, user_sub_info);
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.valueOf("text/csv"))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"dashboard.csv\"")
-                .body(csvBytes);
+        return response.map(body -> {
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.parseMediaType("text/csv"));
+                    headers.setContentDisposition(ContentDisposition.attachment().filename("default").build());
+                    return ResponseEntity.ok().headers(headers).body(body);
+                });
     }
 }
