@@ -251,9 +251,29 @@ CREATE TABLE `info_column` (
 
 <br />
 
-- ![회원가입](https://github.com/user-attachments/assets/03a31f1b-19be-48ba-bb6c-b6aa3bcc59c4)
-- ![회원가입 OTP 재발송](https://github.com/user-attachments/assets/71ab77b8-130c-4da4-a2f2-316b3551f589)
-- ![비밀번호 변경](https://github.com/user-attachments/assets/bd66f343-8da7-4820-b8df-fe4674ba02a0)
+- 회원가입
+  
+   <br />
+   
+ ![회원가입](https://github.com/user-attachments/assets/03a31f1b-19be-48ba-bb6c-b6aa3bcc59c4)
+ 
+<br />
+
+- 회원가입 OTP 재발송
+  
+  <br />
+  
+ ![회원가입 OTP 재발송](https://github.com/user-attachments/assets/71ab77b8-130c-4da4-a2f2-316b3551f589)
+ 
+<br />
+
+- 비밀번호 변경
+  
+  <br />
+  
+ ![비밀번호 변경](https://github.com/user-attachments/assets/bd66f343-8da7-4820-b8df-fe4674ba02a0)
+ 
+<br />
 
 </details>
 
@@ -267,10 +287,19 @@ CREATE TABLE `info_column` (
 
 <details>
 <summary><strong>세그먼트 분석</strong></summary><br />
-
+  
 ![segment_1](https://github.com/user-attachments/assets/3eeaad42-81ad-4bab-a0f6-18ac2c5d30d6)
+
+  <br />
+  
 ![segment_2](https://github.com/user-attachments/assets/898a4ec9-7108-4347-b977-dfdd0e161e84)
+
+  <br />
+  
 ![segment_3](https://github.com/user-attachments/assets/ca4b04b0-8c78-4a40-8f4f-f726dfad8881)
+
+<br />
+
 ![segment_4](https://github.com/user-attachments/assets/54f70aa0-f416-4433-acbc-92fbdf8d3beb)
 
 
@@ -279,9 +308,23 @@ CREATE TABLE `info_column` (
 <details>
 <summary><strong>코호트 분석(단일 분석 / 양측 분석)</strong></summary><br />
 
+- 코호트 단일분석
+
+  <br />
+
+
 ![cohort_single](https://github.com/user-attachments/assets/b242e784-4cf4-468e-a57f-6e3cea4d5c6a)
+
+<br />
+
+- 코호트 양측분석
+
+ <br />
+
+
 ![cohort_double](https://github.com/user-attachments/assets/41a25e58-9cc3-4aaa-90fa-611459dbe075)
 
+<br />
 
 </details>
 
