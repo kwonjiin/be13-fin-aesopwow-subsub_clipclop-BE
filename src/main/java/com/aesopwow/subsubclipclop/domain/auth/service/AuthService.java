@@ -9,6 +9,7 @@ import com.aesopwow.subsubclipclop.domain.company.repository.CompanyRepository;
 import com.aesopwow.subsubclipclop.domain.role.repository.RoleRepository;
 import com.aesopwow.subsubclipclop.domain.user.repository.UserRepository;
 import com.aesopwow.subsubclipclop.entity.Company;
+import com.aesopwow.subsubclipclop.entity.InfoDb;
 import com.aesopwow.subsubclipclop.entity.Role;
 import com.aesopwow.subsubclipclop.entity.User;
 import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
@@ -225,10 +226,12 @@ public class AuthService {
                 .email(email)
                 .name(name)
                 .password(encodedPassword)
-                .role(role)  // 기본 USER 역할 설정
-                .company(company)  // 회사 정보는 나중에 설정
+                .role(role)
+                .company(company)
                 .loginedAt(LocalDateTime.now())
                 .isDeleted(false)
+                .departmentName("경영")
+                .infoDb(InfoDb.builder().infoDbNo(2L).build())
                 .build();
 
         userRepository.save(user);
