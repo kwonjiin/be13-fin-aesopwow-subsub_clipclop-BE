@@ -49,5 +49,8 @@ public class User extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "info_db_no", nullable = true)
     private InfoDb infoDb;
+
+    @JoinColumn(name = "phone", nullable = true)
+    private String phone;
 }
 
