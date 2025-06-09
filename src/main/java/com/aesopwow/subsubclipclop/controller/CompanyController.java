@@ -7,6 +7,8 @@ import com.aesopwow.subsubclipclop.domain.common.dto.BaseResponseDto;
 import com.aesopwow.subsubclipclop.domain.company.dto.CompanyUpdateRequestDTO;
 import com.aesopwow.subsubclipclop.domain.company.service.CompanyService;
 import com.aesopwow.subsubclipclop.domain.payment.repository.PaymentRepository;
+import com.aesopwow.subsubclipclop.global.enums.ErrorCode;
+import com.aesopwow.subsubclipclop.global.exception.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -59,7 +61,7 @@ public class CompanyController {
             @PathVariable Long companyNo
     ) {
         Company company = companyService.getCompanyByNo(companyNo)
-                .orElseThrow(() -> new RuntimeException("회사를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
 
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, company));
     }
