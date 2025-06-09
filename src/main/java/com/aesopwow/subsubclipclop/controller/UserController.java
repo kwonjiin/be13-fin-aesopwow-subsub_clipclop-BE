@@ -239,17 +239,6 @@ public class UserController {
         return ResponseEntity.ok(userResponseDTO);
     }
 
-//    @GetMapping("")
-//    public ResponseEntity<UserResponseDTO> getOneUser (
-//            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-//
-//        User user = customUserDetails.getUser();
-//
-//        UserResponseDTO userResponseDTO = UserResponseDTO.from(user);
-//
-//        return ResponseEntity.ok(userResponseDTO);
-//    }
-
     @GetMapping("/basic-info/{userNo}")
     @Operation(summary = "기본 사용자 정보 조회", description = "userNo로 companyNo, infoDbNo, roleNo를 조회합니다.")
     public ResponseEntity<BaseResponseDto<UserResponseDTO>> getBasicInfo(@PathVariable @Valid Long userNo) {
