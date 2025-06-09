@@ -47,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/alarms/subscribe").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/public/**").permitAll()
                         .requestMatchers("/api/test").authenticated() // 인증 필요
+                        .requestMatchers("/api/user/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(
