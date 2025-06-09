@@ -52,7 +52,7 @@ public class User extends BaseEntity {
     private InfoDb infoDb;
 
     @Pattern(regexp = "^01[0-9]-?[0-9]{4}-?[0-9]{4}$", message = "올바른 전화번호 형식을 입력해주세요.")
-    @JoinColumn(name = "phone", nullable = true)
+    @Column(name = "phone", nullable = true)
     private String phone;
 }
 
