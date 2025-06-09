@@ -306,7 +306,7 @@ CREATE TABLE `info_column` (
 </details>
 
 <details>
-<summary><strong>코호트 분석(단일 분석 / 양측 분석)</strong></summary><br />
+<summary><strong>코호트 분석 (단일 분석 / 양측 분석)</strong></summary><br />
 
 - 코호트 단일분석
 
@@ -369,14 +369,21 @@ CREATE TABLE `info_column` (
 <details>
 <summary><strong>BackEnd CI</strong></summary><br />
 
-/////여기
+![be_test3merge](https://github.com/user-attachments/assets/79fc9c3a-1168-4289-a904-d56cf39f7c56)
+
+<br />
+
+![be_test4ci](https://github.com/user-attachments/assets/ff9c725d-e9ee-460a-9d2e-b8ae65bfa3e0)
+
+<br />
 
 </details>
 
 <details>
 <summary><strong>BackEnd CD</strong></summary><br />
 
-/////여기
+![be_test5cd](https://github.com/user-attachments/assets/41360f7d-6e77-4a14-9c1c-995abef754bf)
+
 
 </details>
 
@@ -451,7 +458,7 @@ CREATE TABLE `info_column` (
 <summary><strong>FrontEnd</strong></summary><br />
 
 ![FE 배포 계획서1](https://github.com/user-attachments/assets/d5832583-d640-45cb-ac92-762235b47ddd)
-![FE 배포 계획서2](https://github.com/user-attachments/assets/b8d0c467-db3a-4529-b288-66ab9e300e45)
+![FE 배포 계획서2](https://github.com/user-attachments/assets/f1ad9435-065f-4f36-b720-d06067156b54)
 ![FE 배포 계획서3](https://github.com/user-attachments/assets/36f07251-3111-4b67-adf9-a2051ba7f409)
 ![FE 배포 계획서4](https://github.com/user-attachments/assets/e0e037a2-aa61-4118-b02d-50a7246c7a39)
 
