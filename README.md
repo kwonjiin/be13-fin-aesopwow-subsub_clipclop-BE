@@ -412,18 +412,14 @@ CREATE TABLE `info_column` (
 </details>
 
 <details>
-<summary><strong>Machine Learning CI</strong></summary><br />
+<summary><strong>Machine Learning CI/CD</strong></summary><br />
 
-/////여기
+![ml_test0](https://github.com/user-attachments/assets/5fd940e4-ddae-42ba-895a-bf15f73a87ea)
 
-</details>
-
-<details>
-<summary><strong>Machine Learning CD</strong></summary><br />
-
-/////여기
 
 </details>
+
+
 
 <br /><br />
 
