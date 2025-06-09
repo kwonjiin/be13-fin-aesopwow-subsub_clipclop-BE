@@ -139,7 +139,14 @@ public class UserController {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    public ResponseEntity<BaseResponseDto<String>> deleteStaff(@PathVariable Long userNo) {
+    public ResponseEntity<BaseResponseDto<String>> deleteStaff(
+        @AuthenticationPrincipal CustomUserDetails customUserDetails,
+        @PathVariable Long userNo) {
+        User adminUser = customUserDetails.getUser();
+
+        if (!Role.RoleType.CLIENT_ADMIN.equals(adminUser.getRole().getName())) {
+            throw new CustomException(ErrorCode.ONLY_CLIENT_ADMIN_ALLOWED);
+        }
         userService.deleteStaff(userNo);
         return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, "직원이 삭제되었습니다."));
     }
