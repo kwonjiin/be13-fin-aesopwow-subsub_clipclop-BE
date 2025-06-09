@@ -32,27 +32,27 @@ public class AnalysisController {
     private final ApiService apiService;
     private final AnalysisService analysisService;
 
-    @GetMapping("")
-    public ResponseEntity<byte[]> getAnalysisResult(
-            @RequestParam String infoDbNo,
-            @RequestParam String originTable) {
-
-        // 파라미터 유효성 검사
-        if (infoDbNo == null || infoDbNo.isBlank() || originTable == null || originTable.isBlank()) {
-            throw new IllegalArgumentException("필수 파라미터가 누락되었습니다.");
-        }
-
-        byte[] fileBytes = apiService.getAnalysisResult(infoDbNo, originTable);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDisposition(ContentDisposition
-                .attachment()
-                .filename("dashboard_" + infoDbNo + ".csv") // ✅ 파일 이름 명시
-                .build());
-
-        return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
-    }
+//    @GetMapping("")
+//    public ResponseEntity<byte[]> getAnalysisResult(
+//            @RequestParam int infoDbNo,
+//            @RequestParam String user_info,
+//            @RequestParam String user_sub_info) {
+//
+//        if (infoDbNo == 0 || user_info == null || user_info.isBlank() || user_sub_info == null || user_sub_info.isBlank()) {
+//            throw new IllegalArgumentException("필수 파라미터가 누락되었습니다.");
+//        }
+//
+//        byte[] fileBytes = apiService.getAnalysisResult(infoDbNo, user_info, user_sub_info);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        headers.setContentDisposition(ContentDisposition
+//                .attachment()
+//                .filename("dashboard_" + infoDbNo + ".csv") // ✅ 파일 이름 명시
+//                .build());
+//
+//        return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
+//    }
 
     @GetMapping("/cohort")
     public ResponseEntity<byte[]> getAnalysisCohortOneResult(

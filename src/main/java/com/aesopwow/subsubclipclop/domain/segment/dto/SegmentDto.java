@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class SegmentSaveResponseDto {
+public class SegmentDto {
     private boolean success;
     private String filename;
 }

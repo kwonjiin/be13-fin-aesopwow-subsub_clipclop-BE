@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -79,12 +80,12 @@ public class ApiServiceImpl implements ApiService {
 //                .block(); // 동기 방식으로 대기
 //    }
 
-    private static final int DASHBOARD_API_TIMEOUT_SECONDS = 10;
+    private static final int DASHBOARD_API_TIMEOUT_SECONDS = 100;
     
     @Override
-    public byte[] getAnalysisResult(String infoDbNo, String originTable) {
+    public Mono<byte[]> getAnalysisResult(int infoDbNo, String user_info, String user_sub_info) {
 
-        if (infoDbNo == null || infoDbNo.isBlank() || originTable == null || originTable.isBlank()) {
+        if (infoDbNo == 0 || user_info == null || user_info.isBlank() || user_sub_info == null || user_sub_info.isBlank()) {
             throw new IllegalArgumentException("필수 파라미터가 누락되었습니다.");
         }
 
@@ -93,14 +94,21 @@ public class ApiServiceImpl implements ApiService {
                     .uri(uriBuilder -> uriBuilder
                             .path("/python-api/dashboard")
                             .queryParam("info_db_no", infoDbNo)
-                            .queryParam("origin_table", originTable)
-                            .build()
-                    )
+                            .queryParam("user_info", user_info)
+                            .queryParam("user_sub_info", user_sub_info)
+                            .build())
                     .accept(MediaType.APPLICATION_OCTET_STREAM)
                     .retrieve()
                     .bodyToMono(byte[].class)
                     .timeout(Duration.ofSeconds(DASHBOARD_API_TIMEOUT_SECONDS))
-                    .block();
+                    .onErrorResume(WebClientResponseException.class, e -> {
+                        log.error("대시보드 데이터 요청 실패: {}, 상태 코드: {}", e.getMessage(), e.getStatusCode());
+                        return Mono.error(new CustomException(ErrorCode.DASHBOARD_API_FAILED, e));
+                    })
+                    .onErrorResume(Exception.class, e -> {
+                        log.error("대시보드 데이터 요청 중 예외 발생: {}", e.getMessage());
+                        return Mono.error(new CustomException(ErrorCode.DASHBOARD_UNKNOWN_ERROR, e));
+                    });
         } catch (WebClientResponseException e) {
             log.error("대시보드 데이터 요청 실패: {}, 상태 코드: {}", e.getMessage(), e.getStatusCode());
             throw new CustomException(ErrorCode.DASHBOARD_API_FAILED, e);
