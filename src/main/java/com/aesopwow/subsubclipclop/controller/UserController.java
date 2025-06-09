@@ -71,7 +71,7 @@ public class UserController {
     ) {
         User adminUser = customUserDetails.getUser();
 
-        if (adminUser.getRole().getName() != Role.RoleType.CLIENT_ADMIN) {
+        if (!Role.RoleType.CLIENT_ADMIN.equals(adminUser.getRole().getName())) {
             throw new CustomException(ErrorCode.ONLY_CLIENT_ADMIN_ALLOWED);
         }
 
