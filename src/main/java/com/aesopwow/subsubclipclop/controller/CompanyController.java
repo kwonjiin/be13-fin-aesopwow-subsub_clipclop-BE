@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +35,36 @@ public class CompanyController {
     private PaymentRepository paymentRepository;
     private InfoDbRepository infoDbRepository;
 
-    @PutMapping("/company/{companyNo}")
+    @GetMapping("/{companyNo}")
+    @Operation(summary = "회사 상세 조회", description = "회사 번호로 회사 정보를 조회합니다.")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "NOT FOUND",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "INTERNAL SERVER ERROR",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
+    public ResponseEntity<BaseResponseDto<Company>> getCompanyByNo(
+            @Parameter(description = "회사 번호", example = "1")
+            @PathVariable Long companyNo
+    ) {
+        Company company = companyService.getCompanyByNo(companyNo)
+                .orElseThrow(() -> new RuntimeException("회사를 찾을 수 없습니다."));
+
+        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, company));
+    }
+
+    @PutMapping("/{companyNo}/update")
     @Operation(summary = "회사 정보 수정", description = "회사 정보를 JSON으로 받아 수정한다.")
     @ApiResponses({
             @ApiResponse(
