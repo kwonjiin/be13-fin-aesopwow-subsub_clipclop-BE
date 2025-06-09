@@ -152,9 +152,12 @@ public class UserController {
     }
 
     // 유저 정보 조회
-    @GetMapping("/my/{userNo}")
-    @Operation(summary = "내 정보 조회", description = "userNo로 내 정보를 조회합니다.")
-    public ResponseEntity<BaseResponseDto<UserResponseDTO>> getMyInfo(@PathVariable @Valid Long userNo) {
+    @GetMapping("/my")
+    @Operation(summary = "내 정보 조회", description = "현재 로그인한 사용자의 정보를 조회합니다.")
+    public ResponseEntity<BaseResponseDto<UserResponseDTO>> getMyInfo(
+        @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        Long userNo = customUserDetails.getUser().getUserNo();
+
         User user = userService.getOneUserByUserNo(userNo);
 
         UserResponseDTO userResponseDTO = UserResponseDTO.from(user);
