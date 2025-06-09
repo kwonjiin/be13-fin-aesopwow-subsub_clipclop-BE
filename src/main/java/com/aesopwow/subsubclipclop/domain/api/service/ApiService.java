@@ -6,6 +6,7 @@ import com.aesopwow.subsubclipclop.domain.api.dto.ApiRequestDto;
 import com.aesopwow.subsubclipclop.domain.api.dto.ApiResponseDto;
 import com.aesopwow.subsubclipclop.domain.info_column.dto.InfoColumnResponseDto;
 import com.aesopwow.subsubclipclop.entity.Analysis;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ public interface ApiService {
 
 //    public byte[] getAnalysisResult(String filename);
 
-    public byte[] getAnalysisResult(String infoDbNo, String originTable);
+    public Mono<byte[]> getAnalysisResult(int infoDbNo, String user_info, String user_sub_info);
 
     public byte[] getSingleAnalysisResult(String infoDbNo, String originTable, String clusterType);
 

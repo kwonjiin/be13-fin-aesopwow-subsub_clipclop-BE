@@ -2,6 +2,7 @@ package com.aesopwow.subsubclipclop.entity;
 
 import com.aesopwow.subsubclipclop.domain.common.enums.PlanType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -49,5 +50,9 @@ public class User extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "info_db_no", nullable = true)
     private InfoDb infoDb;
+
+    @Pattern(regexp = "^01[0-9]-?[0-9]{4}-?[0-9]{4}$", message = "올바른 전화번호 형식을 입력해주세요.")
+    @Column(name = "phone", nullable = true)
+    private String phone;
 }
 
