@@ -366,6 +366,58 @@ CREATE TABLE `info_column` (
 
 </details>
 
+<details>
+<summary><strong>BackEnd CI</strong></summary><br />
+
+/////여기
+
+</details>
+
+<details>
+<summary><strong>BackEnd CD</strong></summary><br />
+
+/////여기
+
+</details>
+
+<details>
+<summary><strong>FrontEnd CI</strong></summary><br />
+
+![fe_test1](https://github.com/user-attachments/assets/7437d6c7-6504-486b-9c56-85a58df4f3f0)
+
+<br />
+
+![fe_test2](https://github.com/user-attachments/assets/18a14a28-194a-46dc-9208-904597fc232f)
+
+<br />
+
+![fe_test3](https://github.com/user-attachments/assets/f4159e59-4ffe-4e62-9d9f-8228542e459e)
+
+
+</details>
+
+<details>
+<summary><strong>FrontEnd CD</strong></summary><br />
+
+![fe_test4](https://github.com/user-attachments/assets/c54b1c0d-aebf-4e84-b075-6750176aef94)
+
+
+</details>
+
+<details>
+<summary><strong>Machine Learning CI</strong></summary><br />
+
+/////여기
+
+</details>
+
+<details>
+<summary><strong>Machine Learning CD</strong></summary><br />
+
+/////여기
+
+</details>
+
 <br /><br />
 
 
