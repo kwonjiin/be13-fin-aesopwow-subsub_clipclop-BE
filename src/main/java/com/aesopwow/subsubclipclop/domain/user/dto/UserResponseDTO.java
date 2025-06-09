@@ -1,5 +1,6 @@
 package com.aesopwow.subsubclipclop.domain.user.dto;
 
+import com.aesopwow.subsubclipclop.entity.Role;
 import com.aesopwow.subsubclipclop.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,10 +15,13 @@ public class UserResponseDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String email;
+    private String phone;
     private Long companyNo;
     private String companyName;
     private String departmentName;
     private Long infoDbNo;
+    private Byte roleNo;
+    private Role.RoleType roleName;
 
     public static UserResponseDTO from(User user) {
         return new UserResponseDTO(
@@ -26,10 +30,13 @@ public class UserResponseDTO {
                 user.getCreatedAt(),
                 user.getUpdatedAt(),
                 user.getEmail(),
+                user.getPhone(),
                 user.getCompany().getCompanyNo(),
                 user.getCompany().getName(),
                 user.getDepartmentName(),
-                user.getInfoDb().getInfoDbNo()
+                user.getInfoDb().getInfoDbNo(),
+                user.getRole().getRoleNo(),
+                user.getRole().getName()
         );
     }
 }

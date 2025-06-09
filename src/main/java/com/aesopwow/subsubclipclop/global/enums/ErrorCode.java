@@ -46,7 +46,8 @@ public enum ErrorCode {
     UNAUTHORIZED_ADMIN_ONLY("E034", "답변 작업은 관리자만 가능합니다.", HttpStatus.FORBIDDEN),
     POST_NOT_FOUND("E035", "문의글이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     ALREADY_ANSWERED("E036", "이미 등록된 답변입니다.", HttpStatus.BAD_REQUEST),
-    UNAUTHORIZED("E037", "해당 작업을 수행할 권한이 없습니다.", HttpStatus.UNAUTHORIZED);
+    UNAUTHORIZED("E037", "해당 작업을 수행할 권한이 없습니다.", HttpStatus.UNAUTHORIZED),
+    INFO_COLUMN_NOT_FOUND("E038", "해당하는 InfoColumn을 찾지 못했습니다.", HttpStatus.NOT_FOUND);
 
     private final String code;
     private final String message;

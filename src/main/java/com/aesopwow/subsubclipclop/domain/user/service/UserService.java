@@ -22,4 +22,8 @@ public interface UserService {
     void changePassword(Long userNo, PasswordChangeRequestDTO passwordChangeRequestDTO);
 
     User getOneUserByUserNo(Long userNo);
+
+    String getRoleNameByRoleNo(Long roleNo);
+
+    String getOriginTableByInfoDbNo(Long infoDbNo);
 }

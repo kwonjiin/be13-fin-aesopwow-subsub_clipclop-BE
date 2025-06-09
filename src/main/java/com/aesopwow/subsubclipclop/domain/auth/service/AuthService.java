@@ -173,6 +173,7 @@ public class AuthService {
         String email = request.getEmail();
         String password = request.getPassword();
         String name = request.getName();
+        String phone = request.getPhone();
 
         // OTP 인증 여부 확인
         String verified = redisTemplate.opsForValue().get("VERIFIED:" + email);
@@ -224,6 +225,7 @@ public class AuthService {
         User user = User.builder()
                 .email(email)
                 .name(name)
+                .phone(phone)
                 .password(encodedPassword)
                 .role(role)  // 기본 USER 역할 설정
                 .company(company)  // 회사 정보는 나중에 설정
