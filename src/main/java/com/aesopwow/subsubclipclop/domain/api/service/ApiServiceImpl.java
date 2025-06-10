@@ -27,7 +27,9 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 public class ApiServiceImpl implements ApiService {
+
     private final WebClient webClient = WebClient.create("http://15.164.211.80:5001");
+
     private static final Logger log = LoggerFactory.getLogger(ApiServiceImpl.class);
 
     @Override

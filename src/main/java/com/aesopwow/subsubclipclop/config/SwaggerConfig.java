@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "Spring API",
                 description = "OTT 구독 고객관리 서비스 API 입니다",
-                version = "v0.0.1"
+                version = "v0.1.2"
         )
 )
 public class SwaggerConfig {
