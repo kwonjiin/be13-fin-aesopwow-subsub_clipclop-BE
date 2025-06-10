@@ -10,4 +10,5 @@ import java.util.List;
 public class ApiInsightResponseDto {
     private String summary;
     private List<String> recommendations;
+    private String prediction;
 }
