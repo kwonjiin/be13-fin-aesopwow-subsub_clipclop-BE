@@ -14,12 +14,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SegmentService {
 
-    private static final String PYTHON_SUBSCRIPTION_SERVER_URL = "http://43.201.25.64:5001/api/segment/subscription";
-    private static final String PYTHON_WATCH_TIME_SERVER_URL = "http://43.201.25.64:5001/api/segment/watchtime";
-    private static final String PYTHON_LAST_LOGIN_SERVER_URL = "http://43.201.25.64:5001/api/segment/lastlogin";
-    private static final String PYTHON_GENRE_SERVER_URL = "http://43.201.25.64:5001/api/segment/genre";
-    private static final String PYTHON_LIST_URL = "http://43.201.25.64:5001/api/segment/list";
-    private static final String PYTHON_GET_CSV_URL = "http://43.201.25.64:5001/api/segment/list/";
+    private static final String PYTHON_SUBSCRIPTION_SERVER_URL = "http://15.164.211.80:5001/api/segment/subscription";
+    private static final String PYTHON_WATCH_TIME_SERVER_URL = "http://15.164.211.80:5001/api/segment/watchtime";
+    private static final String PYTHON_LAST_LOGIN_SERVER_URL = "http://15.164.211.80:5001/api/segment/lastlogin";
+    private static final String PYTHON_GENRE_SERVER_URL = "http://15.164.211.80:5001/api/segment/genre";
+    private static final String PYTHON_LIST_URL = "http://15.164.211.80:5001/api/segment/list";
+    private static final String PYTHON_GET_CSV_URL = "http://15.164.211.80:5001/api/segment/list/";
 
     // 구독타입 서비스
     public SegmentDto segmentSubscription(
