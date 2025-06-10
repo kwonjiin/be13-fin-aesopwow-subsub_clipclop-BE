@@ -172,7 +172,7 @@ SHAP 기반의 예측 모델을 활용해 이탈 위험 고객을 사전 식별�
 
 ### 🪓Tool
 
-<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/erd cloud-3B47C2?style=for-the-badge&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white"> 
+<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/erd cloud-3B47C2?style=for-the-badge&logo=erdcloud&logoColor=white"> <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white"> 
 
 <br /><br /><br />
 
@@ -224,7 +224,55 @@ SHAP 기반의 예측 모델을 활용해 이탈 위험 고객을 사전 식별�
 <br />
 
 <details>
-<summary><strong>4️⃣ WBS(Work Breakdown Structure)</strong></summary>
+<summary><strong>4️⃣ CI/CD 계획서</strong></summary><br />
+
+<details>
+<summary><strong>BackEnd</strong></summary><br />
+
+![BE 배포 계획서1](https://github.com/user-attachments/assets/90296c6e-5b1b-420c-bd13-d34416e75121)
+![BE 배포 계획서2](https://github.com/user-attachments/assets/ce189fd0-e925-499f-a453-027389f43327)
+![BE 배포 계획서3](https://github.com/user-attachments/assets/04a68471-cf56-4ee0-9c6a-4db1ab3aab8d)
+![BE 배포 계획서4](https://github.com/user-attachments/assets/3cc829f1-de9b-4748-be34-b021fddcc6a4)
+![BE 배포 계획서5](https://github.com/user-attachments/assets/580bfb49-f11f-451d-9ebe-0578d88a483d)
+![BE 배포 계획서6](https://github.com/user-attachments/assets/f938356b-d206-4f35-9a03-2c5c07edde22)
+![BE 배포 계획서7](https://github.com/user-attachments/assets/d23b646e-fbe8-4ed1-9089-6986e4d07929)
+![BE 배포 계획서8](https://github.com/user-attachments/assets/9a988986-6b99-4552-9774-12481dd342f4)
+
+</details>
+
+<details>
+<summary><strong>FrontEnd</strong></summary><br />
+
+![FE 배포 계획서1](https://github.com/user-attachments/assets/d5832583-d640-45cb-ac92-762235b47ddd)
+![FE 배포 계획서2](https://github.com/user-attachments/assets/f1ad9435-065f-4f36-b720-d06067156b54)
+![FE 배포 계획서3](https://github.com/user-attachments/assets/36f07251-3111-4b67-adf9-a2051ba7f409)
+![FE 배포 계획서4](https://github.com/user-attachments/assets/e0e037a2-aa61-4118-b02d-50a7246c7a39)
+
+</details>
+
+<details>
+<summary><strong>MachineLearning</strong></summary><br />
+
+![ML 배포 계획서1](https://github.com/user-attachments/assets/92634d06-8fd3-487f-9766-9ceadca9e5cc)
+![ML 배포 계획서2](https://github.com/user-attachments/assets/43a067a3-6652-437f-a663-7f34f5bcf37d)
+![ML 배포 계획서3](https://github.com/user-attachments/assets/f08ae7af-8051-423d-b077-8c71ac21d4f2)
+![ML 배포 계획서4](https://github.com/user-attachments/assets/57566b85-56fc-4017-bad1-3950e75588ce)
+
+
+</details>
+
+<details>
+<summary><strong>AWS</strong></summary><br />
+
+![AWS 이용 항목](https://github.com/user-attachments/assets/8a1c273d-690c-45be-9491-2f8e1d4399aa)
+
+
+</details></details> 
+
+<br />
+
+<details>
+<summary><strong>5️⃣ WBS(Work Breakdown Structure)</strong></summary>
 
 ![image](https://github.com/user-attachments/assets/ee52043e-3492-4602-9642-537ee3335abe)
 
@@ -236,7 +284,7 @@ SHAP 기반의 예측 모델을 활용해 이탈 위험 고객을 사전 식별�
 <br />
 
 <details>
-<summary><strong>5️⃣ ERD(Entity-Relationship Diagram)</strong></summary>
+<summary><strong>6️⃣ ERD(Entity-Relationship Diagram)</strong></summary>
 
 ![FINAL_PROJECT](https://github.com/user-attachments/assets/09430956-a6e2-4a07-93e1-2b030067aeb4)
 
@@ -425,7 +473,7 @@ CREATE TABLE `info_column` (
 <br />
 
 <details>
-<summary><strong>6️⃣ 화면설계서</strong></summary>
+<summary><strong>7️⃣ 화면설계서</strong></summary>
 
 [다구독다구독 화면설계서](https://www.figma.com/design/WIdgPXgYKVYQdWuVFuTV9D/%EB%8B%A4%EA%B5%AC%EB%8F%85-%EB%8B%A4%EA%B5%AC%EB%8F%85?node-id=0-1&t=NT0d2qEw7NmmGSsN-1)
 
@@ -434,7 +482,315 @@ CREATE TABLE `info_column` (
 <br />
 
 <details>
-<summary><strong>7️⃣ 통합테스트</strong></summary>
+<summary><strong>8️⃣ 백엔드 단위테스트</strong></summary>
+
+<details>
+<summary><strong>인증 관련 API</strong></summary>
+
+<details>
+<summary><strong>이메일 중복 확인</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>OTP 요청</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>OTP 인증</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>OTP 재전송</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>최종 인증</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>로그인</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>비밀번호 변경</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>비밀번호 찾기 - OTP 요청</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>비밀번호 찾기 - OTP 인증</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>로그아웃</strong></summary>
+
+///여기
+
+</details>
+
+</details>
+
+<details>
+<summary><strong>유저 관련 API</strong></summary>
+
+<details>
+<summary><strong>내정보 조회</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>내 정보 수정</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>직원 추가</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>직원 삭제</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>직원 정보 조회</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>비밀번호 변경</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>회원 탈퇴</strong></summary>
+
+///여기
+
+</details>
+
+</details>
+
+<details>
+<summary><strong>세그먼트 분석API</strong></summary>
+
+<details>
+<summary><strong>선호 장르기준 분석</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>마지막 접속일기준 분석</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>구독 유형기준 분석</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>누적 시청시간 기준 분석</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>리스트 조회</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>csv 파일 다운로드</strong></summary>
+
+///여기
+
+</details>
+
+</details>
+
+<details>
+<summary><strong>회사 관련 API</strong></summary>
+
+<details>
+<summary><strong>회사 상세 조회</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>회사 정보 수정</strong></summary>
+
+///여기
+
+</details>
+
+</details>
+
+<details>
+<summary><strong>마이페이지 관련 API</strong></summary>
+
+<details>
+<summary><strong>마이페이지 유저 정보 조회</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>마이페이지 정보 수정</strong></summary>
+
+///여기
+
+</details>
+
+</details>
+
+<details>
+<summary><strong>문의 게시판 관련 API</strong></summary>
+
+<details>
+<summary><strong>게시글 전체 조회</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>게시글 생성</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>내 게시글 조회</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>내 게시글 수정</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>댓글 조회</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>댓글 생성</strong></summary>
+
+///여기
+
+</details>
+
+</details>
+
+<details>
+<summary><strong>알림 관련 API</strong></summary>
+
+<details>
+<summary><strong>알림 조회</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>알림 읽음처리</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>알림 삭제</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>알림 전송</strong></summary>
+
+///여기
+
+</details>
+
+<details>
+<summary><strong>안읽은 알림 조회</strong></summary>
+
+///여기
+
+</details>
+
+</details>
+
+</details>
+
+<br />
+
+<details>
+<summary><strong>9️⃣ 통합테스트</strong></summary>
 <br />
 
 <details>
@@ -620,51 +976,19 @@ CREATE TABLE `info_column` (
 
 </details>
 
-<br />
-
-<details>
-<summary><strong>8️⃣ CI/CD 계획서</strong></summary><br />
-
-<details>
-<summary><strong>BackEnd</strong></summary><br />
-
-![BE 배포 계획서1](https://github.com/user-attachments/assets/90296c6e-5b1b-420c-bd13-d34416e75121)
-![BE 배포 계획서2](https://github.com/user-attachments/assets/ce189fd0-e925-499f-a453-027389f43327)
-![BE 배포 계획서3](https://github.com/user-attachments/assets/04a68471-cf56-4ee0-9c6a-4db1ab3aab8d)
-![BE 배포 계획서4](https://github.com/user-attachments/assets/3cc829f1-de9b-4748-be34-b021fddcc6a4)
-![BE 배포 계획서5](https://github.com/user-attachments/assets/580bfb49-f11f-451d-9ebe-0578d88a483d)
-![BE 배포 계획서6](https://github.com/user-attachments/assets/f938356b-d206-4f35-9a03-2c5c07edde22)
-![BE 배포 계획서7](https://github.com/user-attachments/assets/d23b646e-fbe8-4ed1-9089-6986e4d07929)
-![BE 배포 계획서8](https://github.com/user-attachments/assets/9a988986-6b99-4552-9774-12481dd342f4)
-
-</details>
-
-<details>
-<summary><strong>FrontEnd</strong></summary><br />
-
-![FE 배포 계획서1](https://github.com/user-attachments/assets/d5832583-d640-45cb-ac92-762235b47ddd)
-![FE 배포 계획서2](https://github.com/user-attachments/assets/f1ad9435-065f-4f36-b720-d06067156b54)
-![FE 배포 계획서3](https://github.com/user-attachments/assets/36f07251-3111-4b67-adf9-a2051ba7f409)
-![FE 배포 계획서4](https://github.com/user-attachments/assets/e0e037a2-aa61-4118-b02d-50a7246c7a39)
-
-</details>
-
-<details>
-<summary><strong>MachineLearning</strong></summary><br />
-
-![ML 배포 계획서1](https://github.com/user-attachments/assets/92634d06-8fd3-487f-9766-9ceadca9e5cc)
-![ML 배포 계획서2](https://github.com/user-attachments/assets/43a067a3-6652-437f-a663-7f34f5bcf37d)
-![ML 배포 계획서3](https://github.com/user-attachments/assets/f08ae7af-8051-423d-b077-8c71ac21d4f2)
-![ML 배포 계획서4](https://github.com/user-attachments/assets/57566b85-56fc-4017-bad1-3950e75588ce)
 
 
-</details>
 
-<details>
-<summary><strong>AWS</strong></summary><br />
+<br /><br />
 
-![AWS 이용 항목](https://github.com/user-attachments/assets/8a1c273d-690c-45be-9491-2f8e1d4399aa)
+## 📌 회고
 
-
-</details></details> <br /><br />
+| 조원<br>이름 | 회고 |
+| --------- | --- |
+| 유재우 | ~~~ 뭐 이것저것 ~~ |<br/>
+| 권지민 | ~~~ 뭐 이것저것 ~~ |<br/>
+| 송현준 | ~~~ 뭐 이것저것 ~~ |<br/>
+| 염정운 | ~~~ 뭐 이것저것 ~~ |<br/>
+| 이성훈 | ~~~ 뭐 이것저것 ~~ |<br/>
+| 이희진 | ~~~ 뭐 이것저것 ~~ |
 
