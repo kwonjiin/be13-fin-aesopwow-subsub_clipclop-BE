@@ -306,7 +306,7 @@ CREATE TABLE `info_column` (
 </details>
 
 <details>
-<summary><strong>코호트 분석(단일 분석 / 양측 분석)</strong></summary><br />
+<summary><strong>코호트 분석 (단일 분석 / 양측 분석)</strong></summary><br />
 
 - 코호트 단일분석
 
@@ -366,6 +366,61 @@ CREATE TABLE `info_column` (
 
 </details>
 
+<details>
+<summary><strong>BackEnd CI</strong></summary><br />
+
+![be_test3merge](https://github.com/user-attachments/assets/79fc9c3a-1168-4289-a904-d56cf39f7c56)
+
+<br />
+
+![be_test4ci](https://github.com/user-attachments/assets/ff9c725d-e9ee-460a-9d2e-b8ae65bfa3e0)
+
+<br />
+
+</details>
+
+<details>
+<summary><strong>BackEnd CD</strong></summary><br />
+
+![be_test5cd](https://github.com/user-attachments/assets/41360f7d-6e77-4a14-9c1c-995abef754bf)
+
+
+</details>
+
+<details>
+<summary><strong>FrontEnd CI</strong></summary><br />
+
+![fe_test1](https://github.com/user-attachments/assets/7437d6c7-6504-486b-9c56-85a58df4f3f0)
+
+<br />
+
+![fe_test2](https://github.com/user-attachments/assets/18a14a28-194a-46dc-9208-904597fc232f)
+
+<br />
+
+![fe_test3](https://github.com/user-attachments/assets/f4159e59-4ffe-4e62-9d9f-8228542e459e)
+
+
+</details>
+
+<details>
+<summary><strong>FrontEnd CD</strong></summary><br />
+
+![fe_test4](https://github.com/user-attachments/assets/c54b1c0d-aebf-4e84-b075-6750176aef94)
+
+
+</details>
+
+<details>
+<summary><strong>Machine Learning CI/CD</strong></summary><br />
+
+![ml_test0](https://github.com/user-attachments/assets/5fd940e4-ddae-42ba-895a-bf15f73a87ea)
+
+
+</details>
+
+
+
 <br /><br />
 
 
@@ -399,7 +454,7 @@ CREATE TABLE `info_column` (
 <summary><strong>FrontEnd</strong></summary><br />
 
 ![FE 배포 계획서1](https://github.com/user-attachments/assets/d5832583-d640-45cb-ac92-762235b47ddd)
-![FE 배포 계획서2](https://github.com/user-attachments/assets/b8d0c467-db3a-4529-b288-66ab9e300e45)
+![FE 배포 계획서2](https://github.com/user-attachments/assets/f1ad9435-065f-4f36-b720-d06067156b54)
 ![FE 배포 계획서3](https://github.com/user-attachments/assets/36f07251-3111-4b67-adf9-a2051ba7f409)
 ![FE 배포 계획서4](https://github.com/user-attachments/assets/e0e037a2-aa61-4118-b02d-50a7246c7a39)
 
