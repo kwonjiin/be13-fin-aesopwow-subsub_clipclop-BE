@@ -14,9 +14,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
-    private CompanyRepository companyRepository;
-    private PaymentRepository paymentRepository;
-    private InfoDbRepository infoDbRepository;
+    private final CompanyRepository companyRepository;
+    private final PaymentRepository paymentRepository;
+    private final InfoDbRepository infoDbRepository;
 
     @Override
     public void updateCompanyInfo(Long companyNo, CompanyUpdateRequestDTO companyUpdateRequestDTO) {
@@ -47,7 +47,8 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Optional<Company> getCompanyByNo(Long companyNo) {
-        return Optional.empty();
+        return companyRepository.findById(companyNo);
+//        return Optional.empty();
     }
 
     @Override

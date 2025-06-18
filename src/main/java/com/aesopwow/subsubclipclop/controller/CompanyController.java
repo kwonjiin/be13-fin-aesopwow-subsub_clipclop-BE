@@ -1,5 +1,6 @@
 package com.aesopwow.subsubclipclop.controller;
 
+import com.aesopwow.subsubclipclop.domain.company.dto.CompanyResponseDto;
 import com.aesopwow.subsubclipclop.domain.info_db.repository.InfoDbRepository;
 import com.aesopwow.subsubclipclop.entity.Company;
 import com.aesopwow.subsubclipclop.entity.Payment;
@@ -56,14 +57,16 @@ public class CompanyController {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    public ResponseEntity<BaseResponseDto<Company>> getCompanyByNo(
+    public ResponseEntity<BaseResponseDto<CompanyResponseDto>> getCompanyByNo(
             @Parameter(description = "회사 번호", example = "1")
             @PathVariable Long companyNo
     ) {
         Company company = companyService.getCompanyByNo(companyNo)
                 .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
 
-        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, company));
+        CompanyResponseDto companyResponseDto = new CompanyResponseDto(company);
+
+        return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, companyResponseDto));
     }
 
     @PutMapping("/{companyNo}/update")
