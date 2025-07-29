@@ -176,7 +176,7 @@ SHAP 기반의 예측 모델을 활용해 이탈 위험 고객을 사전 식별�
 <br />
 
 <details>
-<summary><strong>1️⃣ 프로젝트 기획서</strong></summary>
+<summary><strong>&nbsp; 1. 프로젝트 기획서</strong></summary>
 
 <br />
 
@@ -194,7 +194,7 @@ SHAP 기반의 예측 모델을 활용해 이탈 위험 고객을 사전 식별�
 <br />
 
 <details>
-<summary><strong>2️⃣ 요구사항 정의서</strong></summary>
+<summary><strong>&nbsp; 2. 요구사항 정의서</strong></summary>
 
 ![요구사항 정의서_page-0001](https://github.com/user-attachments/assets/5c977fa3-9327-42c6-af1d-7b281f813399)
 ![요구사항 정의서_page-0002](https://github.com/user-attachments/assets/71b5cd07-267a-4540-8123-0901136ad458)
@@ -208,7 +208,7 @@ SHAP 기반의 예측 모델을 활용해 이탈 위험 고객을 사전 식별�
 <br />
 
 <details>
-<summary><strong>3️⃣ 시스템 아키텍쳐</strong></summary>
+<summary><strong>&nbsp; 3. 시스템 아키텍쳐</strong></summary>
 
 <br />
 
@@ -219,7 +219,7 @@ SHAP 기반의 예측 모델을 활용해 이탈 위험 고객을 사전 식별�
 <br />
 
 <details>
-<summary><strong>4️⃣ CI/CD 계획서</strong></summary><br />
+<summary><strong>&nbsp; 4. CI/CD 계획서</strong></summary><br />
 
 <details>
 <summary><strong>BackEnd</strong></summary><br />
@@ -267,7 +267,7 @@ SHAP 기반의 예측 모델을 활용해 이탈 위험 고객을 사전 식별�
 <br />
 
 <details>
-<summary><strong>5️⃣ WBS(Work Breakdown Structure)</strong></summary>
+<summary><strong>&nbsp; 5. WBS(Work Breakdown Structure)</strong></summary>
 
 ![image](https://github.com/user-attachments/assets/ee52043e-3492-4602-9642-537ee3335abe)
 
@@ -279,7 +279,7 @@ SHAP 기반의 예측 모델을 활용해 이탈 위험 고객을 사전 식별�
 <br />
 
 <details>
-<summary><strong>6️⃣ ERD(Entity-Relationship Diagram)</strong></summary>
+<summary><strong>&nbsp; 6. ERD(Entity-Relationship Diagram)</strong></summary>
 
 ![FINAL_PROJECT](https://github.com/user-attachments/assets/09430956-a6e2-4a07-93e1-2b030067aeb4)
 
@@ -468,7 +468,7 @@ CREATE TABLE `info_column` (
 <br />
 
 <details>
-<summary><strong>7️⃣ 화면설계서</strong></summary>
+<summary><strong>&nbsp; 7. 화면설계서</strong></summary>
 
 [다구독다구독 화면설계서](https://www.figma.com/design/WIdgPXgYKVYQdWuVFuTV9D/%EB%8B%A4%EA%B5%AC%EB%8F%85-%EB%8B%A4%EA%B5%AC%EB%8F%85?node-id=0-1&t=NT0d2qEw7NmmGSsN-1)
 
@@ -477,7 +477,246 @@ CREATE TABLE `info_column` (
 <br />
 
 <details>
-<summary><strong>8️⃣ 통합테스트</strong></summary>
+<summary><strong>&nbsp; 8. 프로그램 사양서</strong></summary>
+
+![프로그램 사양서 1](https://github.com/user-attachments/assets/7b70b73d-623e-4eb2-853a-145b59ca2105)
+![프로그램 사양서 2](https://github.com/user-attachments/assets/646c21c0-9799-451c-b961-24c018cabd44)
+![프로그램 사양서 3](https://github.com/user-attachments/assets/eb8ec55d-29fe-4f28-b869-8df925e6bce2)
+
+
+</details>
+
+
+<br />
+
+<details>
+<summary><strong>&nbsp; 9. 단위테스트</strong></summary>
+
+<br />
+
+<details>
+<summary><strong> 인증 관련 API</strong></summary>
+
+- 이메일 중복 확인
+  
+![auth_emailcheck](https://github.com/user-attachments/assets/e374c80e-ae5c-4a1c-ac0d-80560f976627)
+
+<br />
+
+- otp 전송
+  
+![auth_signup_otp](https://github.com/user-attachments/assets/9273fed6-f555-4e39-9020-f683b89e9538)
+
+<br />
+
+- otp 재전송
+  
+![auth_signup_otp_resend](https://github.com/user-attachments/assets/bafa72f6-5d10-42d4-9380-8c1c1649ae45)
+
+<br />
+
+- otp 확인
+  
+![auth_signup_verifyotp](https://github.com/user-attachments/assets/aea9f33e-419d-4e00-b58a-8935d625016f)
+
+<br />
+
+- 최종 회원가입
+  
+![auth_signup](https://github.com/user-attachments/assets/24ce53b7-6aab-4718-915c-7e5cc7d478b2)
+
+<br />
+
+- 로그인
+  
+![auth_login](https://github.com/user-attachments/assets/e059b79a-f09b-42d5-9f3f-2ef31c08bf60)
+
+<br />
+
+- 비밀번호 찾기(otp 요청)
+  
+![auth_forgot_otp](https://github.com/user-attachments/assets/d44788c7-983a-4946-bc72-e66a05f6d97d)
+
+<br />
+
+- 비밀번호 찾기(otp 인증)
+  
+![auth_forgot_otp_ok](https://github.com/user-attachments/assets/d71108c5-d3f9-4192-83a6-c3d34fffa34f)
+
+<br />
+
+- 비밀번호 변경
+  
+![auth_reset_pwd](https://github.com/user-attachments/assets/e20323b0-f42b-487f-ae44-f41b27b5fca5)
+
+</details>
+
+<details>
+<summary><strong>마이페이지 관련 API</strong></summary>
+
+<br />
+
+- 유저정보 수정
+  
+![mypage_update](https://github.com/user-attachments/assets/c961bd6e-c5f6-42a7-b1f0-3525160a0654)
+
+<br />
+
+- 유저 정보 조회
+  
+![mypage_get](https://github.com/user-attachments/assets/d07224b7-056c-402b-a2a7-5e57565dc040)
+
+</details>
+
+<details>
+<summary><strong>유저 관련 API</strong></summary>
+
+<br />
+
+- 내 정보 조회
+
+![user_my_get](https://github.com/user-attachments/assets/ea291d1d-bd8a-4699-82ea-bb204fc03cb5)
+
+<br />
+
+- 내 정보 수정
+  
+![user_my_update](https://github.com/user-attachments/assets/f4840e15-e2bc-4fbe-98d2-a2264ba2f20d)
+
+<br />
+
+- 직원 추가
+  
+![user_staff_add](https://github.com/user-attachments/assets/b19e6c62-110d-476d-85d9-ead1979ecac8)
+
+<br />
+
+- 직원 정보 조회
+  
+![user_staff_list](https://github.com/user-attachments/assets/bc21bdd6-1d6a-4852-9d17-296ed6e13b42)
+
+<br />
+
+- 직원 삭제
+  
+![user_staff_delete](https://github.com/user-attachments/assets/85d5387b-79cf-41db-a590-26baf9af4411)
+
+<br />
+
+- 비밀번호 변경
+  
+![user_my_password](https://github.com/user-attachments/assets/e7906a6c-1e7f-41dc-99d5-32ec9bc4491e)
+
+<br />
+
+- 회원 탈퇴
+
+![user_my_withdrawal](https://github.com/user-attachments/assets/2385eb0b-df14-4b55-b998-d436bbeab034)
+
+<br />
+
+</details>
+
+<details>
+<summary><strong>qna 관련 API</strong></summary>
+ 
+<br />
+
+- qna 게시판 전체 조회
+  
+![qna_get](https://github.com/user-attachments/assets/5e1052d5-8153-418c-b1da-b7ee98ebde85)
+
+- qna 작성
+  
+![qna_post](https://github.com/user-attachments/assets/df8e0e27-83bc-4b2a-bc7f-12b5e970d90b)
+
+<br />
+
+- 내 게시글 조회
+  
+![qna_id_get](https://github.com/user-attachments/assets/119d86d8-1505-4095-a8fb-da02ba25ad7a)
+
+<br />
+
+- 내 게시글 수정
+  
+![qna_id_update](https://github.com/user-attachments/assets/36b485ad-a15e-45e7-a608-323520e545a5)
+
+<br />
+
+- 내 게시글 삭제
+  
+![qna_id_delete](https://github.com/user-attachments/assets/3e0d30f8-6cce-4a56-96d8-597d66940d7e)
+
+<br />
+
+- 댓글 조회
+  
+![qna_id__comment_get](https://github.com/user-attachments/assets/28b03f9c-fc2c-46f7-9adb-86f03e333131)
+
+<br />
+
+- 댓글 작성
+  
+![qna_id__comment](https://github.com/user-attachments/assets/1f260183-67f9-4706-bdbd-1103d436cc65)
+
+<br />
+
+</details>
+
+<details>
+<summary><strong>알림 관련 API</strong></summary>
+ 
+<br />
+ 
+- 알림 전송
+
+![alarm_send](https://github.com/user-attachments/assets/313121f5-8f01-4fe0-b65a-359d6b940701)
+
+  <br />
+
+- 알림 전체 조회
+  
+  ![alarm_get](https://github.com/user-attachments/assets/dd5e0ffb-692b-4f06-984a-1160c11700c3)
+
+<br />
+
+- sse 실시간 연결
+  
+![alarm_sse_redis](https://github.com/user-attachments/assets/37e1a241-1485-4b63-89de-6f34abad1857)
+
+<br />
+
+- 안읽은 알림 유무 확인
+  
+![alarm_unread](https://github.com/user-attachments/assets/69fbcf11-369e-42da-a4b2-9087bfe820e2)
+![alarm_unread_false](https://github.com/user-attachments/assets/ab0e8f13-ca7b-4212-8434-ffef0b3be794)
+
+<br />
+
+- 알림 읽기
+  
+![alarm_read](https://github.com/user-attachments/assets/25e41d78-9a12-402b-9b82-f43b9c83b2b1)
+
+<br />
+
+- 알림 삭제
+  
+![alarm_delete](https://github.com/user-attachments/assets/71ddbddf-f4e9-4774-ac02-1c62859b3298)
+
+<br />
+
+</details>
+
+</details>
+
+</details>
+
+<br />
+
+<details>
+ 
+<summary><strong>&nbsp; 10. UX/UI 단위 테스트 결과서</strong></summary>
 <br />
 
 <details>
@@ -486,8 +725,6 @@ CREATE TABLE `info_column` (
 <br />
 
 - 회원가입
-  
-   <br />
    
  ![회원가입](https://github.com/user-attachments/assets/03a31f1b-19be-48ba-bb6c-b6aa3bcc59c4)
  
@@ -495,15 +732,11 @@ CREATE TABLE `info_column` (
 
 - 회원가입 OTP 재발송
   
-  <br />
-  
  ![회원가입 OTP 재발송](https://github.com/user-attachments/assets/71ab77b8-130c-4da4-a2f2-316b3551f589)
  
 <br />
 
 - 비밀번호 변경
-  
-  <br />
   
  ![비밀번호 변경](https://github.com/user-attachments/assets/bd66f343-8da7-4820-b8df-fe4674ba02a0)
  
@@ -545,17 +778,11 @@ CREATE TABLE `info_column` (
 
 - 코호트 단일분석
 
-  <br />
-
-
 ![cohort_single](https://github.com/user-attachments/assets/b242e784-4cf4-468e-a57f-6e3cea4d5c6a)
 
 <br />
 
 - 코호트 양측분석
-
- <br />
-
 
 ![cohort_double](https://github.com/user-attachments/assets/41a25e58-9cc3-4aaa-90fa-611459dbe075)
 
@@ -594,6 +821,16 @@ CREATE TABLE `info_column` (
 
 
 </details>
+
+</details>
+ <br />
+<details>
+<summary><strong>&nbsp; 11. 통합테스트 결과서</strong></summary>
+<br />
+
+**❗FrontEnd, BackEnd 통합테스트는 단위테스트 결과서로 대체합니다❗**
+
+<br />
 
 <details>
 <summary><strong>BackEnd CI</strong></summary><br />
